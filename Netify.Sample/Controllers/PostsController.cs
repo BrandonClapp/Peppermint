@@ -24,5 +24,13 @@ namespace Netify.Sample.Controllers
             var posts = await _postData.GetPosts();
             return posts;
         }
+
+        [HttpGet("AddTest")]
+        public async Task<Post> AddTest()
+        {
+            var post = new Post() { Title = "From the controller" };
+            var added = await _postData.AddPost(post);
+            return added;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Netify.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,7 @@ namespace Netify.Common.Data
 
         public abstract Task<T> GetFirst<T>(string query, object parameters = null);
         public abstract Task<T> GetFirstOrDefault<T>(string query, object parameters = null);
+
+        public abstract Task<int> AddItem(string query, object parameters);
     }
 }

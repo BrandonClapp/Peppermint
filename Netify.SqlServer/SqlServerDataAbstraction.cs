@@ -3,6 +3,7 @@ using Netify.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,6 +72,17 @@ namespace Netify.SqlServer
             });
 
             return firstOrDefault;
+        }
+
+        public async override Task<int> AddItem(string query, object parameters)
+        {
+            var added = await BootstrapCommand<int>(async (conn, trans) =>
+            {
+                var addedId = (await conn.QueryAsync<int>(query, parameters, trans)).Single();
+                return addedId;
+            });
+
+            return added;
         }
 
         private async Task<T> BootstrapCommand<T>(Func<SqlConnection, SqlTransaction, Task<T>> command)
