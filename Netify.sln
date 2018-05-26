@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netify", "Netify\Netify.csproj", "{7A5EE8D6-4899-4F37-8D33-2250618EA335}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netify.Common", "Netify.Common\Netify.Common.csproj", "{3DE9913E-4B9B-4327-BDE1-FD3D755C7608}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netify.SqlServer", "Netify.SqlServer\Netify.SqlServer.csproj", "{3044E736-32EA-4255-AD0A-0B736382DD31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7A5EE8D6-4899-4F37-8D33-2250618EA335}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A5EE8D6-4899-4F37-8D33-2250618EA335}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A5EE8D6-4899-4F37-8D33-2250618EA335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DE9913E-4B9B-4327-BDE1-FD3D755C7608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DE9913E-4B9B-4327-BDE1-FD3D755C7608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DE9913E-4B9B-4327-BDE1-FD3D755C7608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE9913E-4B9B-4327-BDE1-FD3D755C7608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3044E736-32EA-4255-AD0A-0B736382DD31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3044E736-32EA-4255-AD0A-0B736382DD31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3044E736-32EA-4255-AD0A-0B736382DD31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3044E736-32EA-4255-AD0A-0B736382DD31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
