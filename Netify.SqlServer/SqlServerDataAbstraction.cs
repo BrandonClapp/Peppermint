@@ -10,11 +10,12 @@ namespace Netify.SqlServer
 {
     public class SqlServerDataAbstraction : DataAbstraction
     {
-        private string _connString;
+        private readonly string _connString;
 
-        public SqlServerDataAbstraction()
+        public SqlServerDataAbstraction(string connString)
         {
-            _connString = "Look up the connection strings from settings.";
+
+            _connString = connString;
         }
 
         public async override Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)
@@ -74,20 +75,35 @@ namespace Netify.SqlServer
 
         private async Task<T> BootstrapCommand<T>(Func<SqlConnection, SqlTransaction, Task<T>> command)
         {
+            // todo: sql connection pooling?
             using (var conn = new SqlConnection(_connString))
-            using (var trans = conn.BeginTransaction())
             {
                 try
                 {
-                    var result = await command(conn, trans);
-                    trans.Commit();
-                    return result;
+                    await conn.OpenAsync();
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
+                    // The login failed or database could not be opened.
                     // todo: logging
                     throw ex;
                 }
+
+                using (var trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var result = await command(conn, trans);
+                        trans.Commit();
+                        return result;
+                    }
+                    catch (Exception ex)
+                    {
+                        // todo: logging
+                        throw ex;
+                    }
+                }
+
             }
         }
 

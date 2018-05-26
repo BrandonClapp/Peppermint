@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Netify.SqlServer
 {
-    public class PostAbstraction : SqlServerDataAbstraction, IPostDataAbstraction
+    public class PostAbstraction : IPostDataAbstraction
     {
+        private SqlServerDataAbstraction _data;
+
+        public PostAbstraction(SqlServerDataAbstraction data)
+        {
+            _data = data;
+        }
+
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            var posts = await GetMany<Post>("SELECT * FROM Posts");
+            var posts = await _data.GetMany<Post>("SELECT * FROM Posts");
             return posts;
         }
     }
