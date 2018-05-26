@@ -12,12 +12,12 @@ namespace Netify.SqlServer
     {
         private string _connString;
 
-        public SqlServerDataAbstraction(string connString)
+        public SqlServerDataAbstraction()
         {
-            _connString = connString;
+            _connString = "Look up the connection strings from settings.";
         }
 
-        public async override Task<IEnumerable<T>> GetMany<T>(string query, object parameters)
+        public async override Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)
         {
             var many = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -28,7 +28,7 @@ namespace Netify.SqlServer
             return many;
         }
 
-        public async override Task<T> GetSingle<T>(string query, object parameters)
+        public async override Task<T> GetSingle<T>(string query, object parameters = null)
         {
             var single = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -39,7 +39,7 @@ namespace Netify.SqlServer
             return single;
         }
 
-        public async override Task<T> GetSingleOrDefault<T>(string query, object parameters)
+        public async override Task<T> GetSingleOrDefault<T>(string query, object parameters = null)
         {
             var singleOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -50,7 +50,7 @@ namespace Netify.SqlServer
             return singleOrDefault;
         }
 
-        public async override Task<T> GetFirst<T>(string query, object parameters)
+        public async override Task<T> GetFirst<T>(string query, object parameters = null)
         {
             var first = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -61,7 +61,7 @@ namespace Netify.SqlServer
             return first;
         }
 
-        public async override Task<T> GetFirstOrDefault<T>(string query, object parameters)
+        public async override Task<T> GetFirstOrDefault<T>(string query, object parameters = null)
         {
             var firstOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
