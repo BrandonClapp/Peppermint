@@ -28,6 +28,50 @@ namespace Netify.SqlServer
             return many;
         }
 
+        public async override Task<T> GetSingle<T>(string query, object parameters)
+        {
+            var single = await BootstrapCommand<T>(async (conn, trans) =>
+            {
+                var result = await conn.QuerySingleAsync<T>(query, parameters, trans);
+                return result;
+            });
+
+            return single;
+        }
+
+        public async override Task<T> GetSingleOrDefault<T>(string query, object parameters)
+        {
+            var singleOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
+            {
+                var result = await conn.QuerySingleOrDefaultAsync<T>(query, parameters, trans);
+                return result;
+            });
+
+            return singleOrDefault;
+        }
+
+        public async override Task<T> GetFirst<T>(string query, object parameters)
+        {
+            var first = await BootstrapCommand<T>(async (conn, trans) =>
+            {
+                var result = await conn.QueryFirstAsync<T>(query, parameters, trans);
+                return result;
+            });
+
+            return first;
+        }
+
+        public async override Task<T> GetFirstOrDefault<T>(string query, object parameters)
+        {
+            var firstOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
+            {
+                var result = await conn.QueryFirstOrDefaultAsync<T>(query, parameters, trans);
+                return result;
+            });
+
+            return firstOrDefault;
+        }
+
         private async Task<T> BootstrapCommand<T>(Func<SqlConnection, SqlTransaction, Task<T>> command)
         {
             using (var conn = new SqlConnection(_connString))
