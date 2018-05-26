@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Netify.Common.Data;
+using Netify.Common.Entities;
 using Netify.Common.Models;
-using System;
+using Netify.Common.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Netify.Sample.Controllers
@@ -11,26 +11,19 @@ namespace Netify.Sample.Controllers
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
-        private IPostDataAbstraction _postData;
+        private PostService _postService;
 
-        public PostsController(IPostDataAbstraction postData)
+        public PostsController(PostService postService)
         {
-            _postData = postData;
+            _postService = postService;
         }
 
-        [HttpGet("GetPosts")]
-        public async Task<IEnumerable<Post>> GetPosts()
+        [HttpGet("{postId}")]
+        public async Task<Post> GetPost(int postId)
         {
-            var posts = await _postData.GetPosts();
-            return posts;
+            var post = await _postService.GetPost(postId);
+            return post;
         }
 
-        [HttpGet("AddTest")]
-        public async Task<Post> AddTest()
-        {
-            var post = new Post() { Title = "From the controller" };
-            var added = await _postData.AddPost(post);
-            return added;
-        }
     }
 }

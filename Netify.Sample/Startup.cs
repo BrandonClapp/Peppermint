@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Netify.Common;
 using Netify.SqlServer;
 
 namespace Netify.Sample
@@ -25,10 +26,14 @@ namespace Netify.Sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
+            var connString = Configuration.GetConnectionString("Netify");
+
+            // Register core Netify dependencies.
+            services.AddNetify();
 
             // Register the Netify SQL Server adapter.
-            var connString = Configuration.GetConnectionString("Netify");
-            services.AddSqlServer(connString);
+            services.AddNetifySqlServer(connString);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

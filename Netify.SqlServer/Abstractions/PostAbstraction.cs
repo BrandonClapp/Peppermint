@@ -1,46 +1,49 @@
 ﻿using Netify.Common.Data;
-using Netify.Common.Models;
-using System;
+using Netify.Common.Entities;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Netify.SqlServer
+namespace Netify.SqlServer.Abstractions
 {
     public class PostAbstraction : IPostDataAbstraction
     {
         private SqlServerDataAbstraction _data;
-        private string _tableName = "Posts";
+        private readonly string _tableName = "Posts";
 
         public PostAbstraction(SqlServerDataAbstraction data)
         {
             _data = data;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<PostEntity>> GetPosts()
         {
-            var posts = await _data.GetMany<Post>($"SELECT * FROM {_tableName}");
+            var posts = await _data.GetMany<PostEntity>($"SELECT * FROM {_tableName}");
             return posts;
         }
 
-        public async Task<Post> AddPost(Post post)
+        public async Task<PostEntity> AddPost(PostEntity post)
         {
-
             var addedId = await _data.AddItem(
                 query: $@"
-                    INSERT INTO {_tableName} (Title)
-                        VALUES (@title)
-                    SELECT CAST(SCOPE_IDENTITY() as int)
+                    INSERT INTO {_tableName} (UserId, Title, Content)
+                        VALUES (@userId, @title, @content)
                 ",
-                parameters: new { post.Title }
+                parameters: new { post.UserId, post.Title, post.Content }
             );
 
-            var added = await _data.GetSingle<Post>(
-                query: $"SELECT TOP 1 * FROM {_tableName} WHERE Id = @Id",
-                parameters: new { Id = addedId }
-            );
+            var added = await GetPost(addedId);
 
             return added;
+        }
+
+        public async Task<PostEntity> GetPost(int postId)
+        {
+            var post = await _data.GetFirstOrDefault<PostEntity>(
+                query: $@"SELECT TOP 1 * FROM {_tableName} WHERE Id = @Id",
+                parameters: new { Id = postId }
+            );
+
+            return post;
         }
     }
 }

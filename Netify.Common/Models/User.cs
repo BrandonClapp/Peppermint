@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Netify.Common.Models
 {
-    public class Post
+    public class User
     {
         public int Id { get; set; }
-        public User User { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
     }
 }

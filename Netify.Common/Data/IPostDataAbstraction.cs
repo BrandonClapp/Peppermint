@@ -1,4 +1,4 @@
-﻿using Netify.Common.Models;
+﻿using Netify.Common.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +6,8 @@ namespace Netify.Common.Data
 {
     public interface IPostDataAbstraction
     {
-        Task<IEnumerable<Post>> GetPosts();
-        Task<Post> AddPost(Post post);
+        Task<PostEntity> GetPost(int postId);
+        Task<IEnumerable<PostEntity>> GetPosts();
+        Task<PostEntity> AddPost(PostEntity post);
     }
 }

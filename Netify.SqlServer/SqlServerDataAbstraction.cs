@@ -78,6 +78,7 @@ namespace Netify.SqlServer
         {
             var added = await BootstrapCommand<int>(async (conn, trans) =>
             {
+                query += "\r\n SELECT CAST(SCOPE_IDENTITY() as int)";
                 var addedId = (await conn.QueryAsync<int>(query, parameters, trans)).Single();
                 return addedId;
             });

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Netify.Common.Models
+namespace Netify.Common.Entities
 {
-    public class Model
+    public class DataEntity
     {
     }
 }

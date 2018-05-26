@@ -1,4 +1,4 @@
-﻿using Netify.Common.Models;
+﻿using Netify.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
