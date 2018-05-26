@@ -1,8 +1,10 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
+using Netify.Common.Exceptions;
 using Netify.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,14 @@ namespace Netify.Common.Services
             _userData = userData;
         }
 
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            var userEntities = await _userData.GetUsers();
+
+            var users = userEntities.Select(ue => Construct(ue));
+            return users;
+        }
+
         public async Task<User> GetUser(int userId)
         {
             var userEntity = await _userData.GetUser(userId);
@@ -28,6 +38,9 @@ namespace Netify.Common.Services
         // todo: automapper if they stay the same
         private User Construct(UserEntity userEntity)
         {
+            if (userEntity == null)
+                throw new ResourceNotFoundException();
+
             return new User()
             {
                 Id = userEntity.Id,

@@ -1,6 +1,11 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
+using Netify.Common.Exceptions;
 using Netify.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Netify.Common.Services
@@ -16,6 +21,20 @@ namespace Netify.Common.Services
             _userData = userData;
         }
 
+        public async Task<IEnumerable<Post>> GetPosts()
+        {
+            var postEntities = await _postData.GetPosts();
+            var userEntities = await _userData.GetUsers();
+
+            var posts = postEntities.Select(post =>
+            {
+                var userEntity = userEntities.FirstOrDefault(user => user.Id == post.UserId);
+                return Construct(post, userEntity);
+            });
+
+            return posts;
+        }
+
         public async Task<Post> GetPost(int postId)
         {
             var postEntity = await _postData.GetPost(postId);
@@ -27,18 +46,27 @@ namespace Netify.Common.Services
 
         private Post Construct(PostEntity postEntity, UserEntity userEntity)
         {
-            return new Post()
+            if (postEntity == null)
+                throw new ResourceNotFoundException();
+
+            var post = new Post()
             {
                 Id = postEntity.Id,
                 Title = postEntity.Title,
-                Content = postEntity.Content,
-                User = new User()
+                Content = postEntity.Content
+            };
+
+            if (userEntity != null)
+            {
+                post.User = new User()
                 {
                     Id = userEntity.Id,
                     Email = userEntity.Email,
                     UserName = userEntity.UserName
-                }
-            };
+                };
+            }
+
+            return post;
         }
     }
 }

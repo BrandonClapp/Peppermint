@@ -1,5 +1,6 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Netify.SqlServer.Abstractions
@@ -14,6 +15,15 @@ namespace Netify.SqlServer.Abstractions
             _userData = data;
         }
 
+        public async Task<IEnumerable<UserEntity>> GetUsers()
+        {
+            var users = await _userData.GetMany<UserEntity>($@"
+                SELECT * FROM {_tableName}
+            ");
+
+            return users;
+        }
+
         public async Task<UserEntity> GetUser(int userId)
         {
             var user = await _userData.GetFirstOrDefault<UserEntity>($@"
@@ -23,5 +33,6 @@ namespace Netify.SqlServer.Abstractions
 
             return user;
         }
+
     }
 }

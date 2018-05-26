@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Netify.Common.Data;
 using Netify.Common.Models;
 using Netify.Common.Services;
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Netify.Sample.Controllers
@@ -17,6 +15,13 @@ namespace Netify.Sample.Controllers
         public UsersController(UserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet("")]
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            var users = await _userService.GetUsers();
+            return users;
         }
 
         [HttpGet("{userId}")]

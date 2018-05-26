@@ -18,6 +18,13 @@ namespace Netify.Sample.Controllers
             _postService = postService;
         }
 
+        [HttpGet("")]
+        public async Task<IEnumerable<Post>> GetPosts()
+        {
+            var posts = await _postService.GetPosts();
+            return posts;
+        }
+
         [HttpGet("{postId}")]
         public async Task<Post> GetPost(int postId)
         {
