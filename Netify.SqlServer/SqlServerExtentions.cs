@@ -5,7 +5,7 @@ namespace Netify.SqlServer
 {
     public static class SqlServerExtentions
     {
-        public static IServiceCollection UseSqlServer(this IServiceCollection services)
+        public static IServiceCollection AddSqlServer(this IServiceCollection services, string connectionString)
         {
             services.AddTransient<IPostDataAbstraction, PostAbstraction>();
 
