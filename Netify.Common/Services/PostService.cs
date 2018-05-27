@@ -25,20 +25,21 @@ namespace Netify.Common.Services
 
         public async Task<PostEntity> GetPost(int postId)
         {
-            var postEntity = await _postData.GetOne(postId);
+            var postEntity = await _postData.GetOne(new List<QueryCondition>() {
+                new QueryCondition(nameof(PostEntity.Id), ConditionType.Equals, postId)
+            });
+
             return postEntity;
         }
 
         public async Task<IEnumerable<PostEntity>> GetPosts(string userName)
         {
-            var user = await _userData.GetOne(new List<QueryCondition>()
-            {
-                new QueryCondition("UserName", ConditionType.Equals, userName)
+            var user = await _userData.GetOne(new List<QueryCondition>() {
+                new QueryCondition(nameof(UserEntity.UserName), ConditionType.Equals, userName)
             });
 
-            var postEntities = await _postData.GetMany(new List<QueryCondition>()
-            {
-                new QueryCondition("UserId", ConditionType.Equals, user.Id)
+            var postEntities = await _postData.GetMany(new List<QueryCondition>() {
+                new QueryCondition(nameof(PostEntity.UserId), ConditionType.Equals, user.Id)
             });
 
             var posts = await Task.WhenAll(postEntities.Select(async p => await GetPost(p.Id)));
@@ -47,45 +48,41 @@ namespace Netify.Common.Services
 
         public async Task<PostEntity> CreatePost(PostEntity postEntity)
         {
-            var post = await _postData.Create(postEntity);
+            // Possibly simplify this by passing T to the data accessor and reflecting over it?
+
+            var parameters = new List<InsertQueryParameter>() {
+                new InsertQueryParameter(nameof(PostEntity.UserId), postEntity.Title),
+                new InsertQueryParameter(nameof(PostEntity.Title), postEntity.Title),
+                new InsertQueryParameter(nameof(PostEntity.Content), postEntity.Content),
+            };
+
+            var post = await _postData.Create(parameters);
+
             return await GetPost(post.Id);
         }
 
         public async Task<PostEntity> UpdatePost(PostEntity postEntity)
         {
-            var updatedEntity = await _postData.Update(postEntity);
-            return await GetPost(updatedEntity.Id);
+            var parameters = new List<UpdateQueryParameter> {
+                new UpdateQueryParameter(nameof(PostEntity.Id), UpdateQueryParameterType.Identity, postEntity.Id),
+                new UpdateQueryParameter(nameof(PostEntity.UserId), UpdateQueryParameterType.Value, postEntity.UserId),
+                new UpdateQueryParameter(nameof(PostEntity.Title), UpdateQueryParameterType.Value, postEntity.Title),
+                new UpdateQueryParameter(nameof(PostEntity.Content), UpdateQueryParameterType.Value, postEntity.Content)
+            };
+
+            var updatedEntity = await _postData.Update(parameters);
+            return updatedEntity;
         }
 
         public async Task<int> DeletePost(int postId)
         {
-            var deletedId = await _postData.Delete(postId);
+            var conditions = new List<QueryCondition> {
+                new QueryCondition(nameof(PostEntity.Id), ConditionType.Equals, postId)
+            };
+
+            var deletedId = await _postData.Delete(conditions);
             return deletedId;
         }
 
-        //private Post Construct(PostEntity postEntity, UserEntity userEntity)
-        //{
-        //    if (postEntity == null)
-        //        return null;
-
-        //    var post = new Post()
-        //    {
-        //        Id = postEntity.Id,
-        //        Title = postEntity.Title,
-        //        Content = postEntity.Content
-        //    };
-
-        //    if (userEntity != null)
-        //    {
-        //        post.User = new User()
-        //        {
-        //            Id = userEntity.Id,
-        //            Email = userEntity.Email,
-        //            UserName = userEntity.UserName
-        //        };
-        //    }
-
-        //    return post;
-        //}
     }
 }

@@ -8,14 +8,14 @@ namespace Netify.Common.Data
 {
     public interface IDataAccessor<T> where T : DataEntity
     {
-        Task<T> GetOne(int id);
-        Task<T> GetOne(IEnumerable<QueryCondition> filters);
-
         Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> GetMany(IEnumerable<QueryCondition> filters);
 
-        Task<T> Create(T post);
-        Task<T> Update(T post);
-        Task<int> Delete(int postId);
+        Task<T> GetOne(IEnumerable<QueryCondition> conditions);
+
+        Task<IEnumerable<T>> GetMany(IEnumerable<QueryCondition> conditions);
+
+        Task<T> Create(IEnumerable<InsertQueryParameter> queryParameters);
+        Task<T> Update(IEnumerable<UpdateQueryParameter> queryParameters);
+        Task<int> Delete(IEnumerable<QueryCondition> conditions);
     }
 }

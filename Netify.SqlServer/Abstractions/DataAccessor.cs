@@ -6,29 +6,39 @@ using System.Threading.Tasks;
 
 namespace Netify.SqlServer.Abstractions
 {
-    // todo: Make this DataAbstraction<T> then change all return types to T
-
-    public class PostAbstraction : IDataAccessor<PostEntity>
+    public class DataAccessor<T> : IDataAccessor<T> where T : DataEntity
     {
         private SqlServerDataAbstraction _data;
-        private readonly string _tableName = "Posts";
+        private readonly string _tableName = EntityTableMap.GetTable<T>();
 
-        public PostAbstraction(SqlServerDataAbstraction data)
+        public DataAccessor(SqlServerDataAbstraction data)
         {
             _data = data;
         }
 
-        public async Task<IEnumerable<PostEntity>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            var posts = await _data.GetMany<PostEntity>($"SELECT * FROM {_tableName}");
+            var posts = await _data.GetMany<T>($"SELECT * FROM {_tableName}");
             return posts;
         }
 
-        public async Task<PostEntity> GetOne(IEnumerable<QueryCondition> conditions)
+        public async Task<IEnumerable<T>> GetMany(IEnumerable<QueryCondition> conditions)
+        {
+            var (condition, parameters) = WhereBuilder.Build(conditions);
+
+            var posts = await _data.GetMany<T>(
+                query: $@"SELECT * FROM {_tableName} WHERE {condition}",
+                parameters: parameters
+            );
+
+            return posts;
+        }
+
+        public async Task<T> GetOne(IEnumerable<QueryCondition> conditions)
         {
             var (identity, parameters) = WhereBuilder.Build(conditions);
 
-            var post = await _data.GetFirstOrDefault<PostEntity>(
+            var post = await _data.GetFirstOrDefault<T>(
                 query: $@"SELECT TOP 1 * FROM {_tableName} WHERE {identity}",
                 parameters: parameters
             );
@@ -36,7 +46,7 @@ namespace Netify.SqlServer.Abstractions
             return post;
         }
 
-        public async Task<PostEntity> Create(IEnumerable<InsertQueryParameter> queryParameters)
+        public async Task<T> Create(IEnumerable<InsertQueryParameter> queryParameters)
         {
             var (columns, values, parameters) = QueryParameterBuilder.BuildInsert(queryParameters);
 
@@ -57,7 +67,7 @@ namespace Netify.SqlServer.Abstractions
             return added;
         }
 
-        public async Task<PostEntity> Update(IEnumerable<UpdateQueryParameter> queryParameters)
+        public async Task<T> Update(IEnumerable<UpdateQueryParameter> queryParameters)
         {
             var (set, identity, parameters) = QueryParameterBuilder.BuildUpdate(queryParameters);
 
@@ -86,16 +96,5 @@ namespace Netify.SqlServer.Abstractions
             return deletedId;
         }
 
-        public async Task<IEnumerable<PostEntity>> GetMany(IEnumerable<QueryCondition> filters)
-        {
-            var (condition, parameters) = WhereBuilder.Build(filters);
-
-            var posts = await _data.GetMany<PostEntity>(
-                query: $@"SELECT * FROM {_tableName} WHERE {condition}",
-                parameters: parameters
-            );
-
-            return posts;
-        }
     }
 }
