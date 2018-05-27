@@ -44,6 +44,20 @@ namespace Netify.Common.Services
             return post;
         }
 
+        public async Task<IEnumerable<Post>> GetPosts(string userName)
+        {
+            // needs get user by username method
+            var user = (await _userData.GetUsers()).First(u => u.UserName == userName);
+
+            var postEntities = await _postData.GetPosts(new List<QueryCondition>()
+            {
+                new QueryCondition("UserId", ConditionType.Equals, user.Id)
+            });
+
+            var posts = await Task.WhenAll(postEntities.Select(async p => await GetPost(p.Id)));
+            return posts;
+        }
+
         public async Task<Post> CreatePost(PostEntity postEntity)
         {
             var post = await _postData.CreatePost(postEntity);
@@ -85,17 +99,6 @@ namespace Netify.Common.Services
             }
 
             return post;
-        }
-
-        private PostEntity ToEntity(Post post)
-        {
-            return new PostEntity()
-            {
-                Id = post.Id,
-                Title = post.Title,
-                Content = post.Content,
-                UserId = post.User.Id
-            };
         }
     }
 }

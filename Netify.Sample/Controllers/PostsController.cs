@@ -61,5 +61,12 @@ namespace Netify.Sample.Controllers
             return post;
         }
 
+        [HttpGet("user/{userName}")]
+        public async Task<IEnumerable<Post>> GetByUserName(string userName)
+        {
+            var posts = await _postService.GetPosts(userName);
+            return posts;
+        }
+
     }
 }
