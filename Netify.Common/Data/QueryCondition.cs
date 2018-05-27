@@ -22,6 +22,13 @@
             Value = value;
         }
 
+        public QueryCondition(string key, ConditionType type, object value)
+        {
+            Type = type;
+            Key = key;
+            Value = value;
+        }
+
         public ConditionType Type { get; set; }
         public string Key { get; set; }
         public object Value { get; set; }

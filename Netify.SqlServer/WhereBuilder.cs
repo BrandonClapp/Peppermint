@@ -30,5 +30,21 @@ namespace Netify.SqlServer
             var clause = string.Join(" AND ", conditions);
             return (clause, parameters);
         }
+
+        public static IEnumerable<QueryCondition> GetConditions(IEnumerable<UpdateQueryParameter> queryParameters)
+        {
+            var conditions = new List<QueryCondition>();
+
+            foreach (var param in queryParameters)
+            {
+                if (param.Type == UpdateQueryParameterType.Identity)
+                {
+                    var condition = new QueryCondition(param.Key, ConditionType.Equals, param.Value);
+                    conditions.Add(condition);
+                }
+            }
+
+            return conditions;
+        }
     }
 }
