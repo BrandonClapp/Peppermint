@@ -1,10 +1,6 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
-using Netify.Common.Exceptions;
-using Netify.Common.Models;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,30 +17,19 @@ namespace Netify.Common.Services
             _userData = userData;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<PostEntity>> GetPosts()
         {
             var postEntities = await _postData.GetAll();
-            var userEntities = await _userData.GetAll();
-
-            var posts = postEntities.Select(post =>
-            {
-                var userEntity = userEntities.FirstOrDefault(user => user.Id == post.UserId);
-                return Construct(post, userEntity);
-            });
-
-            return posts;
+            return postEntities;
         }
 
-        public async Task<Post> GetPost(int postId)
+        public async Task<PostEntity> GetPost(int postId)
         {
             var postEntity = await _postData.GetOne(postId);
-            var userEntity = await _userData.GetOne(postEntity.UserId);
-
-            var post = Construct(postEntity, userEntity);
-            return post;
+            return postEntity;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts(string userName)
+        public async Task<IEnumerable<PostEntity>> GetPosts(string userName)
         {
             var user = await _userData.GetOne(new List<QueryCondition>()
             {
@@ -60,13 +45,13 @@ namespace Netify.Common.Services
             return posts;
         }
 
-        public async Task<Post> CreatePost(PostEntity postEntity)
+        public async Task<PostEntity> CreatePost(PostEntity postEntity)
         {
             var post = await _postData.Create(postEntity);
             return await GetPost(post.Id);
         }
 
-        public async Task<Post> UpdatePost(PostEntity postEntity)
+        public async Task<PostEntity> UpdatePost(PostEntity postEntity)
         {
             var updatedEntity = await _postData.Update(postEntity);
             return await GetPost(updatedEntity.Id);
@@ -78,29 +63,29 @@ namespace Netify.Common.Services
             return deletedId;
         }
 
-        private Post Construct(PostEntity postEntity, UserEntity userEntity)
-        {
-            if (postEntity == null)
-                return null;
+        //private Post Construct(PostEntity postEntity, UserEntity userEntity)
+        //{
+        //    if (postEntity == null)
+        //        return null;
 
-            var post = new Post()
-            {
-                Id = postEntity.Id,
-                Title = postEntity.Title,
-                Content = postEntity.Content
-            };
+        //    var post = new Post()
+        //    {
+        //        Id = postEntity.Id,
+        //        Title = postEntity.Title,
+        //        Content = postEntity.Content
+        //    };
 
-            if (userEntity != null)
-            {
-                post.User = new User()
-                {
-                    Id = userEntity.Id,
-                    Email = userEntity.Email,
-                    UserName = userEntity.UserName
-                };
-            }
+        //    if (userEntity != null)
+        //    {
+        //        post.User = new User()
+        //        {
+        //            Id = userEntity.Id,
+        //            Email = userEntity.Email,
+        //            UserName = userEntity.UserName
+        //        };
+        //    }
 
-            return post;
-        }
+        //    return post;
+        //}
     }
 }

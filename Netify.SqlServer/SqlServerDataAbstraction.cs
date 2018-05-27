@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Netify.Common.Data;
+using Netify.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,72 +10,82 @@ using System.Threading.Tasks;
 
 namespace Netify.SqlServer
 {
-    public class SqlServerDataAbstraction : DataAbstraction
+    public class SqlServerDataAbstraction : IDataAbstraction
     {
         private readonly string _connString;
+        private readonly EntityFactory _entityFactory;
 
-        public SqlServerDataAbstraction(string connString)
+        public SqlServerDataAbstraction(string connString, EntityFactory entityFactory)
         {
-
             _connString = connString;
+            _entityFactory = entityFactory;
         }
 
-        public async override Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)
+        public async Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null) where T : DataEntity
         {
-            var many = await BootstrapCommand<T>(async (conn, trans) =>
+            var many = await BootstrapCommand<IEnumerable<T>>(async (conn, trans) =>
             {
-                var result = await conn.QueryAsync<T>(query, parameters, trans);
+                var result = (await conn.QueryAsync(query, parameters, trans)).Select<dynamic, T>(row =>
+                {
+                    var constructed = _entityFactory.Make<T>(row);
+                    return constructed;
+                });
+
                 return result;
             });
 
             return many;
         }
 
-        public async override Task<T> GetSingle<T>(string query, object parameters = null)
+        public async Task<T> GetSingle<T>(string query, object parameters = null) where T : DataEntity
         {
             var single = await BootstrapCommand<T>(async (conn, trans) =>
             {
-                var result = await conn.QuerySingleAsync<T>(query, parameters, trans);
-                return result;
+                var result = await conn.QuerySingleAsync(query, parameters, trans);
+                var constructed = _entityFactory.Make<T>(result);
+                return constructed;
             });
 
             return single;
         }
 
-        public async override Task<T> GetSingleOrDefault<T>(string query, object parameters = null)
+        public async Task<T> GetSingleOrDefault<T>(string query, object parameters = null) where T : DataEntity
         {
             var singleOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
-                var result = await conn.QuerySingleOrDefaultAsync<T>(query, parameters, trans);
+                var result = await conn.QuerySingleOrDefaultAsync(query, parameters, trans);
+                var constructed = _entityFactory.Make<T>(result);
                 return result;
             });
 
             return singleOrDefault;
         }
 
-        public async override Task<T> GetFirst<T>(string query, object parameters = null)
+        public async Task<T> GetFirst<T>(string query, object parameters = null) where T : DataEntity
         {
             var first = await BootstrapCommand<T>(async (conn, trans) =>
             {
                 var result = await conn.QueryFirstAsync<T>(query, parameters, trans);
+                var constructed = _entityFactory.Make<T>(result);
                 return result;
             });
 
             return first;
         }
 
-        public async override Task<T> GetFirstOrDefault<T>(string query, object parameters = null)
+        public async Task<T> GetFirstOrDefault<T>(string query, object parameters = null) where T : DataEntity
         {
             var firstOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
                 var result = await conn.QueryFirstOrDefaultAsync<T>(query, parameters, trans);
+                var constructed = _entityFactory.Make<T>(result);
                 return result;
             });
 
             return firstOrDefault;
         }
 
-        public async override Task UpdateItem(string query, object parameters)
+        public async Task UpdateItem(string query, object parameters) 
         {
             await BootstrapCommand<int>(async (conn, trans) =>
             {
@@ -83,12 +94,12 @@ namespace Netify.SqlServer
             });
         }
 
-        public async Task<int> DeleteItem(string query, object parameters)
+        public async Task<int> DeleteItem(string query, object parameters) 
         {
             return await AddRemoveItem(query, parameters);
         }
 
-        public async override Task<int> AddItem(string query, object parameters)
+        public async Task<int> AddItem(string query, object parameters)
         {
             return await AddRemoveItem(query, parameters);
         }
@@ -98,8 +109,8 @@ namespace Netify.SqlServer
             var item = await BootstrapCommand<int>(async (conn, trans) =>
             {
                 query += "\r\n SELECT CAST(SCOPE_IDENTITY() as int)";
-                var addedId = (await conn.QueryAsync<int>(query, parameters, trans)).Single();
-                return addedId;
+                var recordId = (await conn.QueryAsync<int>(query, parameters, trans)).Single();
+                return recordId;
             });
 
             return item;
@@ -139,9 +150,5 @@ namespace Netify.SqlServer
             }
         }
 
-        private async Task<IEnumerable<T>> BootstrapCommand<T>(Func<SqlConnection, SqlTransaction, Task<IEnumerable<T>>> command)
-        {
-            return await BootstrapCommand<IEnumerable<T>>(command);
-        }
     }
 }

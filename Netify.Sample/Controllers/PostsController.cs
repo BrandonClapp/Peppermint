@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Netify.Common.Data;
 using Netify.Common.Entities;
-using Netify.Common.Models;
 using Netify.Common.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,57 +10,57 @@ namespace Netify.Sample.Controllers
     public class PostsController : Controller
     {
         private PostService _postService;
+        private EntityFactory _entityFactory;
 
-        public PostsController(PostService postService)
+        public PostsController(PostService postService, EntityFactory entityFactory)
         {
             _postService = postService;
+            _entityFactory = entityFactory;
         }
 
         [HttpGet("")]
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<PostEntity>> GetPosts()
         {
             var posts = await _postService.GetPosts();
             return posts;
         }
 
         [HttpGet("{postId}")]
-        public async Task<Post> GetPost(int postId)
+        public async Task<PostEntity> GetPost(int postId)
         {
             var post = await _postService.GetPost(postId);
             return post;
         }
 
         [HttpGet("create")]
-        public async Task<Post> CreatePost()
+        public async Task<PostEntity> CreatePost()
         {
-            var postEntity = new PostEntity()
+            var postEntity = _entityFactory.Make<PostEntity>(new
             {
                 Content = "Entity content",
                 Title = "Title here",
                 UserId = 3
-            };
+            });
 
             var post = await _postService.CreatePost(postEntity);
             return post;
         }
 
         [HttpGet("update/{postId}/{title}")]
-        public async Task<Post> UpdatePost(int postId, string title)
+        public async Task<PostEntity> UpdatePost(int postId, string title)
         {
-            var postEntity = new PostEntity()
-            {
-                Id = postId,
-                Title = title,
-                UserId = 2,
-                Content = "Updated content"
-            };
+            var postEntity = _entityFactory.Make<PostEntity>();
+            postEntity.Id = postId;
+            postEntity.Title = title;
+            postEntity.UserId = 2;
+            postEntity.Content = "Updated content from ctrl";
 
             var post = await _postService.UpdatePost(postEntity);
             return post;
         }
 
         [HttpGet("user/{userName}")]
-        public async Task<IEnumerable<Post>> GetByUserName(string userName)
+        public async Task<IEnumerable<PostEntity>> GetByUserName(string userName)
         {
             var posts = await _postService.GetPosts(userName);
             return posts;

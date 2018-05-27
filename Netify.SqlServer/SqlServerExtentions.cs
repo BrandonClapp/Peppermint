@@ -10,7 +10,7 @@ namespace Netify.SqlServer
     {
         public static IServiceCollection AddNetifySqlServer(this IServiceCollection services, string connectionString)
         {
-            services.AddTransient(fac => new SqlServerDataAbstraction(connectionString));
+            services.AddTransient(fac => new SqlServerDataAbstraction(connectionString, fac.GetService<EntityFactory>()));
             services.AddTransient<IDataAccessor<PostEntity>, PostAbstraction>();
             services.AddTransient<IDataAccessor<UserEntity>, UserAbstraction>();
 
