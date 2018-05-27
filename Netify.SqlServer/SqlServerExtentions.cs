@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Netify.Common.Data;
 using Netify.Common.Entities;
-using Netify.SqlServer.Abstractions;
 using System;
 using System.Collections.Generic;
 

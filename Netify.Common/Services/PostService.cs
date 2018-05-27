@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Netify.Common.Services
 {
-    public class PostService
+    public class PostService : EntityService
     {
         private IDataAccessor<PostEntity> _postData;
         private IDataAccessor<UserEntity> _userData;
