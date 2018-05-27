@@ -42,13 +42,17 @@ namespace Netify.SqlServer.Abstractions
 
             var addedId = await _data.AddItem(
                 query: $@"
-                    INSERT INTO {_tableName} {columns}
-                        VALUES {values}
+                    INSERT INTO {_tableName} {columns} VALUES {values}
                 ",
                 parameters: parameters
             );
 
-            var added = await GetOne(addedId);
+            // Convention: Primary key is always Id. Can make configurable later if needed.
+            var conditions = new List<QueryCondition> {
+                new QueryCondition("Id", ConditionType.Equals, addedId)
+            };
+
+            var added = await GetOne(conditions);
 
             return added;
         }

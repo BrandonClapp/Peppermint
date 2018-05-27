@@ -4,13 +4,15 @@ using System.Text;
 
 namespace Netify.Common.Data
 {
-    public enum InsertQueryParameterType
-    {
-        Column,
-        Value
-    }
-
     public class InsertQueryParameter
     {
+        public InsertQueryParameter(string columnName, object value)
+        {
+            ColumnName = columnName;
+            Value = value;
+        }
+
+        public string ColumnName { get; set; }
+        public object Value { get; set; }
     }
 }

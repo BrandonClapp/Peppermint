@@ -13,7 +13,7 @@ namespace Netify.SqlServer
             // i.e.
             // UPDATE Table SET MyColumn = @MyColumn, Other = @Other WHERE MyIdentity = @MyIdentity
 
-            var sets = new List<string>();
+            var sets = new List<string>();      // tokens
             var identity = new List<string>();
 
             var parameters = new ExpandoObject() as IDictionary<string, Object>;
@@ -59,6 +59,28 @@ namespace Netify.SqlServer
             var identityString = string.Join(" AND ", identity);
 
             return (identityString, parameters);
+        }
+
+        public static (string, string, object) BuildInsert(IEnumerable<InsertQueryParameter> queryParameters)
+        {
+            // i.e.
+            // INSERT INTO Table (Column1, Column2, Column3) VALUES (@Column1, @Column2, @Column3)
+
+            var columns = new List<string>();
+            var values = new List<object>();
+            var parameters = new ExpandoObject() as IDictionary<string, Object>;
+
+            foreach (var param in queryParameters)
+            {
+                columns.Add(param.ColumnName);
+                values.Add($"@{param.ColumnName}");
+                parameters.Add(param.ColumnName, param.Value);
+            }
+
+            var columnString = $"({string.Join(", ", columns)})";
+            var valuesString = $"({string.Join(", ", values)})";
+
+            return (columnString, valuesString, parameters);
         }
     }
 }
