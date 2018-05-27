@@ -1,10 +1,9 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Netify.SqlServer.Abstractions
+namespace Netify.SqlServer
 {
     public class DataAccessor<T> : IDataAccessor<T> where T : DataEntity
     {

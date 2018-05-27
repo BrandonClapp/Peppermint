@@ -23,7 +23,12 @@ namespace Netify.Common.Services
 
         public async Task<UserEntity> GetUser(int userId)
         {
-            var userEntity = await _userData.GetOne(userId);
+            var conditions = new List<QueryCondition>
+            {
+                new QueryCondition(nameof(UserEntity.Id), ConditionType.Equals, userId)
+            };
+
+            var userEntity = await _userData.GetOne(conditions);
             return userEntity;
         }
     }

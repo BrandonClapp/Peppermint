@@ -51,7 +51,7 @@ namespace Netify.Common.Services
             // Possibly simplify this by passing T to the data accessor and reflecting over it?
 
             var parameters = new List<InsertQueryParameter>() {
-                new InsertQueryParameter(nameof(PostEntity.UserId), postEntity.Title),
+                new InsertQueryParameter(nameof(PostEntity.UserId), postEntity.UserId),
                 new InsertQueryParameter(nameof(PostEntity.Title), postEntity.Title),
                 new InsertQueryParameter(nameof(PostEntity.Content), postEntity.Content),
             };

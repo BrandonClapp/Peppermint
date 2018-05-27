@@ -8,6 +8,7 @@
 
     public class QueryCondition
     {
+        // can possibly delete 2 of these and only use object ctor
         public QueryCondition(string key, ConditionType type, string value)
         {
             Type = type;

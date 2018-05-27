@@ -13,7 +13,7 @@ namespace Netify.SqlServer
             // i.e.
             // UPDATE Table SET MyColumn = @MyColumn, Other = @Other WHERE MyIdentity = @MyIdentity
 
-            var sets = new List<string>();      // tokens
+            var sets = new List<string>();
             var identity = new List<string>();
 
             var parameters = new ExpandoObject() as IDictionary<string, Object>;
@@ -32,7 +32,7 @@ namespace Netify.SqlServer
                 parameters.Add(item.Key, item.Value);
             }
 
-            var setString = $"({string.Join(", ", sets)})";
+            var setString = string.Join(", ", sets);
             var identityString = $"{string.Join(" AND ", identity)}";
 
             return (setString, identityString, parameters);
@@ -42,7 +42,7 @@ namespace Netify.SqlServer
         {
             // i.e.
             // SELECT TOP 1 * FROM Table WHERE Id = @Id
-            // SELECT * FROM Table WHERE UserName = 'bclapp' and Email = 'brandonclapp@outlook.com'
+            // SELECT * FROM Table WHERE UserName = @UserName AND Email = @Email
 
             var identity = new List<string>();
             var parameters = new ExpandoObject() as IDictionary<string, Object>;
