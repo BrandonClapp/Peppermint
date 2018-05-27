@@ -2,6 +2,7 @@
 using Netify.Common.Entities;
 using Netify.Common.Services;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace Netify.Sample.Controllers
@@ -35,12 +36,12 @@ namespace Netify.Sample.Controllers
         [HttpGet("create")]
         public async Task<PostEntity> CreatePost()
         {
-            var postEntity = _entityFactory.Make<PostEntity>(new
-            {
-                Content = "Entity content",
-                Title = "Title here",
-                UserId = 3
-            });
+            dynamic entity = new ExpandoObject();
+            entity.Content = "Entity content";
+            entity.Title = "Title here";
+            entity.UserId = 3;
+
+            var postEntity = _entityFactory.Make<PostEntity>(entity);
 
             var post = await _postService.CreatePost(postEntity);
             return post;

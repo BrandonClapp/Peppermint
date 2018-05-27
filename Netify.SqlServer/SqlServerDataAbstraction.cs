@@ -65,9 +65,9 @@ namespace Netify.SqlServer
         {
             var first = await BootstrapCommand<T>(async (conn, trans) =>
             {
-                var result = await conn.QueryFirstAsync<T>(query, parameters, trans);
+                var result = await conn.QueryFirstAsync(query, parameters, trans);
                 var constructed = _entityFactory.Make<T>(result);
-                return result;
+                return constructed;
             });
 
             return first;
@@ -77,9 +77,9 @@ namespace Netify.SqlServer
         {
             var firstOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
-                var result = await conn.QueryFirstOrDefaultAsync<T>(query, parameters, trans);
+                var result = await conn.QueryFirstOrDefaultAsync(query, parameters, trans);
                 var constructed = _entityFactory.Make<T>(result);
-                return result;
+                return constructed;
             });
 
             return firstOrDefault;

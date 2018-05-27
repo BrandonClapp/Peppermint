@@ -1,6 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
+using System.Linq;
 
 namespace Netify.Common.Entities
 {
@@ -20,14 +23,47 @@ namespace Netify.Common.Entities
 
         public T Make<T>(dynamic sourceItem) where T : DataEntity
         {
-            T shell = _container.GetService<T>();
+            if (sourceItem == null)
+                return null;
 
-            // I was hoping that automapper would just copy properties from sourceItem
-            // over to the mapped... Unfortunately, it tries to construct a new object.
-            // todo: write an implementation to copy each property from sourceItem and
-            // set the value on shell to the property value.
-            var mapped = (T)Mapper.Map<T>(sourceItem);
-            return mapped;
+            T shell = _container.GetService<T>();
+            var copied = CopyProperties<T>(sourceItem, shell);
+
+            return copied;
+        }
+
+        private T CopyProperties<T>(dynamic fromObj, T toObj)
+        { 
+            var fromProps = (IDictionary<string, object>)fromObj;
+            var toProps = toObj.GetType().GetProperties().ToList();
+
+            foreach (var fromProp in fromProps)
+            {
+                var targetProp = toProps.FirstOrDefault(p => p.Name == fromProp.Key);
+                if (targetProp != null)
+                {
+                    if (CanCast(fromProp.Value, targetProp.PropertyType))
+                    {
+                        var value = fromProp.Value;
+                        targetProp.SetValue(toObj, value, null);
+                    }                   
+                }
+            }
+
+            return toObj;
+        }
+
+        private bool CanCast(object value, Type toType)
+        {
+            try
+            {
+                var result = Convert.ChangeType(value, toType);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
