@@ -39,7 +39,7 @@ namespace Netify.Common.Services
         private User Construct(UserEntity userEntity)
         {
             if (userEntity == null)
-                throw new ResourceNotFoundException();
+                return null;
 
             return new User()
             {

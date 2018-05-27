@@ -74,16 +74,35 @@ namespace Netify.SqlServer
             return firstOrDefault;
         }
 
+        public async override Task UpdateItem(string query, object parameters)
+        {
+            await BootstrapCommand<int>(async (conn, trans) =>
+            {
+                await conn.ExecuteAsync(query, parameters, trans);
+                return 0;
+            });
+        }
+
+        public async Task<int> DeleteItem(string query, object parameters)
+        {
+            return await AddRemoveItem(query, parameters);
+        }
+
         public async override Task<int> AddItem(string query, object parameters)
         {
-            var added = await BootstrapCommand<int>(async (conn, trans) =>
+            return await AddRemoveItem(query, parameters);
+        }
+
+        private async Task<int> AddRemoveItem(string query, object parameters)
+        {
+            var item = await BootstrapCommand<int>(async (conn, trans) =>
             {
                 query += "\r\n SELECT CAST(SCOPE_IDENTITY() as int)";
                 var addedId = (await conn.QueryAsync<int>(query, parameters, trans)).Single();
                 return addedId;
             });
 
-            return added;
+            return item;
         }
 
         private async Task<T> BootstrapCommand<T>(Func<SqlConnection, SqlTransaction, Task<T>> command)

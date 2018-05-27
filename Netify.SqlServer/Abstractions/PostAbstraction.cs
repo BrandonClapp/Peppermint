@@ -1,5 +1,6 @@
 ﻿using Netify.Common.Data;
 using Netify.Common.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,21 +22,6 @@ namespace Netify.SqlServer.Abstractions
             return posts;
         }
 
-        public async Task<PostEntity> AddPost(PostEntity post)
-        {
-            var addedId = await _data.AddItem(
-                query: $@"
-                    INSERT INTO {_tableName} (UserId, Title, Content)
-                        VALUES (@userId, @title, @content)
-                ",
-                parameters: new { post.UserId, post.Title, post.Content }
-            );
-
-            var added = await GetPost(addedId);
-
-            return added;
-        }
-
         public async Task<PostEntity> GetPost(int postId)
         {
             var post = await _data.GetFirstOrDefault<PostEntity>(
@@ -44,6 +30,79 @@ namespace Netify.SqlServer.Abstractions
             );
 
             return post;
+        }
+
+        public async Task<PostEntity> CreatePost(PostEntity postEntity)
+        {
+            var addedId = await _data.AddItem(
+                query: $@"
+                    INSERT INTO {_tableName} (UserId, Title, Content)
+                        VALUES (@userId, @title, @content)
+                ",
+                parameters: new { postEntity.UserId, postEntity.Title, postEntity.Content }
+            );
+
+            var added = await GetPost(addedId);
+
+            return added;
+        }
+
+        public async Task<PostEntity> UpdatePost(PostEntity postEntity)
+        {
+            await _data.UpdateItem(
+                query: $@"
+                    UPDATE {_tableName}
+                        SET 
+                            UserId = @userId,
+                            Title = @title,
+                            Content = @content
+                        WHERE Id = @id
+                ",
+                parameters: new {
+                    postEntity.Id,
+                    postEntity.UserId,
+                    postEntity.Title,
+                    postEntity.Content
+                });
+
+            var updated = await GetPost(postEntity.Id);
+            return updated;
+        }
+
+        public async Task<int> DeletePost(int postId)
+        {
+            var deletedId = await _data.DeleteItem(
+                query: $@"
+                    DELETE FROM {_tableName} WHERE Id = @id
+                ",
+                parameters: new { Id = postId }
+            );
+
+            return deletedId;
+        }
+
+        public async Task<PostEntity> GetPost(IEnumerable<QueryCondition> filters)
+        {
+            var (condition, parameters) = WhereBuilder.Build(filters);
+
+            var post = await _data.GetFirstOrDefault<PostEntity>(
+                query: $@"SELECT TOP 1 * FROM {_tableName} WHERE {condition}",
+                parameters: parameters
+            );
+
+            return post;
+        }
+
+        public async Task<IEnumerable<PostEntity>> GetPosts(IEnumerable<QueryCondition> filters)
+        {
+            var (condition, parameters) = WhereBuilder.Build(filters);
+
+            var posts = await _data.GetMany<PostEntity>(
+                query: $@"SELECT * FROM {_tableName} WHERE {condition}",
+                parameters: parameters
+            );
+
+            return posts;
         }
     }
 }

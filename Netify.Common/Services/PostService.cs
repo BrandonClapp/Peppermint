@@ -44,10 +44,28 @@ namespace Netify.Common.Services
             return post;
         }
 
+        public async Task<Post> CreatePost(PostEntity postEntity)
+        {
+            var post = await _postData.CreatePost(postEntity);
+            return await GetPost(post.Id);
+        }
+
+        public async Task<Post> UpdatePost(PostEntity postEntity)
+        {
+            var updatedEntity = await _postData.UpdatePost(postEntity);
+            return await GetPost(updatedEntity.Id);
+        }
+
+        public async Task<int> DeletePost(int postId)
+        {
+            var deletedId = await _postData.DeletePost(postId);
+            return deletedId;
+        }
+
         private Post Construct(PostEntity postEntity, UserEntity userEntity)
         {
             if (postEntity == null)
-                throw new ResourceNotFoundException();
+                return null;
 
             var post = new Post()
             {
@@ -67,6 +85,17 @@ namespace Netify.Common.Services
             }
 
             return post;
+        }
+
+        private PostEntity ToEntity(Post post)
+        {
+            return new PostEntity()
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                UserId = post.User.Id
+            };
         }
     }
 }

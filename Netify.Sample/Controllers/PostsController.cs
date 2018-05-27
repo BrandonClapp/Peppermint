@@ -32,5 +32,34 @@ namespace Netify.Sample.Controllers
             return post;
         }
 
+        [HttpGet("create")]
+        public async Task<Post> CreatePost()
+        {
+            var postEntity = new PostEntity()
+            {
+                Content = "Entity content",
+                Title = "Title here",
+                UserId = 3
+            };
+
+            var post = await _postService.CreatePost(postEntity);
+            return post;
+        }
+
+        [HttpGet("update/{postId}/{title}")]
+        public async Task<Post> UpdatePost(int postId, string title)
+        {
+            var postEntity = new PostEntity()
+            {
+                Id = postId,
+                Title = title,
+                UserId = 2,
+                Content = "Updated content"
+            };
+
+            var post = await _postService.UpdatePost(postEntity);
+            return post;
+        }
+
     }
 }

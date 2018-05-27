@@ -17,5 +17,6 @@ namespace Netify.Common.Data
         public abstract Task<T> GetFirstOrDefault<T>(string query, object parameters = null);
 
         public abstract Task<int> AddItem(string query, object parameters);
+        public abstract Task UpdateItem(string query, object parameters);
     }
 }
