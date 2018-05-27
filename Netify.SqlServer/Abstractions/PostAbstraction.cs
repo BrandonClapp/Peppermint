@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Netify.SqlServer.Abstractions
 {
-    public class PostAbstraction : IPostDataAbstraction
+    public class PostAbstraction : IDataAccessor<PostEntity>
     {
         private SqlServerDataAbstraction _data;
         private readonly string _tableName = "Posts";
@@ -16,13 +16,13 @@ namespace Netify.SqlServer.Abstractions
             _data = data;
         }
 
-        public async Task<IEnumerable<PostEntity>> GetPosts()
+        public async Task<IEnumerable<PostEntity>> GetAll()
         {
             var posts = await _data.GetMany<PostEntity>($"SELECT * FROM {_tableName}");
             return posts;
         }
 
-        public async Task<PostEntity> GetPost(int postId)
+        public async Task<PostEntity> GetOne(int postId)
         {
             var post = await _data.GetFirstOrDefault<PostEntity>(
                 query: $@"SELECT TOP 1 * FROM {_tableName} WHERE Id = @Id",
@@ -32,7 +32,7 @@ namespace Netify.SqlServer.Abstractions
             return post;
         }
 
-        public async Task<PostEntity> CreatePost(PostEntity postEntity)
+        public async Task<PostEntity> Create(PostEntity postEntity)
         {
             var addedId = await _data.AddItem(
                 query: $@"
@@ -42,12 +42,12 @@ namespace Netify.SqlServer.Abstractions
                 parameters: new { postEntity.UserId, postEntity.Title, postEntity.Content }
             );
 
-            var added = await GetPost(addedId);
+            var added = await GetOne(addedId);
 
             return added;
         }
 
-        public async Task<PostEntity> UpdatePost(PostEntity postEntity)
+        public async Task<PostEntity> Update(PostEntity postEntity)
         {
             await _data.UpdateItem(
                 query: $@"
@@ -65,11 +65,11 @@ namespace Netify.SqlServer.Abstractions
                     postEntity.Content
                 });
 
-            var updated = await GetPost(postEntity.Id);
+            var updated = await GetOne(postEntity.Id);
             return updated;
         }
 
-        public async Task<int> DeletePost(int postId)
+        public async Task<int> Delete(int postId)
         {
             var deletedId = await _data.DeleteItem(
                 query: $@"
@@ -81,7 +81,7 @@ namespace Netify.SqlServer.Abstractions
             return deletedId;
         }
 
-        public async Task<PostEntity> GetPost(IEnumerable<QueryCondition> filters)
+        public async Task<PostEntity> GetOne(IEnumerable<QueryCondition> filters)
         {
             var (condition, parameters) = WhereBuilder.Build(filters);
 
@@ -93,7 +93,7 @@ namespace Netify.SqlServer.Abstractions
             return post;
         }
 
-        public async Task<IEnumerable<PostEntity>> GetPosts(IEnumerable<QueryCondition> filters)
+        public async Task<IEnumerable<PostEntity>> GetMany(IEnumerable<QueryCondition> filters)
         {
             var (condition, parameters) = WhereBuilder.Build(filters);
 

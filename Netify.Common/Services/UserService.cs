@@ -12,16 +12,16 @@ namespace Netify.Common.Services
 {
     public class UserService
     {
-        private IUserDataAbstraction _userData;
+        private IDataAccessor<UserEntity> _userData;
 
-        public UserService(IUserDataAbstraction userData)
+        public UserService(IDataAccessor<UserEntity> userData)
         {
             _userData = userData;
         }
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var userEntities = await _userData.GetUsers();
+            var userEntities = await _userData.GetAll();
 
             var users = userEntities.Select(ue => Construct(ue));
             return users;
@@ -29,7 +29,7 @@ namespace Netify.Common.Services
 
         public async Task<User> GetUser(int userId)
         {
-            var userEntity = await _userData.GetUser(userId);
+            var userEntity = await _userData.GetOne(userId);
 
             var user = Construct(userEntity);
             return user;

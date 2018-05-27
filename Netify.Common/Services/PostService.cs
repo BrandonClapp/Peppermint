@@ -12,10 +12,10 @@ namespace Netify.Common.Services
 {
     public class PostService
     {
-        private readonly IPostDataAbstraction _postData;
-        private readonly IUserDataAbstraction _userData;
+        private IDataAccessor<PostEntity> _postData;
+        private IDataAccessor<UserEntity> _userData;
 
-        public PostService(IPostDataAbstraction postData, IUserDataAbstraction userData)
+        public PostService(IDataAccessor<PostEntity> postData, IDataAccessor<UserEntity> userData)
         {
             _postData = postData;
             _userData = userData;
@@ -23,8 +23,8 @@ namespace Netify.Common.Services
 
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            var postEntities = await _postData.GetPosts();
-            var userEntities = await _userData.GetUsers();
+            var postEntities = await _postData.GetAll();
+            var userEntities = await _userData.GetAll();
 
             var posts = postEntities.Select(post =>
             {
@@ -37,8 +37,8 @@ namespace Netify.Common.Services
 
         public async Task<Post> GetPost(int postId)
         {
-            var postEntity = await _postData.GetPost(postId);
-            var userEntity = await _userData.GetUser(postEntity.UserId);
+            var postEntity = await _postData.GetOne(postId);
+            var userEntity = await _userData.GetOne(postEntity.UserId);
 
             var post = Construct(postEntity, userEntity);
             return post;
@@ -46,10 +46,12 @@ namespace Netify.Common.Services
 
         public async Task<IEnumerable<Post>> GetPosts(string userName)
         {
-            // needs get user by username method
-            var user = (await _userData.GetUsers()).First(u => u.UserName == userName);
+            var user = await _userData.GetOne(new List<QueryCondition>()
+            {
+                new QueryCondition("UserName", ConditionType.Equals, userName)
+            });
 
-            var postEntities = await _postData.GetPosts(new List<QueryCondition>()
+            var postEntities = await _postData.GetMany(new List<QueryCondition>()
             {
                 new QueryCondition("UserId", ConditionType.Equals, user.Id)
             });
@@ -60,19 +62,19 @@ namespace Netify.Common.Services
 
         public async Task<Post> CreatePost(PostEntity postEntity)
         {
-            var post = await _postData.CreatePost(postEntity);
+            var post = await _postData.Create(postEntity);
             return await GetPost(post.Id);
         }
 
         public async Task<Post> UpdatePost(PostEntity postEntity)
         {
-            var updatedEntity = await _postData.UpdatePost(postEntity);
+            var updatedEntity = await _postData.Update(postEntity);
             return await GetPost(updatedEntity.Id);
         }
 
         public async Task<int> DeletePost(int postId)
         {
-            var deletedId = await _postData.DeletePost(postId);
+            var deletedId = await _postData.Delete(postId);
             return deletedId;
         }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Netify.SqlServer.Abstractions
 {
-    public class UserAbstraction : IUserDataAbstraction
+    public class UserAbstraction : IDataAccessor<UserEntity>
     {
         private SqlServerDataAbstraction _userData;
         private string _tableName = "Users";
@@ -15,7 +15,22 @@ namespace Netify.SqlServer.Abstractions
             _userData = data;
         }
 
-        public async Task<IEnumerable<UserEntity>> GetUsers()
+        public async Task<UserEntity> GetOne(int id)
+        {
+            var user = await _userData.GetFirstOrDefault<UserEntity>($@"
+                SELECT * FROM {_tableName} WHERE Id = @id",
+                new { Id = id }
+            );
+
+            return user;
+        }
+
+        public Task<UserEntity> GetOne(IEnumerable<QueryCondition> filters)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<UserEntity>> GetAll()
         {
             var users = await _userData.GetMany<UserEntity>($@"
                 SELECT * FROM {_tableName}
@@ -24,15 +39,24 @@ namespace Netify.SqlServer.Abstractions
             return users;
         }
 
-        public async Task<UserEntity> GetUser(int userId)
+        public Task<IEnumerable<UserEntity>> GetMany(IEnumerable<QueryCondition> filters)
         {
-            var user = await _userData.GetFirstOrDefault<UserEntity>($@"
-                SELECT * FROM {_tableName} WHERE Id = @id",
-                new { Id = userId }
-            );
-
-            return user;
+            throw new System.NotImplementedException();
         }
 
+        public Task<UserEntity> Create(UserEntity post)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<UserEntity> Update(UserEntity post)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<int> Delete(int postId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
