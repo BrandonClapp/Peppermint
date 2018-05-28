@@ -9,8 +9,8 @@ namespace Peppermint.Sample.Controllers
     [Route("api/[controller]")]
     public class ForumPostsController : Controller
     {
-        private ForumPostService _forumPostService;
-        public ForumPostsController(ForumPostService forumPostService)
+        private PostService _forumPostService;
+        public ForumPostsController(PostService forumPostService)
         {
             _forumPostService = forumPostService;
         }
@@ -25,10 +25,12 @@ namespace Peppermint.Sample.Controllers
             {
                 var forumPost = new
                 {
-                    post.ForumCategoryId,
-                    post.PostId,
-                    //Post = await post.GetPost(),
-                    Category = await post.GetForumCategory()
+                    post.Id,
+                    post.CategoryId,
+                    post.Title,
+                    post.Content,
+                    Category = await post.GetCategory(),
+                    User = await post.GetUser()
                 };
 
                 list.Add(forumPost);
@@ -40,18 +42,21 @@ namespace Peppermint.Sample.Controllers
         [HttpGet("{postId}")]
         public async Task<dynamic> GetPost(int postId)
         {
-            var forumPost = await _forumPostService.GetForumPost(postId);
+            var post = await _forumPostService.GetForumPost(postId);
 
-            if (forumPost == null)
+            if (post == null)
                 return null;
 
-            return new {
-                forumPost.ForumCategoryId,
-                forumPost.PostId,
-                //Post = await forumPost.GetPost(),
-                Category = await forumPost.GetForumCategory()
+            return new
+            {
+                post.Id,
+                post.CategoryId,
+                post.Title,
+                post.Content,
+                Category = await post.GetCategory(),
+                User = await post.GetUser()
             };
-            
+
         }
     }
 }

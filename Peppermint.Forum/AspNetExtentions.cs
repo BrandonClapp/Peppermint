@@ -15,8 +15,8 @@ namespace Peppermint.Forum
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            services.AddTransient<IDataAccessor<ForumPostEntity>, DataAccessor<ForumPostEntity>>();
-            services.AddTransient<IDataAccessor<ForumCategoryEntity>, DataAccessor<ForumCategoryEntity>>();
+            services.AddTransient<IDataAccessor<PostEntity>, DataAccessor<PostEntity>>();
+            services.AddTransient<IDataAccessor<CategoryEntity>, DataAccessor<CategoryEntity>>();
 
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);

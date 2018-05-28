@@ -6,27 +6,27 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Forum.Services
 {
-    public class ForumCategoryService : EntityService
+    public class CategoryService : EntityService
     {
-        private readonly IDataAccessor<ForumCategoryEntity> _forumCategoryData;
-        public ForumCategoryService(IDataAccessor<ForumCategoryEntity> forumCategoryData)
+        private readonly IDataAccessor<CategoryEntity> _forumCategoryData;
+        public CategoryService(IDataAccessor<CategoryEntity> forumCategoryData)
         {
             _forumCategoryData = forumCategoryData;
         }
 
-        public async Task<ForumCategoryEntity> GetForumCategory(int id)
+        public async Task<CategoryEntity> GetForumCategory(int id)
         {
             var category = await _forumCategoryData.GetOne(new List<QueryCondition> {
-                new QueryCondition(nameof(ForumCategoryEntity.Id), ConditionType.Equals, id)
+                new QueryCondition(nameof(CategoryEntity.Id), ConditionType.Equals, id)
             });
 
             return category;
         }
 
-        public async Task<ForumCategoryEntity> GetForumCategory(string name)
+        public async Task<CategoryEntity> GetForumCategory(string name)
         {
             var category = await _forumCategoryData.GetOne(new List<QueryCondition> {
-                new QueryCondition(nameof(ForumCategoryEntity.Name), ConditionType.Equals, name)
+                new QueryCondition(nameof(CategoryEntity.Name), ConditionType.Equals, name)
             });
 
             return category;

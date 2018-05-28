@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Forum.Services
 {
-    public class ForumPostService : EntityService
+    public class PostService : EntityService
     {
-        private IDataAccessor<ForumPostEntity> _forumPostData;
-        public ForumPostService(IDataAccessor<ForumPostEntity> forumPostData)
+        private IDataAccessor<PostEntity> _forumPostData;
+        public PostService(IDataAccessor<PostEntity> forumPostData)
         {
             _forumPostData = forumPostData;
         }
 
-        public async Task<IEnumerable<ForumPostEntity>> GetAllForumPosts()
+        public async Task<IEnumerable<PostEntity>> GetAllForumPosts()
         {
             var forumPosts = await _forumPostData.GetAll();
             return forumPosts;
         }
 
-        public async Task<ForumPostEntity> GetForumPost(int postId)
+        public async Task<PostEntity> GetForumPost(int postId)
         {
             var forumPost = await _forumPostData.GetOne(new List<QueryCondition>
             {
-                new QueryCondition("PostId", ConditionType.Equals, postId)
+                new QueryCondition(nameof(PostEntity.Id), ConditionType.Equals, postId)
             });
 
             return forumPost;
