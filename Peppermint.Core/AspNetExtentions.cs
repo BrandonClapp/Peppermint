@@ -4,6 +4,7 @@ using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using System.Linq;
+using System.Reflection;
 
 namespace Peppermint.Core
 {
@@ -11,8 +12,10 @@ namespace Peppermint.Core
     {
         public static IServiceCollection AddPeppermint(this IServiceCollection services, string connectionString)
         {
-            RegisterServices<EntityService>(services, LifeStyle.Transient);
-            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
+            var assembly = Assembly.GetExecutingAssembly();
+
+            RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             services.AddSingleton<EntityFactory>((fac) => new EntityFactory(fac));
 
@@ -29,27 +32,33 @@ namespace Peppermint.Core
             Singleton
         }
 
-        public static void RegisterEntities<TBase>(IServiceCollection services, LifeStyle lifeStyle) 
+        public static void RegisterEntities<TBase>(Assembly assembly, IServiceCollection services, LifeStyle lifeStyle) 
             where TBase : DataEntity
         {
-            var instance = services.BuildServiceProvider().GetService<TBase>();
-            var dataLocation = instance.GetDataLocation();
-            EntityTableMap.Register<TBase>(dataLocation);
+            var baseType = typeof(TBase);
+            var types = assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
 
-            RegisterAll<TBase>(services, lifeStyle);
+            foreach (var type in types)
+            {
+                if (lifeStyle == LifeStyle.Transient)
+                {
+                    services.AddTransient(type);
+                }
+                else if (lifeStyle == LifeStyle.Singleton)
+                {
+                    services.AddSingleton(type);
+                }
+
+                var instance = (DataEntity)services.BuildServiceProvider().GetService(type);
+                var dataLocation = instance.GetDataLocation();
+                EntityTableMap.Register(type, dataLocation);
+            }
         }
 
-        public static void RegisterServices<TBase>(IServiceCollection services, LifeStyle lifeStyle)
+        public static void RegisterServices<TBase>(Assembly assembly, IServiceCollection services, LifeStyle lifeStyle)
             where TBase : EntityService
         {
-            RegisterAll<TBase>(services, lifeStyle);
-        }
-
-        private static void RegisterAll<TBase>(IServiceCollection services, LifeStyle lifeStyle)
-        {
             var baseType = typeof(TBase);
-            var assembly = baseType.Assembly;
-
             var types = assembly.GetTypes().Where(t => t.IsSubclassOf(baseType));
 
             foreach (var type in types)

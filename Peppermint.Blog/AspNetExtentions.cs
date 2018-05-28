@@ -6,6 +6,7 @@ using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using static Peppermint.Core.AspNetExtentions;
 
@@ -15,9 +16,10 @@ namespace Peppermint.Blog
     {
         public static IServiceCollection AddPeppermintBlog(this IServiceCollection services)
         {
-            // Will this register all in blog or all in core?
-            RegisterServices<EntityService>(services, LifeStyle.Transient);
-            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
+            var assembly = Assembly.GetExecutingAssembly();
+            
+            RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             services.AddTransient<IDataAccessor<PostEntity>, DataAccessor<PostEntity>>();
 

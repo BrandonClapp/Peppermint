@@ -13,9 +13,14 @@ namespace Peppermint.Core.Data.SqlServer
             _map = map;
         }
 
-        public static void Register<T>(string table)
+        public static void Register(Type type, string table)
         {
-            _map.Add(typeof(T), table);
+            if (_map == null)
+            {
+                _map = new Dictionary<Type, string>();
+            }
+
+            _map.Add(type, table);
         }
 
         public static string GetTable<T>() where T : DataEntity

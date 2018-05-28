@@ -4,6 +4,7 @@ using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using Peppermint.Forum.Entities;
+using System.Reflection;
 using static Peppermint.Core.AspNetExtentions;
 
 namespace Peppermint.Forum
@@ -12,12 +13,13 @@ namespace Peppermint.Forum
     {
         public static IServiceCollection AddPeppermintForum(this IServiceCollection services)
         {
-            // Will this register all in blog or all in core?
-            RegisterServices<EntityService>(services, LifeStyle.Transient);
-            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
+            var assembly = Assembly.GetExecutingAssembly();
 
             services.AddTransient<IDataAccessor<ForumPostEntity>, DataAccessor<ForumPostEntity>>();
             services.AddTransient<IDataAccessor<ForumCategoryEntity>, DataAccessor<ForumCategoryEntity>>();
+
+            RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             return services;
         }
