@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Netify.Common.Data
+namespace Peppermint.Common.Data
 {
     public enum UpdateQueryParameterType
     {

@@ -1,11 +1,11 @@
-﻿using Netify.Common.Data;
-using Netify.Common.Entities.Forum;
+﻿using Peppermint.Common.Data;
+using Peppermint.Common.Entities.Forum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Netify.Common.Services
+namespace Peppermint.Common.Services
 {
     public class ForumCategoryService : EntityService
     {

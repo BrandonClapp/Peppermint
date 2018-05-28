@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Netify.Common.Entities;
-using Netify.Common.Services;
+using Peppermint.Common.Entities;
+using Peppermint.Common.Services;
 using System.Linq;
 
-namespace Netify.Common
+namespace Peppermint.Common
 {
     public static class AspNetExtentions
     {
-        public static IServiceCollection AddNetify(this IServiceCollection services)
+        public static IServiceCollection AddPeppermint(this IServiceCollection services)
         {
             RegisterAll<EntityService>(services, LifeStyle.Transient);
             RegisterAll<DataEntity>(services, LifeStyle.Transient);

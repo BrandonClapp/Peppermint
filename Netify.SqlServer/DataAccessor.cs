@@ -1,9 +1,9 @@
-﻿using Netify.Common.Data;
-using Netify.Common.Entities;
+﻿using Peppermint.Common.Data;
+using Peppermint.Common.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Netify.SqlServer
+namespace Peppermint.SqlServer
 {
     public class DataAccessor<T> : IDataAccessor<T> where T : DataEntity
     {

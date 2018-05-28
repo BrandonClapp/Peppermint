@@ -1,10 +1,10 @@
-﻿using Netify.Common.Data;
+﻿using Peppermint.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Text;
 
-namespace Netify.SqlServer
+namespace Peppermint.SqlServer
 {
     public static class WhereBuilder
     {

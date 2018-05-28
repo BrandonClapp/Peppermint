@@ -1,8 +1,8 @@
-﻿using Netify.Common.Entities;
+﻿using Peppermint.Common.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace Netify.SqlServer
+namespace Peppermint.SqlServer
 {
     public static class EntityTableMap
     {

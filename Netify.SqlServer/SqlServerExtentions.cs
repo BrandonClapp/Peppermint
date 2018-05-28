@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Netify.Common.Data;
-using Netify.Common.Entities;
-using Netify.Common.Entities.Forum;
+using Peppermint.Common.Data;
+using Peppermint.Common.Entities;
+using Peppermint.Common.Entities.Forum;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Netify.SqlServer
+namespace Peppermint.SqlServer
 {
     public static class SqlServerExtentions
     {
-        public static IServiceCollection AddNetifySqlServer(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddPeppermintSqlServer(this IServiceCollection services, string connectionString)
         {
             services.AddTransient(fac => new SqlServerDataAbstraction(connectionString, fac.GetService<EntityFactory>()));
 

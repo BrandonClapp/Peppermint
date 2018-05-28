@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Netify.Common.Data;
-using Netify.Common.Entities;
+using Peppermint.Common.Data;
+using Peppermint.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Netify.SqlServer
+namespace Peppermint.SqlServer
 {
     public class SqlServerDataAbstraction : IDataAbstraction
     {

@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Netify.Sample": {
+    "Peppermint.Sample": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 
-namespace Netify.Common.Entities
+namespace Peppermint.Common.Entities
 {
     public class EntityFactory
     {

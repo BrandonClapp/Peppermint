@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Netify.Common.Entities.Forum
+namespace Peppermint.Common.Entities.Forum
 {
     public class ForumCategoryEntity : DataEntity
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Netify.Common.Entities
+namespace Peppermint.Common.Entities
 {
     public class UserEntity : DataEntity
     {

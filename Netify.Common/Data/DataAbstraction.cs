@@ -1,10 +1,10 @@
-﻿using Netify.Common.Entities;
+﻿using Peppermint.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Netify.Common.Data
+namespace Peppermint.Common.Data
 {
     public interface IDataAbstraction
     {

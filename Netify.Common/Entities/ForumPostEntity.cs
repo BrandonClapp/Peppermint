@@ -1,8 +1,8 @@
-﻿using Netify.Common.Entities.Forum;
-using Netify.Common.Services;
+﻿using Peppermint.Common.Entities.Forum;
+using Peppermint.Common.Services;
 using System.Threading.Tasks;
 
-namespace Netify.Common.Entities
+namespace Peppermint.Common.Entities
 {
     public class ForumPostEntity : DataEntity
     {

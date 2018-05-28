@@ -1,4 +1,4 @@
-﻿namespace Netify.Common.Data
+﻿namespace Peppermint.Common.Data
 {
     public enum ConditionType
     {

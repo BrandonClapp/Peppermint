@@ -1,10 +1,10 @@
-﻿using Netify.Common.Services;
+﻿using Peppermint.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Netify.Common.Entities
+namespace Peppermint.Common.Entities
 {
     public class PostEntity : DataEntity
     {

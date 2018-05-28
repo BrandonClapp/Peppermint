@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Netify.Common.Entities;
-using Netify.Common.Services;
+using Peppermint.Common.Entities;
+using Peppermint.Common.Services;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace Netify.Sample.Controllers
+namespace Peppermint.Sample.Controllers
 {
     [Route("api/[controller]")]
     public class PostsController : Controller

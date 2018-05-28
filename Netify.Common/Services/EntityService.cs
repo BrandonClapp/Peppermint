@@ -1,4 +1,4 @@
-﻿namespace Netify.Common.Services
+﻿namespace Peppermint.Common.Services
 {
     /// <summary>
     /// Base class for all services

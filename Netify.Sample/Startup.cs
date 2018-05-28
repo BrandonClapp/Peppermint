@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Netify.Common;
-using Netify.SqlServer;
+using Peppermint.Common;
+using Peppermint.SqlServer;
 
-namespace Netify.Sample
+namespace Peppermint.Sample
 {
     public class Startup
     {
@@ -21,13 +21,13 @@ namespace Netify.Sample
         {
             services.AddMvc();
             
-            var connString = Configuration.GetConnectionString("Netify");
+            var connString = Configuration.GetConnectionString("Peppermint");
 
-            // Register core Netify dependencies.
-            services.AddNetify();
+            // Register core Peppermint dependencies.
+            services.AddPeppermint();
 
-            // Register the Netify SQL Server adapter.
-            services.AddNetifySqlServer(connString);
+            // Register the Peppermint SQL Server adapter.
+            services.AddPeppermintSqlServer(connString);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
