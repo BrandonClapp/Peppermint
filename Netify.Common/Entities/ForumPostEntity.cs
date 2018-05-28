@@ -4,20 +4,30 @@ using System.Threading.Tasks;
 
 namespace Netify.Common.Entities
 {
-    public class ForumPostEntity : PostEntity
+    public class ForumPostEntity : DataEntity
     {
         private ForumCategoryService _forumCategoryService;
+        private PostService _postService;
 
-        public ForumPostEntity(UserService userService, ForumCategoryService forumCategoryService) : base(userService)
+        public ForumPostEntity(
+            ForumCategoryService forumCategoryService,
+            PostService postService)
         {
             _forumCategoryService = forumCategoryService;
+            _postService = postService;
         }
 
+        public int PostId { get; set; }
         public int ForumCategoryId { get; set; }
 
         public async Task<ForumCategoryEntity> GetForumCategory()
         {
             return await _forumCategoryService.GetForumCategory(ForumCategoryId);
+        }
+
+        public async Task<PostEntity> GetPost()
+        {
+            return await _postService.GetPost(PostId);
         }
     }
 }
