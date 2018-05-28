@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Netify.Common.Entities;
-using Netify.Common.Entities.Forum;
 using Netify.Common.Services;
 using System.Linq;
 
