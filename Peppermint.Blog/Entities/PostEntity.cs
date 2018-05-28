@@ -7,7 +7,6 @@ namespace Peppermint.Blog.Entities
     public class PostEntity : DataEntity
     {
         private UserService _userService;
-        public override string DataLocation { get; set; } = "core.Users";
 
         public PostEntity(UserService userService)
         {
@@ -19,10 +18,15 @@ namespace Peppermint.Blog.Entities
         public string Title { get; set; }
         public string Content { get; set; }
 
+        public override string GetDataLocation()
+        {
+            return $"{ModuleSettings.Schema}.Posts";
+        }
+
         public async Task<UserEntity> GetUser()
         {
             return await _userService.GetUser(UserId);
         }
     }
 }
-}
+

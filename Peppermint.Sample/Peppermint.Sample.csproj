@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Peppermint.Blog\Peppermint.Blog.csproj" />
     <ProjectReference Include="..\Peppermint.Core\Peppermint.Core.csproj" />
+    <ProjectReference Include="..\Peppermint.Forum\Peppermint.Forum.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,8 +16,8 @@ namespace Peppermint.Blog
         public static IServiceCollection AddPeppermintBlog(this IServiceCollection services)
         {
             // Will this register all in blog or all in core?
-            RegisterAll<EntityService>(services, LifeStyle.Transient);
-            RegisterAll<DataEntity>(services, LifeStyle.Transient);
+            RegisterServices<EntityService>(services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
 
             services.AddTransient<IDataAccessor<PostEntity>, DataAccessor<PostEntity>>();
 

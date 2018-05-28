@@ -11,8 +11,8 @@ namespace Peppermint.Core
     {
         public static IServiceCollection AddPeppermint(this IServiceCollection services, string connectionString)
         {
-            RegisterAll<EntityService>(services, LifeStyle.Transient);
-            RegisterAll<DataEntity>(services, LifeStyle.Transient);
+            RegisterServices<EntityService>(services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
 
             services.AddSingleton<EntityFactory>((fac) => new EntityFactory(fac));
 
@@ -29,7 +29,23 @@ namespace Peppermint.Core
             Singleton
         }
 
-        public static void RegisterAll<TBase>(IServiceCollection services, LifeStyle lifeStyle)
+        public static void RegisterEntities<TBase>(IServiceCollection services, LifeStyle lifeStyle) 
+            where TBase : DataEntity
+        {
+            var instance = services.BuildServiceProvider().GetService<TBase>();
+            var dataLocation = instance.GetDataLocation();
+            EntityTableMap.Register<TBase>(dataLocation);
+
+            RegisterAll<TBase>(services, lifeStyle);
+        }
+
+        public static void RegisterServices<TBase>(IServiceCollection services, LifeStyle lifeStyle)
+            where TBase : EntityService
+        {
+            RegisterAll<TBase>(services, lifeStyle);
+        }
+
+        private static void RegisterAll<TBase>(IServiceCollection services, LifeStyle lifeStyle)
         {
             var baseType = typeof(TBase);
             var assembly = baseType.Assembly;

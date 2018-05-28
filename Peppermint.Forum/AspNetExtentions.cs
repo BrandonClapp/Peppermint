@@ -13,8 +13,8 @@ namespace Peppermint.Forum
         public static IServiceCollection AddPeppermintForum(this IServiceCollection services)
         {
             // Will this register all in blog or all in core?
-            RegisterAll<EntityService>(services, LifeStyle.Transient);
-            RegisterAll<DataEntity>(services, LifeStyle.Transient);
+            RegisterServices<EntityService>(services, LifeStyle.Transient);
+            RegisterEntities<DataEntity>(services, LifeStyle.Transient);
 
             services.AddTransient<IDataAccessor<ForumPostEntity>, DataAccessor<ForumPostEntity>>();
             services.AddTransient<IDataAccessor<ForumCategoryEntity>, DataAccessor<ForumCategoryEntity>>();

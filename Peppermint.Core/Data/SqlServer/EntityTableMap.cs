@@ -13,6 +13,11 @@ namespace Peppermint.Core.Data.SqlServer
             _map = map;
         }
 
+        public static void Register<T>(string table)
+        {
+            _map.Add(typeof(T), table);
+        }
+
         public static string GetTable<T>() where T : DataEntity
         {
             _map.TryGetValue(typeof(T), out var type);

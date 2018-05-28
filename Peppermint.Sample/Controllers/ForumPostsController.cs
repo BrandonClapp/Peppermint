@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Peppermint.Core.Services;
+using Peppermint.Forum.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace Peppermint.Sample.Controllers
                 {
                     post.ForumCategoryId,
                     post.PostId,
-                    Post = await post.GetPost(),
+                    //Post = await post.GetPost(),
                     Category = await post.GetForumCategory()
                 };
 
@@ -47,7 +48,7 @@ namespace Peppermint.Sample.Controllers
             return new {
                 forumPost.ForumCategoryId,
                 forumPost.PostId,
-                Post = await forumPost.GetPost(),
+                //Post = await forumPost.GetPost(),
                 Category = await forumPost.GetForumCategory()
             };
             
