@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Peppermint.Core\Peppermint.Core.csproj" />
-    <ProjectReference Include="..\Peppermint.SqlServer\Peppermint.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

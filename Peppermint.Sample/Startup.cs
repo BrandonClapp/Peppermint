@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Peppermint.Core;
-using Peppermint.SqlServer;
 
 namespace Peppermint.Sample
 {
@@ -24,10 +23,8 @@ namespace Peppermint.Sample
             var connString = Configuration.GetConnectionString("Peppermint");
 
             // Register core Peppermint dependencies.
-            services.AddPeppermint();
+            services.AddPeppermint(connString);
 
-            // Register the Peppermint SQL Server adapter.
-            services.AddPeppermintSqlServer(connString);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

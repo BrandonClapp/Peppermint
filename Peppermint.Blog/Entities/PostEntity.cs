@@ -1,14 +1,14 @@
-﻿using Peppermint.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Peppermint.Core.Entities;
+using Peppermint.Core.Services;
 using System.Threading.Tasks;
 
-namespace Peppermint.Core.Entities
+namespace Peppermint.Blog.Entities
 {
     public class PostEntity : DataEntity
     {
         private UserService _userService;
+        public override string DataLocation { get; set; } = "core.Users";
+
         public PostEntity(UserService userService)
         {
             _userService = userService;
@@ -24,4 +24,5 @@ namespace Peppermint.Core.Entities
             return await _userService.GetUser(UserId);
         }
     }
+}
 }

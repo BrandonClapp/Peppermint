@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Text;
 
-namespace Peppermint.SqlServer
+namespace Peppermint.Core.Data.SqlServer
 {
     public static class QueryParameterBuilder
     {

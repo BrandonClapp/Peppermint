@@ -1,11 +1,10 @@
 ﻿using Peppermint.Core.Data;
-using Peppermint.Core.Entities.Forum;
-using System;
+using Peppermint.Core.Services;
+using Peppermint.Forum.Entities;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Peppermint.Core.Services
+namespace Peppermint.Forum.Services
 {
     public class ForumCategoryService : EntityService
     {

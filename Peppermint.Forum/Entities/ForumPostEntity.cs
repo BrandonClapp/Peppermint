@@ -1,11 +1,13 @@
-﻿using Peppermint.Core.Entities.Forum;
-using Peppermint.Core.Services;
+﻿using Peppermint.Core.Entities;
+using Peppermint.Forum.Services;
 using System.Threading.Tasks;
 
-namespace Peppermint.Core.Entities
+namespace Peppermint.Forum.Entities
 {
     public class ForumPostEntity : DataEntity
     {
+        public override string DataLocation { get; set; } = "forum.Posts";
+
         private ForumCategoryService _forumCategoryService;
         private PostService _postService;
 

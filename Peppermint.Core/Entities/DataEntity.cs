@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Peppermint.Core.Entities
 {
-    public class DataEntity
+    public abstract class DataEntity
     {
+        public abstract string DataLocation { get; set; }
     }
 }

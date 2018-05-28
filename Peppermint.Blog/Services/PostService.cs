@@ -1,10 +1,14 @@
-﻿using Peppermint.Core.Data;
+﻿using Peppermint.Blog.Entities;
+using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
+using Peppermint.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Peppermint.Core.Services
+namespace Peppermint.Blog.Services
 {
     public class PostService : EntityService
     {

@@ -1,14 +1,12 @@
 ﻿using Dapper;
-using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Peppermint.SqlServer
+namespace Peppermint.Core.Data.SqlServer
 {
     public class SqlServerDataAbstraction : IDataAbstraction
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Peppermint.SqlServer
+namespace Peppermint.Core.Data.SqlServer
 {
     public static class EntityTableMap
     {

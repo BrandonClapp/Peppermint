@@ -1,9 +1,8 @@
-﻿using Peppermint.Core.Data;
-using Peppermint.Core.Entities;
+﻿using Peppermint.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Peppermint.SqlServer
+namespace Peppermint.Core.Data.SqlServer
 {
     public class DataAccessor<T> : IDataAccessor<T> where T : DataEntity
     {
