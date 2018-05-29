@@ -7,9 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peppermint.Core", "Peppermi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peppermint.Sample", "Peppermint.Sample\Peppermint.Sample.csproj", "{2E239EEC-7E02-48DE-8C99-0BB3945C91E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peppermint.Blog", "Peppermint.Blog\Peppermint.Blog.csproj", "{D1B56B2C-6EAB-4450-9681-30AD9BD47599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peppermint.Blog", "Peppermint.Blog\Peppermint.Blog.csproj", "{D1B56B2C-6EAB-4450-9681-30AD9BD47599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peppermint.Forum", "Peppermint.Forum\Peppermint.Forum.csproj", "{568AB666-92C6-48FF-A292-8B35E684357C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peppermint.Forum", "Peppermint.Forum\Peppermint.Forum.csproj", "{568AB666-92C6-48FF-A292-8B35E684357C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3391465-9048-4A15-ADC1-EB32319EE3FD}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
