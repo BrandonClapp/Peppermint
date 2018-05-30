@@ -9,8 +9,11 @@ namespace Peppermint.Core.Entities
     public class UserGroupEntity : DataEntity
     {
         private UserMembershipService _userMembershipService;
+        private UserGroupPermissionService _ugPermissionService;
 
-        public UserGroupEntity(UserMembershipService userMembershipService)
+        public UserGroupEntity(
+            UserMembershipService userMembershipService,
+            UserGroupPermissionService ugPermissionService)
         {
             _userMembershipService = userMembershipService;
         }
@@ -22,6 +25,13 @@ namespace Peppermint.Core.Entities
         {
             var users = await _userMembershipService.GetUsersInGroup(Id);
             return users;
+        }
+
+        public async Task<bool> CanPerformAction<OnT>(string category, string action, int? entityId = null)
+            where OnT : DataEntity
+        {
+            var canPerformAction = await _ugPermissionService.CanPerformAction<OnT>(Id, category, action, entityId);
+            return canPerformAction;
         }
     }
 }
