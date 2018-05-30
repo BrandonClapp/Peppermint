@@ -23,7 +23,7 @@ namespace Peppermint.Core.Data.SqlServer
                 }
                 else if (filter.Type == ConditionType.In)
                 {
-                    conditions.Add($"{filter.Key} IN (@{filter.Key})");
+                    conditions.Add($"{filter.Key} IN @{filter.Key}");
                 }
 
                 parameters.Add(filter.Key, filter.Value);
