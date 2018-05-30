@@ -1,10 +1,12 @@
-﻿using Peppermint.Core.Entities;
+﻿using Peppermint.Core.Data;
+using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using Peppermint.Forum.Services;
 using System.Threading.Tasks;
 
 namespace Peppermint.Forum.Entities
 {
+    [DataLocation("forum.Posts")]
     public class PostEntity : DataEntity
     {
         private CategoryService _forumCategoryService;
@@ -21,11 +23,6 @@ namespace Peppermint.Forum.Entities
         public int UserId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-
-        public override string GetDataLocation()
-        {
-            return $"{ModuleSettings.Schema}.Posts";
-        }
 
         public async Task<CategoryEntity> GetCategory()
         {

@@ -17,17 +17,40 @@ namespace Peppermint.Sample.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IEnumerable<UserEntity>> GetUsers()
+        public async Task<IEnumerable<dynamic>> GetUsers()
         {
             var users = await _userService.GetUsers();
-            return users;
+            var userDetails = new List<dynamic>();
+
+            foreach(var user in users)
+            {
+                userDetails.Add(new {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    Groups = await user.GetGroups()
+                });
+            }
+
+            return userDetails;
         }
 
         [HttpGet("{userId}")]
-        public async Task<UserEntity> GetUser(int userId)
+        public async Task<dynamic> GetUser(int userId)
         {
             var user = await _userService.GetUser(userId);
-            return user;
+
+            if (user == null)
+                return null;
+
+            return new
+            {
+                user.Id,
+                user.UserName,
+                user.Email,
+                Groups = await user.GetGroups()
+            };
+
         }
     }
 }

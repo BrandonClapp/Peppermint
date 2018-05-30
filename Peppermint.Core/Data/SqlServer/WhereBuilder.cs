@@ -21,6 +21,10 @@ namespace Peppermint.Core.Data.SqlServer
                 {
                     conditions.Add($"{filter.Key} LIKE %@{filter.Key}%");
                 }
+                else if (filter.Type == ConditionType.In)
+                {
+                    conditions.Add($"{filter.Key} IN (@{filter.Key})");
+                }
 
                 parameters.Add(filter.Key, filter.Value);
             }

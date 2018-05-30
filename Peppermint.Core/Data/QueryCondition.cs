@@ -3,7 +3,8 @@
     public enum ConditionType
     {
         Equals,
-        Like
+        Like,
+        In
     }
 
     public class QueryCondition

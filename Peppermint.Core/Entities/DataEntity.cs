@@ -6,6 +6,6 @@ namespace Peppermint.Core.Entities
 {
     public abstract class DataEntity
     {
-        public abstract string GetDataLocation();
+        
     }
 }

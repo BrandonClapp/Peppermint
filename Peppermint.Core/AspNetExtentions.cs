@@ -2,7 +2,9 @@
 using Peppermint.Core.Data;
 using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Entities;
+using Peppermint.Core.Exceptions;
 using Peppermint.Core.Services;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -12,16 +14,18 @@ namespace Peppermint.Core
     {
         public static IServiceCollection AddPeppermint(this IServiceCollection services, string connectionString)
         {
+            services.AddTransient(fac => new SqlServerDataAbstraction(connectionString, fac.GetService<EntityFactory>()));
+
             var assembly = Assembly.GetExecutingAssembly();
+
+            services.AddTransient<IDataAccessor<UserEntity>, DataAccessor<UserEntity>>();
+            services.AddTransient<IDataAccessor<UserGroupEntity>, DataAccessor<UserGroupEntity>>();
+            services.AddTransient<IDataAccessor<UserUserGroupEntity>, DataAccessor<UserUserGroupEntity>>();
 
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             services.AddSingleton<EntityFactory>((fac) => new EntityFactory(fac));
-
-            services.AddTransient(fac => new SqlServerDataAbstraction(connectionString, fac.GetService<EntityFactory>()));
-
-            services.AddTransient<IDataAccessor<UserEntity>, DataAccessor<UserEntity>>();
 
             return services;
         }
@@ -49,10 +53,31 @@ namespace Peppermint.Core
                     services.AddSingleton(type);
                 }
 
-                var instance = (DataEntity)services.BuildServiceProvider().GetService(type);
-                var dataLocation = instance.GetDataLocation();
+                var dataLocation = GetDataLocation(type);
                 EntityTableMap.Register(type, dataLocation);
             }
+        }
+
+        private static string GetDataLocation(Type type)
+        {
+            DataLocation attr;
+
+            try
+            {
+                attr = type.GetCustomAttribute<DataLocation>();
+            }
+            catch (AmbiguousMatchException ex)
+            {
+                throw new AmbiguousMatchException("More than one DataLocation attribute was found.", ex);
+            }
+
+            if (attr == null)
+            {
+                throw new MissingExpectedAttributeException(nameof(DataLocation));
+            }
+
+            var location = attr.GetLocation();
+            return location;
         }
 
         public static void RegisterServices<TBase>(Assembly assembly, IServiceCollection services, LifeStyle lifeStyle)

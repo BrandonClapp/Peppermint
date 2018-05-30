@@ -1,9 +1,11 @@
-﻿using Peppermint.Core.Entities;
+﻿using Peppermint.Core.Data;
+using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using System.Threading.Tasks;
 
 namespace Peppermint.Blog.Entities
 {
+    [DataLocation("blog.Posts")]
     public class PostEntity : DataEntity
     {
         private UserService _userService;
@@ -17,11 +19,6 @@ namespace Peppermint.Blog.Entities
         public int UserId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-
-        public override string GetDataLocation()
-        {
-            return $"{ModuleSettings.Schema}.Posts";
-        }
 
         public async Task<UserEntity> GetUser()
         {

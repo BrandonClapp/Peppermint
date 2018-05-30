@@ -25,6 +25,11 @@ namespace Peppermint.Core.Data.SqlServer
 
         public static string GetTable<T>() where T : DataEntity
         {
+            if (_map == null)
+            {
+                throw new NullReferenceException("Entity map not initialized. Register tables first.");
+            }
+
             _map.TryGetValue(typeof(T), out var type);
             return type;
         }

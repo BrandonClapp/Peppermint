@@ -30,5 +30,15 @@ namespace Peppermint.Core.Services
             var userEntity = await _userData.GetOne(conditions);
             return userEntity;
         }
+
+        public async Task<IEnumerable<UserEntity>> GetUsers(IEnumerable<int> userIds)
+        {
+            var users = await _userData.GetMany(new List<QueryCondition>
+            {
+                new QueryCondition(nameof(UserEntity.Id), ConditionType.In, userIds)
+            });
+
+            return users;
+        }
     }
 }
