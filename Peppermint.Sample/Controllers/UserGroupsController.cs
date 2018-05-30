@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
+using Peppermint.Forum.Entities;
+using Peppermint.Forum.Permissions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,6 +21,7 @@ namespace Peppermint.Sample.Controllers
         [HttpGet("")]
         public async Task<IEnumerable<dynamic>> GetGroups()
         {
+
             var groups = await _userGroupsService.GetAllGroups();
             var groupDetails = new List<dynamic>();
 
@@ -28,7 +31,8 @@ namespace Peppermint.Sample.Controllers
                 {
                     group.Id,
                     group.Name,
-                    Users = await group.GetUsers()
+                    Users = await group.GetUsers(),
+                    CanDoAction = await group.CanPerformAction<CategoryEntity, CategoryEntity>(ForumPermissions.CanEdit, 1)
                 });
             }
 

@@ -17,11 +17,16 @@ namespace Peppermint.Core.Services
             IDataAccessor<PermissionTypeEntity> permissionTypeData)
         {
             _ugPermissionData = ugPermissionData;
+            _permissionTypeData = permissionTypeData;
         }
 
-        public async Task<bool> CanPerformAction<OnT>(int usergroupId, string category, string action, int? entityId = null) 
+        public async Task<bool> CanPerformAction<OnT, InCategoryT>(int usergroupId, string action, int? entityId = null) 
             where OnT : DataEntity
+            where InCategoryT : DataEntity
         {
+            var category = typeof(InCategoryT).Name;
+            category = category.Replace("Entity", "");
+
             var permission = await _permissionTypeData.GetOne(new List<QueryCondition>
             {
                 new QueryCondition(nameof(PermissionTypeEntity.PermissionCategory), ConditionType.Equals, category),
@@ -38,6 +43,9 @@ namespace Peppermint.Core.Services
                 new QueryCondition(nameof(UserGroupPermissionEnitity.UserGroupId), ConditionType.Equals, usergroupId),
                 new QueryCondition(nameof(UserGroupPermissionEnitity.EntityQualifier), ConditionType.Equals, entityId)
             });
+
+            if (ugPermission == null)
+                return false;
 
             var canPerformAction = ugPermission.CanPerformAction;
             return canPerformAction;
