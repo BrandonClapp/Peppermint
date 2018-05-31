@@ -15,6 +15,8 @@ namespace Peppermint.Blog.Services
         private IDataAccessor<PostEntity> _postData;
         private IDataAccessor<UserEntity> _userData;
 
+        // todo: authorization
+
         public PostService(IDataAccessor<PostEntity> postData, IDataAccessor<UserEntity> userData)
         {
             _postData = postData;

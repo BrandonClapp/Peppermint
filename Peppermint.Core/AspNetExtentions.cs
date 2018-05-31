@@ -21,7 +21,6 @@ namespace Peppermint.Core
             services.AddTransient<IDataAccessor<UserEntity>, DataAccessor<UserEntity>>();
             services.AddTransient<IDataAccessor<UserGroupEntity>, DataAccessor<UserGroupEntity>>();
             services.AddTransient<IDataAccessor<UserUserGroupEntity>, DataAccessor<UserUserGroupEntity>>();
-            services.AddTransient<IDataAccessor<PermissionTypeEntity>, DataAccessor<PermissionTypeEntity>>();
             services.AddTransient<IDataAccessor<UserGroupPermissionEnitity>, DataAccessor<UserGroupPermissionEnitity>>();
 
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);

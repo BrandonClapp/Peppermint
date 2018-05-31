@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Peppermint.Core.Entities
 {
     [DataLocation("core.UserGroups")]
-    public class UserGroupEntity : DataEntity
+    public partial class UserGroupEntity : DataEntity
     {
         private UserMembershipService _userMembershipService;
         private UserGroupPermissionService _ugPermissionService;
@@ -28,12 +28,5 @@ namespace Peppermint.Core.Entities
             return users;
         }
 
-        public async Task<bool> CanPerformAction<OnT, InCategoryT>(string action, int? entityId = null)
-            where OnT : DataEntity
-            where InCategoryT : DataEntity
-        {
-            var canPerformAction = await _ugPermissionService.CanPerformAction<OnT, InCategoryT>(Id, action, entityId);
-            return canPerformAction;
-        }
     }
 }

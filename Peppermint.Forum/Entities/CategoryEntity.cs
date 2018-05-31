@@ -1,5 +1,6 @@
 ﻿using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
+using Peppermint.Forum.Authorization;
 
 namespace Peppermint.Forum.Entities
 {
@@ -8,5 +9,6 @@ namespace Peppermint.Forum.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
     }
 }

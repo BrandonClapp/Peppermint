@@ -7,7 +7,7 @@ using System.Text;
 namespace Peppermint.Core.Entities
 {
     [DataLocation("core.UserGroupPermissions")]
-    public class UserGroupPermissionEnitity : DataEntity
+    public partial class UserGroupPermissionEnitity : DataEntity
     {
         public int Id { get; set; }
         public int PermissionTypeId { get; set; }
@@ -15,6 +15,7 @@ namespace Peppermint.Core.Entities
         public bool CanPerformAction { get; set; }
 
         // NULL qualifies as "All"
-        public int? EntityQualifier { get; set; }
+        public int? EntityId { get; set; }
+
     }
 }

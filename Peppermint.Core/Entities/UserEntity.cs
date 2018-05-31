@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Peppermint.Core.Entities
 {
     [DataLocation("core.Users")]
-    public class UserEntity : DataEntity
+    public partial class UserEntity : DataEntity
     {
         private UserService _userService;
         private UserMembershipService _userMembershipService;

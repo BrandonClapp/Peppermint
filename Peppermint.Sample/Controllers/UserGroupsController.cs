@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using Peppermint.Forum.Entities;
-using Peppermint.Forum.Permissions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,12 +25,14 @@ namespace Peppermint.Sample.Controllers
 
             foreach (var group in groups)
             {
+                //var canDoAction =
+                //    await group.CanPerformAction<CategoryEntity, CategoryEntity>(ForumPermissions.CanEdit, 1);
+
                 groupDetails.Add(new
                 {
                     group.Id,
                     group.Name,
-                    Users = await group.GetUsers(),
-                    CanDoAction = await group.CanPerformAction<CategoryEntity, CategoryEntity>(ForumPermissions.CanEdit, 1)
+                    Users = await group.GetUsers()
                 });
             }
 
