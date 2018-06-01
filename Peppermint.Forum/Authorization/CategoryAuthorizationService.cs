@@ -1,18 +1,29 @@
 ﻿using Peppermint.Core.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Peppermint.Forum.Authorization
 {
     public class CategoryAuthorizationService : EntityService
     {
+        private UserGroupPermissionService _ugPermissionService;
+
+        public CategoryAuthorizationService(UserGroupPermissionService ugPermissionService)
+        {
+            _ugPermissionService = ugPermissionService;
+        }
         // needs to check the current context user (or have it passed in )
 
         public async Task<bool> CanCreateCategory()
         {
-            throw new NotImplementedException();
+            var ugCan = await _ugPermissionService.CanPerformAction(CategoryPermission.CanCreateCategory);
+
+            if (ugCan)
+                return true;
+
+            // do role next
+
+            return false;
         }
 
         public async Task<bool> CanEditCategory(int categoryId)

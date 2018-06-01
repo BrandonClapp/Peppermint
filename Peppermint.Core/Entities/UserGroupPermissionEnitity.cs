@@ -10,12 +10,13 @@ namespace Peppermint.Core.Entities
     public partial class UserGroupPermissionEnitity : DataEntity
     {
         public int Id { get; set; }
-        public int PermissionTypeId { get; set; }
+        public int PermissionId { get; set; }
         public int UserGroupId { get; set; }
-        public bool CanPerformAction { get; set; }
+        public bool Permit { get; set; }
 
-        // NULL qualifies as "All"
-        public int? EntityId { get; set; }
+        // NULL = Not needed
+        // "ALL" = All
+        public string GroupEntityId { get; set; }
 
     }
 }
