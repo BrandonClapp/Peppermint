@@ -34,7 +34,7 @@ namespace Peppermint.Forum.Authorization
 
         public async Task<bool> CanViewCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> CanViewPostInCategory(int categoryId)
