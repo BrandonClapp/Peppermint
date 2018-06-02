@@ -6,24 +6,20 @@ namespace Peppermint.Forum.Authorization
 {
     public class CategoryAuthorizationService : EntityService
     {
-        private UserGroupPermissionService _ugPermissionService;
+        private AuthorizationService _authorizationService;
 
-        public CategoryAuthorizationService(UserGroupPermissionService ugPermissionService)
+        public CategoryAuthorizationService(AuthorizationService authorizationService)
         {
-            _ugPermissionService = ugPermissionService;
+            _authorizationService = authorizationService;
         }
         // needs to check the current context user (or have it passed in )
 
         public async Task<bool> CanCreateCategory()
         {
-            var ugCan = await _ugPermissionService.CanPerformAction(CategoryPermission.CanCreateCategory);
+            int userId = 3;
+            var authorized = await _authorizationService.CanPerformAction(userId, CategoryPermission.CanCreateCategory);
 
-            if (ugCan)
-                return true;
-
-            // do role next
-
-            return false;
+            return authorized;
         }
 
         public async Task<bool> CanEditCategory(int categoryId)

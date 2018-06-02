@@ -12,22 +12,30 @@ namespace Peppermint.Core.Services
     public class UserMembershipService : EntityService
     {
         private IDataAccessor<UserEntity> _userData;
+
         private IDataAccessor<UserGroupEntity> _userGroupData;
-        private IDataAccessor<UserUserGroupEntity> _userUserGroupEntityData;
+        private IDataAccessor<UserUserGroupEntity> _userUserGroupData;
+
+        private IDataAccessor<RoleEntity> _roleData;
+        private IDataAccessor<UserRoleEntity> _userRoleData;
 
         public UserMembershipService(
             IDataAccessor<UserEntity> userData,
             IDataAccessor<UserGroupEntity> userGroupData,
-            IDataAccessor<UserUserGroupEntity> userUserGroupEntityData)
+            IDataAccessor<UserUserGroupEntity> userUserGroupData,
+            IDataAccessor<RoleEntity> roleData,
+            IDataAccessor<UserRoleEntity> userRoleData)
         {
             _userData = userData;
             _userGroupData = userGroupData;
-            _userUserGroupEntityData = userUserGroupEntityData;
+            _userUserGroupData = userUserGroupData;
+            _roleData = roleData;
+            _userRoleData = userRoleData;
         }
 
         public async Task<IEnumerable<UserEntity>> GetUsersInGroup(int userGroupId)
         {
-            var memberships = await _userUserGroupEntityData.GetMany(new List<QueryCondition>
+            var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
                 new QueryCondition(nameof(UserUserGroupEntity.UserGroupId), ConditionType.Equals, userGroupId)
             });
@@ -44,7 +52,7 @@ namespace Peppermint.Core.Services
 
         public async Task<IEnumerable<UserGroupEntity>> GetGroupsForUser(int userId)
         {
-            var memberships = await _userUserGroupEntityData.GetMany(new List<QueryCondition>
+            var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
                 new QueryCondition(nameof(UserUserGroupEntity.UserId), ConditionType.Equals, userId)
             });
@@ -57,6 +65,23 @@ namespace Peppermint.Core.Services
             });
 
             return groups;
+        }
+
+        public async Task<IEnumerable<RoleEntity>> GetRolesForUser(int userId)
+        {
+            var memberships = await _userRoleData.GetMany(new List<QueryCondition>
+            {
+                new QueryCondition(nameof(UserRoleEntity.UserId), ConditionType.Equals, userId)
+            });
+
+            var roleIds = memberships.Select(membership => membership.RoleId);
+
+            var roles = await _roleData.GetMany(new List<QueryCondition>
+            {
+                new QueryCondition(nameof(UserEntity.Id), ConditionType.In, roleIds)
+            });
+
+            return roles;
         }
     }
 }

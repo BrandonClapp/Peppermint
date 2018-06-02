@@ -9,14 +9,10 @@ namespace Peppermint.Core.Entities
     public partial class UserGroupEntity : DataEntity
     {
         private UserMembershipService _userMembershipService;
-        private UserGroupPermissionService _ugPermissionService;
 
-        public UserGroupEntity(
-            UserMembershipService userMembershipService,
-            UserGroupPermissionService ugPermissionService)
+        public UserGroupEntity(UserMembershipService userMembershipService)
         {
             _userMembershipService = userMembershipService;
-            _ugPermissionService = ugPermissionService;
         }
 
         public int Id { get; set; }
