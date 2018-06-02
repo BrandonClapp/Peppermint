@@ -25,5 +25,10 @@ namespace Peppermint.Core.Entities
         {
             return await _userMembershipService.GetGroupsForUser(Id);
         }
+
+        public async Task<IEnumerable<RoleEntity>> GetRoles()
+        {
+            return await _userMembershipService.GetRolesForUser(Id);
+        }
     }
 }
