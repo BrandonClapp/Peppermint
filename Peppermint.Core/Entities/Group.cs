@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Core.Entities
 {
-    [DataLocation("core.UserGroups")]
-    public partial class UserGroupEntity : DataEntity
+    [DataLocation("core.Groups")]
+    public partial class Group : DataEntity
     {
         private UserMembershipService _userMembershipService;
 
-        public UserGroupEntity(UserMembershipService userMembershipService)
+        public Group(UserMembershipService userMembershipService)
         {
             _userMembershipService = userMembershipService;
         }
@@ -18,7 +18,7 @@ namespace Peppermint.Core.Entities
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public async Task<IEnumerable<UserEntity>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
             var users = await _userMembershipService.GetUsersInGroup(Id);
             return users;

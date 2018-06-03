@@ -6,7 +6,7 @@ using System.Text;
 namespace Peppermint.Core.Entities
 {
     [DataLocation("core.Roles")]
-    public class RoleEntity : DataEntity
+    public class Role : DataEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

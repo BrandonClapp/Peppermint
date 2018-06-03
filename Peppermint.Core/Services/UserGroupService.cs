@@ -7,28 +7,28 @@ namespace Peppermint.Core.Services
 {
     public class UserGroupService : EntityService
     {
-        private IDataAccessor<UserGroupEntity> _groupData;
-        private IDataAccessor<UserUserGroupEntity> _userUserGroupData;
+        private IDataAccessor<Group> _groupData;
+        private IDataAccessor<UserGroup> _userGroupData;
 
         public UserGroupService(
-            IDataAccessor<UserGroupEntity> groupData,
-            IDataAccessor<UserUserGroupEntity> userUserGroupData
+            IDataAccessor<Group> groupData,
+            IDataAccessor<UserGroup> userUserGroupData
             )
         {
             _groupData = groupData;
-            _userUserGroupData = userUserGroupData;
+            _userGroupData = userUserGroupData;
         }
 
-        public async Task<IEnumerable<UserGroupEntity>> GetAllGroups()
+        public async Task<IEnumerable<Group>> GetAllGroups()
         {
             return await _groupData.GetAll();
         }
 
-        public async Task<UserGroupEntity> GetGroup(int userGroupId)
+        public async Task<Group> GetGroup(int userGroupId)
         {
             var usergroup = await _groupData.GetOne(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserGroupEntity.Id), ConditionType.Equals, userGroupId)
+                new QueryCondition(nameof(Group.Id), ConditionType.Equals, userGroupId)
             });
 
             return usergroup;

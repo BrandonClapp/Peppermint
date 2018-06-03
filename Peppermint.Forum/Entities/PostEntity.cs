@@ -29,7 +29,7 @@ namespace Peppermint.Forum.Entities
             return await _forumCategoryService.GetForumCategory(CategoryId);
         }
 
-        public async Task<UserEntity> GetUser()
+        public async Task<User> GetUser()
         {
             return await _userService.GetUser(UserId);
         }

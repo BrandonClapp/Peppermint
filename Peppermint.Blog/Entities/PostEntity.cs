@@ -20,7 +20,7 @@ namespace Peppermint.Blog.Entities
         public string Title { get; set; }
         public string Content { get; set; }
 
-        public async Task<UserEntity> GetUser()
+        public async Task<User> GetUser()
         {
             return await _userService.GetUser(UserId);
         }

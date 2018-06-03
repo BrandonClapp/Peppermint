@@ -2,8 +2,8 @@
 
 namespace Peppermint.Core.Entities
 {
-    [DataLocation("core.UserUserGroups")]
-    public partial class UserUserGroupEntity : DataEntity
+    [DataLocation("core.UserGroups")]
+    public partial class UserGroup : DataEntity
     {
         public int UserId { get; set; }
         public int UserGroupId { get; set; }

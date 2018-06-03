@@ -18,16 +18,16 @@ namespace Peppermint.Core
 
             var assembly = Assembly.GetExecutingAssembly();
 
-            services.AddTransient<IDataAccessor<UserEntity>, DataAccessor<UserEntity>>();
-            services.AddTransient<IDataAccessor<PermissionEntity>, DataAccessor<PermissionEntity>>();
+            services.AddTransient<IDataAccessor<User>, DataAccessor<User>>();
+            services.AddTransient<IDataAccessor<Permission>, DataAccessor<Permission>>();
 
-            services.AddTransient<IDataAccessor<UserGroupEntity>, DataAccessor<UserGroupEntity>>();
-            services.AddTransient<IDataAccessor<UserUserGroupEntity>, DataAccessor<UserUserGroupEntity>>();
-            services.AddTransient<IDataAccessor<UserGroupPermissionEntity>, DataAccessor<UserGroupPermissionEntity>>();
+            services.AddTransient<IDataAccessor<Group>, DataAccessor<Group>>();
+            services.AddTransient<IDataAccessor<UserGroup>, DataAccessor<UserGroup>>();
+            services.AddTransient<IDataAccessor<GroupPermission>, DataAccessor<GroupPermission>>();
 
-            services.AddTransient<IDataAccessor<RoleEntity>, DataAccessor<RoleEntity>>();
-            services.AddTransient<IDataAccessor<RolePermissionEntity>, DataAccessor<RolePermissionEntity>>();
-            services.AddTransient<IDataAccessor<UserRoleEntity>, DataAccessor<UserRoleEntity>>();
+            services.AddTransient<IDataAccessor<Role>, DataAccessor<Role>>();
+            services.AddTransient<IDataAccessor<RolePermission>, DataAccessor<RolePermission>>();
+            services.AddTransient<IDataAccessor<UserRole>, DataAccessor<UserRole>>();
 
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);

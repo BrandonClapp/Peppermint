@@ -13,11 +13,11 @@ namespace Peppermint.Blog.Services
     public class PostService : EntityService
     {
         private IDataAccessor<PostEntity> _postData;
-        private IDataAccessor<UserEntity> _userData;
+        private IDataAccessor<User> _userData;
 
         // todo: authorization
 
-        public PostService(IDataAccessor<PostEntity> postData, IDataAccessor<UserEntity> userData)
+        public PostService(IDataAccessor<PostEntity> postData, IDataAccessor<User> userData)
         {
             _postData = postData;
             _userData = userData;
@@ -41,7 +41,7 @@ namespace Peppermint.Blog.Services
         public async Task<IEnumerable<PostEntity>> GetPosts(string userName)
         {
             var user = await _userData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(UserEntity.UserName), ConditionType.Equals, userName)
+                new QueryCondition(nameof(User.UserName), ConditionType.Equals, userName)
             });
 
             var postEntities = await _postData.GetMany(new List<QueryCondition>() {

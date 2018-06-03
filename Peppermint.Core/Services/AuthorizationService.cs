@@ -12,15 +12,15 @@ namespace Peppermint.Core.Services
     public class AuthorizationService : EntityService
     {
         private UserMembershipService _userMembershipService;
-        private IDataAccessor<PermissionEntity> _permissionData;
-        private IDataAccessor<UserGroupPermissionEntity> _ugPermissionData;
-        private IDataAccessor<RolePermissionEntity> _rolePermissionData;
+        private IDataAccessor<Entities.Permission> _permissionData;
+        private IDataAccessor<GroupPermission> _ugPermissionData;
+        private IDataAccessor<RolePermission> _rolePermissionData;
 
         public AuthorizationService(
             UserMembershipService userMembershipService,
-            IDataAccessor<PermissionEntity> permissionData,
-            IDataAccessor<UserGroupPermissionEntity> ugPermissionData,
-            IDataAccessor<RolePermissionEntity> rolePermissionData
+            IDataAccessor<Entities.Permission> permissionData,
+            IDataAccessor<GroupPermission> ugPermissionData,
+            IDataAccessor<RolePermission> rolePermissionData
             )
         {
             _permissionData = permissionData;
@@ -29,12 +29,12 @@ namespace Peppermint.Core.Services
             _rolePermissionData = rolePermissionData;
         }
 
-        public async Task<bool> CanPerformAction(int userId, Permission permission, string groupEntityId = null)
+        public async Task<bool> CanPerformAction(int userId, Authorization.Permission permission, string groupEntityId = null)
         {
             var perm = await _permissionData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(PermissionEntity.Group), ConditionType.Equals, permission.PermissionGroup),
-                new QueryCondition(nameof(PermissionEntity.Permission), ConditionType.Equals, permission.Value),
-                new QueryCondition(nameof(PermissionEntity.Module), ConditionType.Equals, permission.Module)
+                new QueryCondition(nameof(Entities.Permission.Group), ConditionType.Equals, permission.PermissionGroup),
+                new QueryCondition(nameof(Entities.Permission.Name), ConditionType.Equals, permission.Value),
+                new QueryCondition(nameof(Entities.Permission.Module), ConditionType.Equals, permission.Module)
             });
 
             if (perm == null)
@@ -55,7 +55,7 @@ namespace Peppermint.Core.Services
             return false;
         }
 
-        private async Task<bool> CanRolePerformAction(int userId, PermissionEntity perm, string groupEntityId = null)
+        private async Task<bool> CanRolePerformAction(int userId, Entities.Permission perm, string groupEntityId = null)
         {
             var roles = await _userMembershipService.GetRolesForUser(userId);
 
@@ -66,8 +66,8 @@ namespace Peppermint.Core.Services
             }
 
             var roleRightEntries = await _rolePermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(RolePermissionEntity.PermissionId), ConditionType.Equals, perm.Id),
-                new QueryCondition(nameof(RolePermissionEntity.Permit), ConditionType.Equals, true)
+                new QueryCondition(nameof(RolePermission.PermissionId), ConditionType.Equals, perm.Id),
+                new QueryCondition(nameof(RolePermission.Permit), ConditionType.Equals, true)
             });
 
             if (!roleRightEntries.Any())
@@ -85,7 +85,7 @@ namespace Peppermint.Core.Services
             return inRoleWithPermissions;
         }
 
-        private async Task<bool> CanGroupPerformAction(int userId, PermissionEntity perm, string groupEntityId = null)
+        private async Task<bool> CanGroupPerformAction(int userId, Entities.Permission perm, string groupEntityId = null)
         {
             var groups = await _userMembershipService.GetGroupsForUser(userId);
 
@@ -96,8 +96,8 @@ namespace Peppermint.Core.Services
             }
 
             var groupRightEntries = await _ugPermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(UserGroupPermissionEntity.PermissionId), ConditionType.Equals, perm.Id),
-                new QueryCondition(nameof(UserGroupPermissionEntity.Permit), ConditionType.Equals, true)
+                new QueryCondition(nameof(GroupPermission.PermissionId), ConditionType.Equals, perm.Id),
+                new QueryCondition(nameof(GroupPermission.Permit), ConditionType.Equals, true)
             });
 
             if (!groupRightEntries.Any())

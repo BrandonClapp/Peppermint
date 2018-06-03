@@ -11,20 +11,20 @@ namespace Peppermint.Core.Services
     /// </summary>
     public class UserMembershipService : EntityService
     {
-        private IDataAccessor<UserEntity> _userData;
+        private IDataAccessor<User> _userData;
 
-        private IDataAccessor<UserGroupEntity> _userGroupData;
-        private IDataAccessor<UserUserGroupEntity> _userUserGroupData;
+        private IDataAccessor<Group> _userGroupData;
+        private IDataAccessor<UserGroup> _userUserGroupData;
 
-        private IDataAccessor<RoleEntity> _roleData;
-        private IDataAccessor<UserRoleEntity> _userRoleData;
+        private IDataAccessor<Role> _roleData;
+        private IDataAccessor<UserRole> _userRoleData;
 
         public UserMembershipService(
-            IDataAccessor<UserEntity> userData,
-            IDataAccessor<UserGroupEntity> userGroupData,
-            IDataAccessor<UserUserGroupEntity> userUserGroupData,
-            IDataAccessor<RoleEntity> roleData,
-            IDataAccessor<UserRoleEntity> userRoleData)
+            IDataAccessor<User> userData,
+            IDataAccessor<Group> userGroupData,
+            IDataAccessor<UserGroup> userUserGroupData,
+            IDataAccessor<Role> roleData,
+            IDataAccessor<UserRole> userRoleData)
         {
             _userData = userData;
             _userGroupData = userGroupData;
@@ -33,52 +33,52 @@ namespace Peppermint.Core.Services
             _userRoleData = userRoleData;
         }
 
-        public async Task<IEnumerable<UserEntity>> GetUsersInGroup(int userGroupId)
+        public async Task<IEnumerable<User>> GetUsersInGroup(int userGroupId)
         {
             var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserUserGroupEntity.UserGroupId), ConditionType.Equals, userGroupId)
+                new QueryCondition(nameof(UserGroup.UserGroupId), ConditionType.Equals, userGroupId)
             });
 
             var userIds = memberships.Select(membership => membership.UserId);
 
             var users = await _userData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserEntity.Id), ConditionType.In, userIds)
+                new QueryCondition(nameof(User.Id), ConditionType.In, userIds)
             });
 
             return users;
         }
 
-        public async Task<IEnumerable<UserGroupEntity>> GetGroupsForUser(int userId)
+        public async Task<IEnumerable<Group>> GetGroupsForUser(int userId)
         {
             var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserUserGroupEntity.UserId), ConditionType.Equals, userId)
+                new QueryCondition(nameof(UserGroup.UserId), ConditionType.Equals, userId)
             });
 
             var groupIds = memberships.Select(membership => membership.UserGroupId);
 
             var groups = await _userGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserEntity.Id), ConditionType.In, groupIds)
+                new QueryCondition(nameof(User.Id), ConditionType.In, groupIds)
             });
 
             return groups;
         }
 
-        public async Task<IEnumerable<RoleEntity>> GetRolesForUser(int userId)
+        public async Task<IEnumerable<Role>> GetRolesForUser(int userId)
         {
             var memberships = await _userRoleData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserRoleEntity.UserId), ConditionType.Equals, userId)
+                new QueryCondition(nameof(UserRole.UserId), ConditionType.Equals, userId)
             });
 
             var roleIds = memberships.Select(membership => membership.RoleId);
 
             var roles = await _roleData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserEntity.Id), ConditionType.In, roleIds)
+                new QueryCondition(nameof(User.Id), ConditionType.In, roleIds)
             });
 
             return roles;

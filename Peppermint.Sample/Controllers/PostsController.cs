@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Sample.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
