@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Peppermint.Blog.Entities;
 using Peppermint.Blog.Services;
 using Peppermint.Core.Entities;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Sample.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
