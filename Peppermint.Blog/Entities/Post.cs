@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 namespace Peppermint.Blog.Entities
 {
     [DataLocation("blog.Posts")]
-    public class PostEntity : DataEntity
+    public class Post : DataEntity
     {
         private UserService _userService;
 
-        public PostEntity(UserService userService)
+        public Post(UserService userService)
         {
             _userService = userService;
         }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Peppermint.Forum.Entities
 {
     [DataLocation("forum.Posts")]
-    public partial class PostEntity : DataEntity
+    public partial class Post : DataEntity
     {
         private CategoryService _forumCategoryService;
         private UserService _userService;
 
-        public PostEntity(CategoryService forumCategoryService, UserService userService)
+        public Post(CategoryService forumCategoryService, UserService userService)
         {
             _forumCategoryService = forumCategoryService;
             _userService = userService;
