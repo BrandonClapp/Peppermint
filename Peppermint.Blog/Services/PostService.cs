@@ -12,49 +12,40 @@ namespace Peppermint.Blog.Services
 {
     public class PostService : EntityService
     {
-        private IDataAccessor<Post> _postData;
-        private IDataAccessor<User> _userData;
+        private IQueryBuilder _query;
 
-        // todo: authorization
-
-        public PostService(IDataAccessor<Post> postData, IDataAccessor<User> userData)
+        public PostService(IQueryBuilder query)
         {
-            _postData = postData;
-            _userData = userData;
+            _query = query;
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            var postEntities = await _postData.GetAll();
-            return postEntities;
+            var posts = await _query.GetMany<Post>().Execute();
+            return posts;
         }
 
         public async Task<Post> GetPost(int postId)
         {
-            var postEntity = await _postData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(Post.Id), Is.EqualTo, postId)
-            });
-
-            return postEntity;
+            var post = await _query.GetOne<Post>().Where(nameof(Post.Id), Is.EqualTo, postId).Execute();
+            return post;
         }
 
         public async Task<IEnumerable<Post>> GetPosts(string userName)
         {
-            var user = await _userData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(User.UserName), Is.EqualTo, userName)
-            });
+            var user = await _query.GetOne<User>()
+                .Where(nameof(User.UserName), Is.EqualTo, userName).Execute();
 
-            var postEntities = await _postData.GetMany(new List<QueryCondition>() {
-                new QueryCondition(nameof(Post.UserId), Is.EqualTo, user.Id)
-            });
+            var posts = await _query.GetMany<Post>()
+                .Where(nameof(Post.UserId), Is.EqualTo, user.Id).Execute();
 
-            var posts = await Task.WhenAll(postEntities.Select(async p => await GetPost(p.Id)));
             return posts;
         }
 
         public async Task<Post> CreatePost(Post postEntity)
         {
             // Possibly simplify this by passing T to the data accessor and reflecting over it?
+            // todo: implement new create query builder
 
             var parameters = new List<InsertQueryParameter>() {
                 new InsertQueryParameter(nameof(Post.UserId), postEntity.UserId),
@@ -67,21 +58,24 @@ namespace Peppermint.Blog.Services
             return await GetPost(post.Id);
         }
 
-        public async Task<Post> UpdatePost(Post postEntity)
+        public async Task<Post> UpdatePost(Post post)
         {
-            var parameters = new List<UpdateQueryParameter> {
-                new UpdateQueryParameter(nameof(Post.Id), UpdateQueryParameterType.Identity, postEntity.Id),
-                new UpdateQueryParameter(nameof(Post.UserId), UpdateQueryParameterType.Value, postEntity.UserId),
-                new UpdateQueryParameter(nameof(Post.Title), UpdateQueryParameterType.Value, postEntity.Title),
-                new UpdateQueryParameter(nameof(Post.Content), UpdateQueryParameterType.Value, postEntity.Content)
-            };
+            await _query.Update<Post>()
+                .Set(nameof(Post.UserId), post.UserId)
+                .Set(nameof(Post.Title), post.Title)
+                .Set(nameof(Post.Content), post.Content)
+                .Where(nameof(Post.Id), Is.EqualTo, post.Id)
+                .Execute();
 
-            var updatedEntity = await _postData.Update(parameters);
+            var updatedEntity = await _query.GetOne<Post>()
+                .Where(nameof(Post.Id), Is.EqualTo, post.Id).Execute();
             return updatedEntity;
         }
 
         public async Task<int> DeletePost(int postId)
         {
+            // todo : implement delete in builder
+
             var conditions = new List<QueryCondition> {
                 new QueryCondition(nameof(Post.Id), Is.EqualTo, postId)
             };

@@ -23,37 +23,37 @@ namespace Peppermint.Sample.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IEnumerable<PostEntity>> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
             var posts = await _postService.GetPosts();
             return posts;
         }
 
         [HttpGet("{postId}")]
-        public async Task<PostEntity> GetPost(int postId)
+        public async Task<Post> GetPost(int postId)
         {
             var post = await _postService.GetPost(postId);
             return post;
         }
 
         [HttpGet("create")]
-        public async Task<PostEntity> CreatePost()
+        public async Task<Post> CreatePost()
         {
             dynamic entity = new ExpandoObject();
             entity.Content = "Entity content";
             entity.Title = "Title here";
             entity.UserId = 3;
 
-            var postEntity = _entityFactory.Make<PostEntity>(entity);
+            var postEntity = _entityFactory.Make<Post>(entity);
 
             var post = await _postService.CreatePost(postEntity);
             return post;
         }
 
         [HttpGet("update/{postId}/{title}")]
-        public async Task<PostEntity> UpdatePost(int postId, string title)
+        public async Task<Post> UpdatePost(int postId, string title)
         {
-            var postEntity = _entityFactory.Make<PostEntity>();
+            var postEntity = _entityFactory.Make<Post>();
             postEntity.Id = postId;
             postEntity.Title = title;
             postEntity.UserId = 2;
@@ -64,7 +64,7 @@ namespace Peppermint.Sample.Controllers
         }
 
         [HttpGet("user/{userName}")]
-        public async Task<IEnumerable<PostEntity>> GetByUserName(string userName)
+        public async Task<IEnumerable<Post>> GetByUserName(string userName)
         {
             var posts = await _postService.GetPosts(userName);
             return posts;

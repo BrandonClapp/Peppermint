@@ -21,7 +21,7 @@ namespace Peppermint.Blog
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
-            services.AddTransient<IDataAccessor<PostEntity>, DataAccessor<PostEntity>>();
+            services.AddTransient<IDataAccessor<Post>, DataAccessor<Post>>();
 
             return services;
         }

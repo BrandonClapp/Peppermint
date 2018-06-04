@@ -4,20 +4,88 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Peppermint.Core.Data
 {
-    public class Query
+    public class SqlServerQuery : IQuery
     {
         private readonly string _connString;
         private readonly EntityFactory _entityFactory;
 
-        public Query(string connString, EntityFactory entityFactory)
+        protected string _query;
+        protected bool _whereApplied;
+
+        protected Dictionary<string, object> _parameters = new Dictionary<string, Object>();
+
+        public SqlServerQuery(string connString, EntityFactory entityFactory)
         {
             _connString = connString;
             _entityFactory = entityFactory;
+        }
+
+        public void And()
+        {
+            var current = _query.TrimEnd();
+            if (!_whereApplied)
+                throw new Exception("Where condition not yet applied.");
+            else if (current.EndsWith("AND") || current.EndsWith("OR"))
+                throw new Exception("Expecting another condition or execution.");
+
+            _query += " AND ";
+        }
+
+        public void Or()
+        {
+            var current = _query.TrimEnd();
+            if (!_whereApplied)
+                throw new Exception("Where condition not yet applied.");
+            else if (current.EndsWith("AND") || current.EndsWith("OR"))
+                throw new Exception("Expecting another condition or execution.");
+
+            _query += " OR ";
+        }
+
+        public void StartGroup()
+        {
+            _query += " ( ";
+        }
+
+        public void EndGroup()
+        {
+            _query += " ) ";
+        }
+
+        public void Where(string column, Is type, object value)
+        {
+            if (!_whereApplied)
+            {
+                _query += " WHERE ";
+                _whereApplied = true;
+            }
+
+            // for chaining where's...
+            // if multiple where are chained, default to adding end before the new condition
+            var current = _query.TrimEnd();
+            if (_whereApplied && (!current.EndsWith("AND") || !current.EndsWith("OR")))
+            {
+                _query += " AND ";
+            }
+
+            if (type == Is.EqualTo)
+            {
+                _query += $"{column} = @{column}";
+            }
+            else if (type == Is.Like)
+            {
+                _query += $"{column} LIKE %@{column}%";
+            }
+            else if (type == Is.In)
+            {
+                _query += $"{column} IN @{column}";
+            }
+
+            _parameters.Add(column, value);
         }
 
         public async Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)

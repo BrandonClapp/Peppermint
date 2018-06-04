@@ -24,7 +24,7 @@ namespace Peppermint.Forum.Entities
         public string Title { get; set; }
         public string Content { get; set; }
 
-        public async Task<CategoryEntity> GetCategory()
+        public async Task<Category> GetCategory()
         {
             return await _forumCategoryService.GetForumCategory(CategoryId);
         }

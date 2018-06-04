@@ -2,7 +2,7 @@
 
 namespace Peppermint.Forum.Authorization
 {
-    public class CategoryPermission : Permission
+    public class CategoryPermission : PermissionType
     {
         public CategoryPermission(string value) : base(value) { }
 

@@ -5,7 +5,7 @@ using Peppermint.Forum.Authorization;
 namespace Peppermint.Forum.Entities
 {
     [DataLocation("forum.Categories")]
-    public class CategoryEntity : DataEntity
+    public class Category : DataEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

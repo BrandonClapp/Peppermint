@@ -1,4 +1,5 @@
 ﻿using Peppermint.Core.Data;
+using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,75 +12,48 @@ namespace Peppermint.Core.Services
     /// </summary>
     public class UserMembershipService : EntityService
     {
-        private IDataAccessor<User> _userData;
+        private IQueryBuilder _query;
 
-        private IDataAccessor<Group> _userGroupData;
-        private IDataAccessor<UserGroup> _userUserGroupData;
-
-        private IDataAccessor<Role> _roleData;
-        private IDataAccessor<UserRole> _userRoleData;
-
-        public UserMembershipService(
-            IDataAccessor<User> userData,
-            IDataAccessor<Group> userGroupData,
-            IDataAccessor<UserGroup> userUserGroupData,
-            IDataAccessor<Role> roleData,
-            IDataAccessor<UserRole> userRoleData)
+        public UserMembershipService(IQueryBuilder query)
         {
-            _userData = userData;
-            _userGroupData = userGroupData;
-            _userUserGroupData = userUserGroupData;
-            _roleData = roleData;
-            _userRoleData = userRoleData;
+            _query = query;
         }
 
         public async Task<IEnumerable<User>> GetUsersInGroup(int userGroupId)
         {
-            var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(UserGroup.UserGroupId), Is.EqualTo, userGroupId)
-            });
+            var memberships = await _query.GetMany<UserGroup>()
+                .Where(nameof(UserGroup.UserGroupId), Is.EqualTo, userGroupId).Execute();
 
             var userIds = memberships.Select(membership => membership.UserId);
 
-            var users = await _userData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(User.Id), Is.In, userIds)
-            });
+            var users = await _query.GetMany<User>()
+                .Where(nameof(User.Id), Is.In, userIds).Execute();
 
             return users;
         }
 
         public async Task<IEnumerable<Group>> GetGroupsForUser(int userId)
         {
-            var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(UserGroup.UserId), Is.EqualTo, userId)
-            });
+            var memberships = await _query.GetMany<UserGroup>()
+                .Where(nameof(UserGroup.UserId), Is.EqualTo, userId).Execute();
 
             var groupIds = memberships.Select(membership => membership.UserGroupId);
 
-            var groups = await _userGroupData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(User.Id), Is.In, groupIds)
-            });
+            var groups = await _query.GetMany<Group>()
+                .Where(nameof(User.Id), Is.In, groupIds).Execute();
 
             return groups;
         }
 
         public async Task<IEnumerable<Role>> GetRolesForUser(int userId)
         {
-            var memberships = await _userRoleData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(UserRole.UserId), Is.EqualTo, userId)
-            });
+            var memberships = await _query.GetMany<UserRole>()
+                .Where(nameof(UserRole.UserId), Is.EqualTo, userId).Execute();
 
             var roleIds = memberships.Select(membership => membership.RoleId);
 
-            var roles = await _roleData.GetMany(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(User.Id), Is.In, roleIds)
-            });
+            var roles = await _query.GetMany<Role>()
+                .Where(nameof(User.Id), Is.In, roleIds).Execute();
 
             return roles;
         }

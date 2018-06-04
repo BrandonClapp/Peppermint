@@ -9,30 +9,24 @@ namespace Peppermint.Forum.Services
 {
     public class PostService : EntityService
     {
-        private IDataAccessor<Post> _forumPostData;
-        public PostService(IDataAccessor<Post> forumPostData)
+        private IQueryBuilder _query;
+        public PostService(IQueryBuilder query)
         {
-            _forumPostData = forumPostData;
+            _query = query;
         }
 
         public async Task<IEnumerable<Post>> GetAllForumPosts()
         {
-            var forumPosts = await _forumPostData.GetAll();
-            return forumPosts;
+            var posts = await _query.GetMany<Post>().Execute();
+            return posts;
         }
 
         public async Task<Post> GetForumPost(int postId)
         {
-            QueryBuilder.DefineQuery().Get<Post>(SelectCount.One)
-                .Where(nameof(Post.Id), Is.EqualTo, postId).BuildAndExecute();
+            var post = await _query.GetOne<Post>()
+                .Where(nameof(Post.Id), Is.EqualTo, postId).Execute();
 
-            //_forumPostData.GetOne().Where(nameof(Post.Id), Is.EqualTo, postId).Execute();
-            var forumPost = await _forumPostData.GetOne(new List<QueryCondition>
-            {
-                new QueryCondition(nameof(Post.Id), Is.EqualTo, postId)
-            });
-
-            return forumPost;
+            return post;
         }
     }
 }

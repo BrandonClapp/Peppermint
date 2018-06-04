@@ -3,19 +3,18 @@ using Peppermint.Core.Services;
 using Peppermint.Forum.Authorization;
 using Peppermint.Forum.Entities;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Peppermint.Forum.Services
 {
     public class CategoryService : EntityService
     {
-        private readonly IDataAccessor<Category> _forumCategoryData;
+        private readonly IQueryBuilder _query;
         private CategoryAuthorizationService _catAuth;
 
-        public CategoryService(IDataAccessor<Category> forumCategoryData, CategoryAuthorizationService catAuth)
+        public CategoryService(IQueryBuilder query, CategoryAuthorizationService catAuth)
         {
-            _forumCategoryData = forumCategoryData;
+            _query = query;
             _catAuth = catAuth;
         }
 
@@ -26,18 +25,18 @@ namespace Peppermint.Forum.Services
             if (!canView)
                 throw new Exception("Unauthorized.");
 
-            var category = await _forumCategoryData.GetOne(new List<QueryCondition> {
-                new QueryCondition(nameof(Category.Id), Is.EqualTo, id)
-            });
+            var category = await _query.GetOne<Category>()
+                .Where(nameof(Category.Id), Is.EqualTo, id).Execute();
 
             return category;
         }
 
         public async Task<Category> GetForumCategory(string name)
         {
-            var category = await _forumCategoryData.GetOne(new List<QueryCondition> {
-                new QueryCondition(nameof(Category.Name), Is.EqualTo, name)
-            });
+            var category = await _query.GetOne<Category>()
+                .Where(nameof(Category.Name), Is.EqualTo, name).Execute();
+
+            // ensure not null
 
             var canView = await _catAuth.CanViewCategory(category.Id);
 

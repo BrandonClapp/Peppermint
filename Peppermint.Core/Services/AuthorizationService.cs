@@ -12,30 +12,22 @@ namespace Peppermint.Core.Services
     public class AuthorizationService : EntityService
     {
         private UserMembershipService _userMembershipService;
-        private IDataAccessor<Entities.Permission> _permissionData;
-        private IDataAccessor<GroupPermission> _ugPermissionData;
-        private IDataAccessor<RolePermission> _rolePermissionData;
+        private readonly IQueryBuilder _query;
 
         public AuthorizationService(
-            UserMembershipService userMembershipService,
-            IDataAccessor<Entities.Permission> permissionData,
-            IDataAccessor<GroupPermission> ugPermissionData,
-            IDataAccessor<RolePermission> rolePermissionData
-            )
+            UserMembershipService userMembershipService, IQueryBuilder query)
         {
-            _permissionData = permissionData;
             _userMembershipService = userMembershipService;
-            _ugPermissionData = ugPermissionData;
-            _rolePermissionData = rolePermissionData;
+            _query = query;
         }
 
-        public async Task<bool> CanPerformAction(int userId, Authorization.Permission permission, string groupEntityId = null)
+        public async Task<bool> CanPerformAction(int userId, PermissionType permission, string groupEntityId = null)
         {
-            var perm = await _permissionData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(Entities.Permission.Group), Is.EqualTo, permission.PermissionGroup),
-                new QueryCondition(nameof(Entities.Permission.Name), Is.EqualTo, permission.Value),
-                new QueryCondition(nameof(Entities.Permission.Module), Is.EqualTo, permission.Module)
-            });
+            var perm = await _query.GetOne<Permission>()
+                .Where(nameof(Permission.Group), Is.EqualTo, permission.PermissionGroup)
+                .And().Where(nameof(Permission.Name), Is.EqualTo, permission.Value)
+                .And().Where(nameof(Permission.Module), Is.EqualTo, permission.Module)
+                .Execute();
 
             if (perm == null)
                 return false;
@@ -55,7 +47,7 @@ namespace Peppermint.Core.Services
             return false;
         }
 
-        private async Task<bool> CanRolePerformAction(int userId, Entities.Permission perm, string groupEntityId = null)
+        private async Task<bool> CanRolePerformAction(int userId, Permission perm, string groupEntityId = null)
         {
             var roles = await _userMembershipService.GetRolesForUser(userId);
 
@@ -65,10 +57,10 @@ namespace Peppermint.Core.Services
                 return true;
             }
 
-            var roleRightEntries = await _rolePermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(RolePermission.PermissionId), Is.EqualTo, perm.Id),
-                new QueryCondition(nameof(RolePermission.Permit), Is.EqualTo, true)
-            });
+            var roleRightEntries = await _query.GetMany<RolePermission>()
+                .Where(nameof(RolePermission.PermissionId), Is.EqualTo, perm.Id)
+                .Where(nameof(RolePermission.Permit), Is.EqualTo, true)
+                .Execute();
 
             if (!roleRightEntries.Any())
             {
@@ -95,10 +87,10 @@ namespace Peppermint.Core.Services
                 return true;
             }
 
-            var groupRightEntries = await _ugPermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(GroupPermission.PermissionId), Is.EqualTo, perm.Id),
-                new QueryCondition(nameof(GroupPermission.Permit), Is.EqualTo, true)
-            });
+            var groupRightEntries = await _query.GetMany<GroupPermission>()
+                .Where(nameof(GroupPermission.PermissionId), Is.EqualTo, perm.Id)
+                .And().Where(nameof(GroupPermission.Permit), Is.EqualTo, true)
+                .Execute();
 
             if (!groupRightEntries.Any())
             {
