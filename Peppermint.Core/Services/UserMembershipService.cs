@@ -37,14 +37,14 @@ namespace Peppermint.Core.Services
         {
             var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserGroup.UserGroupId), ConditionType.Equals, userGroupId)
+                new QueryCondition(nameof(UserGroup.UserGroupId), Is.EqualTo, userGroupId)
             });
 
             var userIds = memberships.Select(membership => membership.UserId);
 
             var users = await _userData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(User.Id), ConditionType.In, userIds)
+                new QueryCondition(nameof(User.Id), Is.In, userIds)
             });
 
             return users;
@@ -54,14 +54,14 @@ namespace Peppermint.Core.Services
         {
             var memberships = await _userUserGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserGroup.UserId), ConditionType.Equals, userId)
+                new QueryCondition(nameof(UserGroup.UserId), Is.EqualTo, userId)
             });
 
             var groupIds = memberships.Select(membership => membership.UserGroupId);
 
             var groups = await _userGroupData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(User.Id), ConditionType.In, groupIds)
+                new QueryCondition(nameof(User.Id), Is.In, groupIds)
             });
 
             return groups;
@@ -71,14 +71,14 @@ namespace Peppermint.Core.Services
         {
             var memberships = await _userRoleData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(UserRole.UserId), ConditionType.Equals, userId)
+                new QueryCondition(nameof(UserRole.UserId), Is.EqualTo, userId)
             });
 
             var roleIds = memberships.Select(membership => membership.RoleId);
 
             var roles = await _roleData.GetMany(new List<QueryCondition>
             {
-                new QueryCondition(nameof(User.Id), ConditionType.In, roleIds)
+                new QueryCondition(nameof(User.Id), Is.In, roleIds)
             });
 
             return roles;

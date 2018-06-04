@@ -28,7 +28,7 @@ namespace Peppermint.Core.Services
         {
             var usergroup = await _groupData.GetOne(new List<QueryCondition>
             {
-                new QueryCondition(nameof(Group.Id), ConditionType.Equals, userGroupId)
+                new QueryCondition(nameof(Group.Id), Is.EqualTo, userGroupId)
             });
 
             return usergroup;

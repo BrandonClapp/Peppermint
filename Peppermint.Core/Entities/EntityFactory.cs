@@ -15,16 +15,16 @@ namespace Peppermint.Core.Entities
             _container = container;
         }
 
-        public T Make<T>() where T : DataEntity
+        public T Make<T>()
         {
             T shell = _container.GetService<T>();
             return shell;
         }
 
-        public T Make<T>(dynamic sourceItem) where T : DataEntity
+        public T Make<T>(dynamic sourceItem)
         {
             if (sourceItem == null)
-                return null;
+                return default(T);
 
             T shell = _container.GetService<T>();
             var copied = CopyProperties<T>(sourceItem, shell);

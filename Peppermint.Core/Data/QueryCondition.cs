@@ -1,8 +1,8 @@
 ﻿namespace Peppermint.Core.Data
 {
-    public enum ConditionType
+    public enum Is
     {
-        Equals,
+        EqualTo,
         Like,
         In
     }
@@ -10,28 +10,28 @@
     public class QueryCondition
     {
         // can possibly delete 2 of these and only use object ctor
-        public QueryCondition(string key, ConditionType type, string value)
+        public QueryCondition(string key, Is type, string value)
         {
             Type = type;
             Key = key;
             Value = value;
         }
 
-        public QueryCondition(string key, ConditionType type, int value)
+        public QueryCondition(string key, Is type, int value)
         {
             Type = type;
             Key = key;
             Value = value;
         }
 
-        public QueryCondition(string key, ConditionType type, object value)
+        public QueryCondition(string key, Is type, object value)
         {
             Type = type;
             Key = key;
             Value = value;
         }
 
-        public ConditionType Type { get; set; }
+        public Is Type { get; set; }
         public string Key { get; set; }
         public object Value { get; set; }
     }

@@ -13,15 +13,15 @@ namespace Peppermint.Core.Data.SqlServer
 
             foreach (var filter in filters)
             {
-                if (filter.Type == ConditionType.Equals)
+                if (filter.Type == Is.EqualTo)
                 {
                     conditions.Add($"{filter.Key} = @{filter.Key}");
                 }
-                else if (filter.Type == ConditionType.Like)
+                else if (filter.Type == Is.Like)
                 {
                     conditions.Add($"{filter.Key} LIKE %@{filter.Key}%");
                 }
-                else if (filter.Type == ConditionType.In)
+                else if (filter.Type == Is.In)
                 {
                     conditions.Add($"{filter.Key} IN @{filter.Key}");
                 }
@@ -41,7 +41,7 @@ namespace Peppermint.Core.Data.SqlServer
             {
                 if (param.Type == UpdateQueryParameterType.Identity)
                 {
-                    var condition = new QueryCondition(param.Key, ConditionType.Equals, param.Value);
+                    var condition = new QueryCondition(param.Key, Is.EqualTo, param.Value);
                     conditions.Add(condition);
                 }
             }

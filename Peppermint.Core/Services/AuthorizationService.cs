@@ -32,9 +32,9 @@ namespace Peppermint.Core.Services
         public async Task<bool> CanPerformAction(int userId, Authorization.Permission permission, string groupEntityId = null)
         {
             var perm = await _permissionData.GetOne(new List<QueryCondition>() {
-                new QueryCondition(nameof(Entities.Permission.Group), ConditionType.Equals, permission.PermissionGroup),
-                new QueryCondition(nameof(Entities.Permission.Name), ConditionType.Equals, permission.Value),
-                new QueryCondition(nameof(Entities.Permission.Module), ConditionType.Equals, permission.Module)
+                new QueryCondition(nameof(Entities.Permission.Group), Is.EqualTo, permission.PermissionGroup),
+                new QueryCondition(nameof(Entities.Permission.Name), Is.EqualTo, permission.Value),
+                new QueryCondition(nameof(Entities.Permission.Module), Is.EqualTo, permission.Module)
             });
 
             if (perm == null)
@@ -66,8 +66,8 @@ namespace Peppermint.Core.Services
             }
 
             var roleRightEntries = await _rolePermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(RolePermission.PermissionId), ConditionType.Equals, perm.Id),
-                new QueryCondition(nameof(RolePermission.Permit), ConditionType.Equals, true)
+                new QueryCondition(nameof(RolePermission.PermissionId), Is.EqualTo, perm.Id),
+                new QueryCondition(nameof(RolePermission.Permit), Is.EqualTo, true)
             });
 
             if (!roleRightEntries.Any())
@@ -96,8 +96,8 @@ namespace Peppermint.Core.Services
             }
 
             var groupRightEntries = await _ugPermissionData.GetMany(new List<QueryCondition> {
-                new QueryCondition(nameof(GroupPermission.PermissionId), ConditionType.Equals, perm.Id),
-                new QueryCondition(nameof(GroupPermission.Permit), ConditionType.Equals, true)
+                new QueryCondition(nameof(GroupPermission.PermissionId), Is.EqualTo, perm.Id),
+                new QueryCondition(nameof(GroupPermission.Permit), Is.EqualTo, true)
             });
 
             if (!groupRightEntries.Any())

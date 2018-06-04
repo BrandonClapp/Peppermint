@@ -57,7 +57,7 @@ namespace Peppermint.Core.Data.SqlServer
 
             // Convention: Primary key is always Id. Can make configurable later if needed.
             var conditions = new List<QueryCondition> {
-                new QueryCondition("Id", ConditionType.Equals, addedId)
+                new QueryCondition("Id", Is.EqualTo, addedId)
             };
 
             var added = await GetOne(conditions);
@@ -93,6 +93,7 @@ namespace Peppermint.Core.Data.SqlServer
 
             return deletedId;
         }
+
 
     }
 }

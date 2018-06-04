@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Peppermint.Core.Data
+﻿namespace Peppermint.Core.Data
 {
     public enum UpdateQueryParameterType
     {
@@ -12,19 +8,19 @@ namespace Peppermint.Core.Data
 
     public class UpdateQueryParameter
     {
-        public UpdateQueryParameter(string key, UpdateQueryParameterType type, string value)
-        {
-            Type = type;
-            Key = key;
-            Value = value;
-        }
+        //public UpdateQueryParameter(string key, UpdateQueryParameterType type, string value)
+        //{
+        //    Type = type;
+        //    Key = key;
+        //    Value = value;
+        //}
 
-        public UpdateQueryParameter(string key, UpdateQueryParameterType type, int value)
-        {
-            Type = type;
-            Key = key;
-            Value = value;
-        }
+        //public UpdateQueryParameter(string key, UpdateQueryParameterType type, int value)
+        //{
+        //    Type = type;
+        //    Key = key;
+        //    Value = value;
+        //}
 
         public UpdateQueryParameter(string key, UpdateQueryParameterType type, object value)
         {

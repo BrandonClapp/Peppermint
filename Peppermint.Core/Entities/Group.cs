@@ -1,5 +1,4 @@
-﻿using Peppermint.Core.Data;
-using Peppermint.Core.Services;
+﻿using Peppermint.Core.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
