@@ -5,11 +5,10 @@ namespace Peppermint.Core.Data
 {
     public class SelectOneQuery<T> : SqlServerQuery, ISelectOneQuery<T>
     {
-        public SelectOneQuery(string connString, EntityFactory entityFactory) : base(connString, entityFactory)
+        public SelectOneQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
+            : base(connString, entityFactory, dataLocationCache)
         {
-            var schema = "core";
-            var table = "users";
-            _query = $"SELECT TOP 1 * FROM {schema}.{table}";
+            _query = $"SELECT TOP 1 * FROM [DATALOCATION]";
         }
 
         public new ISelectOneQuery<T> Where(string column, Is type, object value)
@@ -44,6 +43,7 @@ namespace Peppermint.Core.Data
 
         public async Task<T> Execute()
         {
+            FillDataLocation<T>();
             return await GetFirstOrDefault<T>(_query, _parameters);
         }
 

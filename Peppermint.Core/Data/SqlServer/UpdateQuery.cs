@@ -11,11 +11,10 @@ namespace Peppermint.Core.Data
         protected bool _setApplied;
         protected List<string> _sets;
 
-        public UpdateQuery(string connString, EntityFactory entityFactory) : base(connString, entityFactory)
+        public UpdateQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache) 
+            : base(connString, entityFactory, dataLocationCache)
         {
-            var schema = "core";
-            var table = "Users";
-            _query = $"UPDATE {schema}.{table}";
+            _query = $"UPDATE [DATALOCATION]";
         }
 
         public IUpdateQuery<T> Set(string property, object value)
@@ -46,6 +45,7 @@ namespace Peppermint.Core.Data
 
         private string Build()
         {
+            FillDataLocation<T>();
             var setValues = string.Join(", ", _sets);
             _query = _query.Replace("[SET]", setValues);
 

@@ -9,11 +9,10 @@ namespace Peppermint.Core.Data.SqlServer
     {
         private List<string> _columns = new List<string>();
 
-        public InsertQuery(string connString, EntityFactory entityFactory) : base(connString, entityFactory)
+        public InsertQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
+            : base(connString, entityFactory, dataLocationCache)
         {
-            var schema = "core";
-            var table = "Users";
-            _query = $"INSERT INTO {schema}.{table} ([COLUMNS]) VALUES ([VALUES])";
+            _query = $"INSERT INTO [DATALOCATION] ([COLUMNS]) VALUES ([VALUES])";
         }
 
         public IInsertQuery<T> Value(string column, object value)
@@ -46,6 +45,7 @@ namespace Peppermint.Core.Data.SqlServer
 
         private string Build()
         {
+            FillDataLocation<T>();
             var columns = string.Join(", ", _columns);
             var values = string.Join(", ", _columns.Select(c => $"@{c}"));
             var query = _query.Replace("[COLUMNS]", columns).Replace("[VALUES]", values);

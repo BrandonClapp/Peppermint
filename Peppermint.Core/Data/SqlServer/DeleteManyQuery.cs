@@ -5,11 +5,10 @@ namespace Peppermint.Core.Data.SqlServer
 {
     public class DeleteManyQuery<T> : SqlServerQuery, IDeleteManyQuery<T>
     {
-        public DeleteManyQuery(string connString, EntityFactory entityFactory) : base(connString, entityFactory)
+        public DeleteManyQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache) 
+            : base(connString, entityFactory, dataLocationCache)
         {
-            var schema = "core";
-            var table = "Users";
-            _query = $"DELETE FROM {schema}.{table}";
+            _query = $"DELETE FROM [DATALOCATION]";
         }
 
         public new IDeleteManyQuery<T> Where(string column, Is comparison, object value)
@@ -20,6 +19,7 @@ namespace Peppermint.Core.Data.SqlServer
 
         public async Task Execute()
         {
+            FillDataLocation<T>();
             await DeleteItems(_query, _parameters);
         }
     }

@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace Peppermint.Sample.Controllers
 {
     [Route("api/[controller]")]
-    public class UserGroupsController : Controller
+    public class GroupsController : Controller
     {
-        private UserGroupService _userGroupsService;
+        private GroupService _groupService;
 
-        public UserGroupsController(UserGroupService userGroupsService)
+        public GroupsController(GroupService groupService)
         {
-            _userGroupsService = userGroupsService;
+            _groupService = groupService;
         }
 
         [HttpGet("")]
         public async Task<IEnumerable<dynamic>> GetGroups()
         {
 
-            var groups = await _userGroupsService.GetAllGroups();
+            var groups = await _groupService.GetAllGroups();
             var groupDetails = new List<dynamic>();
 
             foreach (var group in groups)
@@ -40,9 +40,9 @@ namespace Peppermint.Sample.Controllers
         }
 
         [HttpGet("{groupId}")]
-        public async Task<dynamic> GetGroupo(int groupId)
+        public async Task<dynamic> GetGroup(int groupId)
         {
-            var group = await _userGroupsService.GetGroup(groupId);
+            var group = await _groupService.GetGroup(groupId);
 
             if (group == null)
                 return null;

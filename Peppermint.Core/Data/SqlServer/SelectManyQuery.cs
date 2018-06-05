@@ -7,11 +7,10 @@ namespace Peppermint.Core.Data
 {
     public class SelectManyQuery<T> : SqlServerQuery, ISelectManyQuery<T>
     {
-        public SelectManyQuery(string connString, EntityFactory entityFactory) : base(connString, entityFactory)
+        public SelectManyQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
+            : base(connString, entityFactory, dataLocationCache)
         {
-            var schema = "core";
-            var table = "Users";
-            _query = $"SELECT * FROM {schema}.{table}";
+            _query = $"SELECT * FROM [DATALOCATION]";
         }
 
         public new ISelectManyQuery<T> Where(string column, Is type, object value)
@@ -46,6 +45,7 @@ namespace Peppermint.Core.Data
 
         public async Task<IEnumerable<T>> Execute()
         {
+            FillDataLocation<T>();
             return await GetMany<T>(_query, _parameters);
         }
     }

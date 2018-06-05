@@ -20,10 +20,12 @@ namespace Peppermint.Core
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             services.AddSingleton<EntityFactory>((fac) => new EntityFactory(fac));
+            services.AddSingleton<IDataLocationCache, DefaultDataLocationCache>();
 
             services.AddSingleton<IQueryBuilder, SqlServerQueryBuilder>(fac => {
                 var entityFactory = fac.GetService<EntityFactory>();
-                return new SqlServerQueryBuilder(connectionString, entityFactory);
+                var dataLocationCache = fac.GetService<IDataLocationCache>();
+                return new SqlServerQueryBuilder(connectionString, entityFactory, dataLocationCache);
             });
 
             return services;
@@ -51,33 +53,9 @@ namespace Peppermint.Core
                 {
                     services.AddSingleton(type);
                 }
-
-                var dataLocation = GetDataLocation(type);
-                EntityTableMap.Register(type, dataLocation);
             }
         }
 
-        private static string GetDataLocation(Type type)
-        {
-            DataLocation attr;
-
-            try
-            {
-                attr = type.GetCustomAttribute<DataLocation>();
-            }
-            catch (AmbiguousMatchException ex)
-            {
-                throw new AmbiguousMatchException("More than one DataLocation attribute was found.", ex);
-            }
-
-            if (attr == null)
-            {
-                throw new MissingExpectedAttributeException(nameof(DataLocation));
-            }
-
-            var location = attr.GetLocation();
-            return location;
-        }
 
         public static void RegisterServices<TBase>(Assembly assembly, IServiceCollection services, LifeStyle lifeStyle)
             where TBase : EntityService

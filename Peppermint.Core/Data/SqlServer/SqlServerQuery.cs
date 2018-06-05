@@ -12,16 +12,18 @@ namespace Peppermint.Core.Data
     {
         private readonly string _connString;
         private readonly EntityFactory _entityFactory;
+        private readonly IDataLocationCache _dataLocationCache;
 
         protected string _query;
         protected bool _whereApplied;
 
         protected Dictionary<string, object> _parameters = new Dictionary<string, Object>();
 
-        public SqlServerQuery(string connString, EntityFactory entityFactory)
+        public SqlServerQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
         {
             _connString = connString;
             _entityFactory = entityFactory;
+            _dataLocationCache = dataLocationCache;
         }
 
         protected void And()
@@ -90,6 +92,12 @@ namespace Peppermint.Core.Data
             }
 
             _parameters.Add(column, value);
+        }
+
+        protected void FillDataLocation<T>()
+        {
+            var dataLocation = _dataLocationCache.GetLocation<T>();
+            _query = _query.Replace("[DATALOCATION]", dataLocation);
         }
 
         protected async Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)

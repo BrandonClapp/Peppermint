@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Core.Services
 {
-    public class UserGroupService : EntityService
+    public class GroupService : EntityService
     {
-        public UserGroupService(IQueryBuilder query) : base(query)
+        public GroupService(IQueryBuilder query) : base(query)
         {
         }
 
