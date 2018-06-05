@@ -6,5 +6,6 @@ namespace Peppermint.Core.Data
     {
         Task<int> Execute();
         IInsertQuery<T> Value(string column, object value);
+        IInsertQuery<T> Values(T item, params string[] identities);
     }
 }

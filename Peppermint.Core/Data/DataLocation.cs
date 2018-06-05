@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Peppermint.Core.Entities
+namespace Peppermint.Core.Data
 {
     public class DataLocation : Attribute
     {

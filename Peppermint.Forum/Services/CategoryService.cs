@@ -9,10 +9,10 @@ namespace Peppermint.Forum.Services
 {
     public class CategoryService : EntityService
     {
-        private readonly IQueryBuilder _query;
         private CategoryAuthorizationService _catAuth;
 
         public CategoryService(IQueryBuilder query, CategoryAuthorizationService catAuth)
+            : base (query)
         {
             _query = query;
             _catAuth = catAuth;

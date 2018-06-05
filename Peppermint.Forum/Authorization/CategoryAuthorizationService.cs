@@ -1,4 +1,5 @@
-﻿using Peppermint.Core.Services;
+﻿using Peppermint.Core.Data;
+using Peppermint.Core.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace Peppermint.Forum.Authorization
     {
         private AuthorizationService _authorizationService;
 
-        public CategoryAuthorizationService(AuthorizationService authorizationService)
+        public CategoryAuthorizationService(IQueryBuilder query, AuthorizationService authorizationService)
+            : base(query)
         {
             _authorizationService = authorizationService;
         }

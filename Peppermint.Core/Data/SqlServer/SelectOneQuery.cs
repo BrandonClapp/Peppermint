@@ -42,9 +42,9 @@ namespace Peppermint.Core.Data
             return this;
         }
 
-        public async Task<T> Execute(object parameters = null)
+        public async Task<T> Execute()
         {
-            return await GetFirstOrDefault<T>(_query, parameters);
+            return await GetFirstOrDefault<T>(_query, _parameters);
         }
 
     }

@@ -58,16 +58,20 @@ namespace Peppermint.Core.Data
 
         protected void Where(string column, Is type, object value)
         {
+            var current = _query.TrimEnd();
+
+            var whereJustApplied = false;
             if (!_whereApplied)
             {
                 _query += " WHERE ";
                 _whereApplied = true;
+                whereJustApplied = true;
             }
 
             // for chaining where's...
             // if multiple where are chained, default to adding end before the new condition
-            var current = _query.TrimEnd();
-            if (_whereApplied && (!current.EndsWith("AND") || !current.EndsWith("OR")))
+            
+            if (!whereJustApplied && (!current.EndsWith("AND") || !current.EndsWith("OR")))
             {
                 _query += " AND ";
             }
@@ -153,6 +157,16 @@ namespace Peppermint.Core.Data
         }
 
         protected async Task UpdateItem(string query, object parameters)
+        {
+            await Execute(query, parameters);
+        }
+
+        protected async Task DeleteItems(string query, object parameters)
+        {
+            await Execute(query, parameters);
+        }
+
+        private async Task Execute(string query, object parameters)
         {
             await BootstrapCommand<int>(async (conn, trans) =>
             {

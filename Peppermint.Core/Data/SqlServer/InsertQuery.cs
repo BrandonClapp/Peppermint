@@ -23,6 +23,21 @@ namespace Peppermint.Core.Data.SqlServer
             return this;
         }
 
+        public IInsertQuery<T> Values(T item, params string[] identities)
+        {
+            var propType = typeof(T);
+            foreach (var prop in propType.GetProperties())
+            {
+                if (identities.Contains(prop.Name))
+                    continue;
+
+                var value = prop.GetValue(item);
+                Value(prop.Name, value);
+            }
+
+            return this;
+        }
+
         public async Task<int> Execute()
         {
             var query = Build();
@@ -36,5 +51,7 @@ namespace Peppermint.Core.Data.SqlServer
             var query = _query.Replace("[COLUMNS]", columns).Replace("[VALUES]", values);
             return query;
         }
+
+        
     }
 }

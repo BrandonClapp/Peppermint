@@ -1,5 +1,4 @@
 ﻿using Peppermint.Core.Data;
-using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Entities;
 using System.Collections.Generic;
 using System.Linq;

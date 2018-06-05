@@ -44,9 +44,9 @@ namespace Peppermint.Core.Data
             return this;
         }
 
-        public async Task<IEnumerable<T>> Execute(object parameters = null)
+        public async Task<IEnumerable<T>> Execute()
         {
-            return await GetMany<T>(_query, parameters);
+            return await GetMany<T>(_query, _parameters);
         }
     }
 }

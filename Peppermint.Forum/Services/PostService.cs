@@ -1,5 +1,4 @@
 ﻿using Peppermint.Core.Data;
-using Peppermint.Core.Data.SqlServer;
 using Peppermint.Core.Services;
 using Peppermint.Forum.Entities;
 using System.Collections.Generic;
@@ -9,8 +8,7 @@ namespace Peppermint.Forum.Services
 {
     public class PostService : EntityService
     {
-        private IQueryBuilder _query;
-        public PostService(IQueryBuilder query)
+        public PostService(IQueryBuilder query) : base (query)
         {
             _query = query;
         }

@@ -1,10 +1,7 @@
 ﻿using Peppermint.Core.Authorization;
 using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Peppermint.Core.Services
@@ -13,7 +10,7 @@ namespace Peppermint.Core.Services
     {
         private UserMembershipService _userMembershipService;
 
-        public AuthorizationService(UserMembershipService userMembershipService, IQueryBuilder query)
+        public AuthorizationService(IQueryBuilder query, UserMembershipService userMembershipService)
             : base(query)
         {
             _userMembershipService = userMembershipService;

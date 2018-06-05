@@ -14,25 +14,17 @@ namespace Peppermint.Core
     {
         public static IServiceCollection AddPeppermint(this IServiceCollection services, string connectionString)
         {
-            services.AddTransient(fac => new SqlServerDataAbstraction(connectionString, fac.GetService<EntityFactory>()));
-
             var assembly = Assembly.GetExecutingAssembly();
-
-            services.AddTransient<IDataAccessor<User>, DataAccessor<User>>();
-            services.AddTransient<IDataAccessor<Permission>, DataAccessor<Permission>>();
-
-            services.AddTransient<IDataAccessor<Group>, DataAccessor<Group>>();
-            services.AddTransient<IDataAccessor<UserGroup>, DataAccessor<UserGroup>>();
-            services.AddTransient<IDataAccessor<GroupPermission>, DataAccessor<GroupPermission>>();
-
-            services.AddTransient<IDataAccessor<Role>, DataAccessor<Role>>();
-            services.AddTransient<IDataAccessor<RolePermission>, DataAccessor<RolePermission>>();
-            services.AddTransient<IDataAccessor<UserRole>, DataAccessor<UserRole>>();
 
             RegisterServices<EntityService>(assembly, services, LifeStyle.Transient);
             RegisterEntities<DataEntity>(assembly, services, LifeStyle.Transient);
 
             services.AddSingleton<EntityFactory>((fac) => new EntityFactory(fac));
+
+            services.AddSingleton<IQueryBuilder, SqlServerQueryBuilder>(fac => {
+                var entityFactory = fac.GetService<EntityFactory>();
+                return new SqlServerQueryBuilder(connectionString, entityFactory);
+            });
 
             return services;
         }

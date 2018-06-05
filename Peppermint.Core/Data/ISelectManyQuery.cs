@@ -7,7 +7,7 @@ namespace Peppermint.Core.Data
     {
         ISelectManyQuery<T> And();
         ISelectManyQuery<T> EndGroup();
-        Task<IEnumerable<T>> Execute(object parameters = null);
+        Task<IEnumerable<T>> Execute();
         ISelectManyQuery<T> Or();
         ISelectManyQuery<T> StartGroup();
         ISelectManyQuery<T> Where(string column, Is type, object value);
