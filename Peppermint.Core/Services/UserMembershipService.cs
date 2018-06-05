@@ -12,9 +12,7 @@ namespace Peppermint.Core.Services
     /// </summary>
     public class UserMembershipService : EntityService
     {
-        private IQueryBuilder _query;
-
-        public UserMembershipService(IQueryBuilder query)
+        public UserMembershipService(IQueryBuilder query) : base(query)
         {
             _query = query;
         }

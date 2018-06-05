@@ -8,10 +8,8 @@ namespace Peppermint.Core.Services
 {
     public class UserService : EntityService
     {
-        private IQueryBuilder _query;
-        public UserService(IQueryBuilder query)
+        public UserService(IQueryBuilder query) : base(query)
         {
-            _query = query;
         }
 
         public async Task<IEnumerable<User>> GetUsers()

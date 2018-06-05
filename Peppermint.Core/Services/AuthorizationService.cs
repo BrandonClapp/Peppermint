@@ -12,21 +12,19 @@ namespace Peppermint.Core.Services
     public class AuthorizationService : EntityService
     {
         private UserMembershipService _userMembershipService;
-        private readonly IQueryBuilder _query;
 
-        public AuthorizationService(
-            UserMembershipService userMembershipService, IQueryBuilder query)
+        public AuthorizationService(UserMembershipService userMembershipService, IQueryBuilder query)
+            : base(query)
         {
             _userMembershipService = userMembershipService;
-            _query = query;
         }
 
         public async Task<bool> CanPerformAction(int userId, PermissionType permission, string groupEntityId = null)
         {
             var perm = await _query.GetOne<Permission>()
                 .Where(nameof(Permission.Group), Is.EqualTo, permission.PermissionGroup)
-                .And().Where(nameof(Permission.Name), Is.EqualTo, permission.Value)
-                .And().Where(nameof(Permission.Module), Is.EqualTo, permission.Module)
+                .Where(nameof(Permission.Name), Is.EqualTo, permission.Value)
+                .Where(nameof(Permission.Module), Is.EqualTo, permission.Module)
                 .Execute();
 
             if (perm == null)
@@ -89,7 +87,7 @@ namespace Peppermint.Core.Services
 
             var groupRightEntries = await _query.GetMany<GroupPermission>()
                 .Where(nameof(GroupPermission.PermissionId), Is.EqualTo, perm.Id)
-                .And().Where(nameof(GroupPermission.Permit), Is.EqualTo, true)
+                .Where(nameof(GroupPermission.Permit), Is.EqualTo, true)
                 .Execute();
 
             if (!groupRightEntries.Any())

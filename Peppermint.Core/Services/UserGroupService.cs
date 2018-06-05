@@ -7,10 +7,8 @@ namespace Peppermint.Core.Services
 {
     public class UserGroupService : EntityService
     {
-        private IQueryBuilder _query;
-        public UserGroupService(IQueryBuilder query)
+        public UserGroupService(IQueryBuilder query) : base(query)
         {
-            _query = query;
         }
 
         public async Task<IEnumerable<Group>> GetAllGroups()

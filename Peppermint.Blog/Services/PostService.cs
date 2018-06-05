@@ -14,9 +14,8 @@ namespace Peppermint.Blog.Services
     {
         private IQueryBuilder _query;
 
-        public PostService(IQueryBuilder query)
+        public PostService(IQueryBuilder query) : base(query)
         {
-            _query = query;
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
@@ -42,20 +41,16 @@ namespace Peppermint.Blog.Services
             return posts;
         }
 
-        public async Task<Post> CreatePost(Post postEntity)
+        public async Task<Post> CreatePost(Post post)
         {
             // Possibly simplify this by passing T to the data accessor and reflecting over it?
-            // todo: implement new create query builder
+            var id = await _query.Insert<Post>()
+                .Value(nameof(Post.UserId), post.UserId)
+                .Value(nameof(Post.Title), post.Title)
+                .Value(nameof(Post.Content), post.Content)
+                .Execute();
 
-            var parameters = new List<InsertQueryParameter>() {
-                new InsertQueryParameter(nameof(Post.UserId), postEntity.UserId),
-                new InsertQueryParameter(nameof(Post.Title), postEntity.Title),
-                new InsertQueryParameter(nameof(Post.Content), postEntity.Content),
-            };
-
-            var post = await _postData.Create(parameters);
-
-            return await GetPost(post.Id);
+            return await GetPost(id);
         }
 
         public async Task<Post> UpdatePost(Post post)

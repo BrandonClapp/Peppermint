@@ -5,5 +5,6 @@
         ISelectManyQuery<T> GetMany<T>();
         ISelectOneQuery<T> GetOne<T>();
         IUpdateQuery<T> Update<T>();
+        IInsertQuery<T> Insert<T>();
     }
 }

@@ -32,10 +32,16 @@ namespace Peppermint.Core.Data
             return this;
         }
 
+        public new IUpdateQuery<T> Where(string column, Is type, object value)
+        {
+            base.Where(column, type, value);
+            return this;
+        }
+
         public async Task Execute()
         {
-            Build();
-            await UpdateItem(_query, _parameters);
+            var query = Build();
+            await UpdateItem(query, _parameters);
         }
 
         private string Build()

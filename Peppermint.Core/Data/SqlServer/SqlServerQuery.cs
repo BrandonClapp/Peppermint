@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Peppermint.Core.Data
 {
-    public class SqlServerQuery : IQuery
+    public class SqlServerQuery
     {
         private readonly string _connString;
         private readonly EntityFactory _entityFactory;
@@ -24,7 +24,7 @@ namespace Peppermint.Core.Data
             _entityFactory = entityFactory;
         }
 
-        public void And()
+        protected void And()
         {
             var current = _query.TrimEnd();
             if (!_whereApplied)
@@ -35,7 +35,7 @@ namespace Peppermint.Core.Data
             _query += " AND ";
         }
 
-        public void Or()
+        protected void Or()
         {
             var current = _query.TrimEnd();
             if (!_whereApplied)
@@ -46,17 +46,17 @@ namespace Peppermint.Core.Data
             _query += " OR ";
         }
 
-        public void StartGroup()
+        protected void StartGroup()
         {
             _query += " ( ";
         }
 
-        public void EndGroup()
+        protected void EndGroup()
         {
             _query += " ) ";
         }
 
-        public void Where(string column, Is type, object value)
+        protected void Where(string column, Is type, object value)
         {
             if (!_whereApplied)
             {
@@ -88,7 +88,7 @@ namespace Peppermint.Core.Data
             _parameters.Add(column, value);
         }
 
-        public async Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)
+        protected async Task<IEnumerable<T>> GetMany<T>(string query, object parameters = null)
         {
             var many = await BootstrapCommand<IEnumerable<T>>(async (conn, trans) =>
             {
@@ -104,7 +104,7 @@ namespace Peppermint.Core.Data
             return many;
         }
 
-        public async Task<T> GetSingle<T>(string query, object parameters = null)
+        protected async Task<T> GetSingle<T>(string query, object parameters = null)
         {
             var single = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -116,7 +116,7 @@ namespace Peppermint.Core.Data
             return single;
         }
 
-        public async Task<T> GetSingleOrDefault<T>(string query, object parameters = null)
+        protected async Task<T> GetSingleOrDefault<T>(string query, object parameters = null)
         {
             var singleOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -128,7 +128,7 @@ namespace Peppermint.Core.Data
             return singleOrDefault;
         }
 
-        public async Task<T> GetFirst<T>(string query, object parameters = null)
+        protected async Task<T> GetFirst<T>(string query, object parameters = null)
         {
             var first = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -140,7 +140,7 @@ namespace Peppermint.Core.Data
             return first;
         }
 
-        public async Task<T> GetFirstOrDefault<T>(string query, object parameters = null)
+        protected async Task<T> GetFirstOrDefault<T>(string query, object parameters = null)
         {
             var firstOrDefault = await BootstrapCommand<T>(async (conn, trans) =>
             {
@@ -152,7 +152,7 @@ namespace Peppermint.Core.Data
             return firstOrDefault;
         }
 
-        public async Task UpdateItem(string query, object parameters)
+        protected async Task UpdateItem(string query, object parameters)
         {
             await BootstrapCommand<int>(async (conn, trans) =>
             {
@@ -161,12 +161,12 @@ namespace Peppermint.Core.Data
             });
         }
 
-        public async Task<int> DeleteItem(string query, object parameters)
+        protected async Task<int> DeleteItem(string query, object parameters)
         {
             return await AddRemoveItem(query, parameters);
         }
 
-        public async Task<int> AddItem(string query, object parameters)
+        protected async Task<int> AddItem(string query, object parameters)
         {
             return await AddRemoveItem(query, parameters);
         }

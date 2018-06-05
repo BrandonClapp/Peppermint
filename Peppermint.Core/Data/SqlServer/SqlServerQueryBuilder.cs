@@ -27,5 +27,10 @@ namespace Peppermint.Core.Data.SqlServer
         {
             return new UpdateQuery<T>(_connString, _entityFactory);
         }
+
+        public IInsertQuery<T> Insert<T>()
+        {
+            return new InsertQuery<T>(_connString, _entityFactory);
+        }
     }
 }
