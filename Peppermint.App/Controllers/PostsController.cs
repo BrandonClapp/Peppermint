@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace Peppermint.Sample.Controllers
+namespace Peppermint.App.Controllers
 {
     [Route("api/[controller]")]
     public class PostsController : Controller

@@ -7,7 +7,7 @@ using Peppermint.Blog;
 using Peppermint.Core;
 using Peppermint.Forum;
 
-namespace Peppermint.Sample
+namespace Peppermint.App
 {
     public class Startup
     {

@@ -4,7 +4,7 @@ using Peppermint.Forum.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Peppermint.Sample.Controllers
+namespace Peppermint.App.Controllers
 {
     [Route("api/[controller]")]
     public class ForumPostsController : Controller
