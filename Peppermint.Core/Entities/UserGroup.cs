@@ -6,6 +6,6 @@ namespace Peppermint.Core.Entities
     public partial class UserGroup : DataEntity
     {
         public int UserId { get; set; }
-        public int UserGroupId { get; set; }
+        public int GroupId { get; set; }
     }
 }

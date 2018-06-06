@@ -19,7 +19,7 @@ namespace Peppermint.Core.Services
         public async Task<IEnumerable<User>> GetUsersInGroup(int userGroupId)
         {
             var memberships = await _query.GetMany<UserGroup>()
-                .Where(nameof(UserGroup.UserGroupId), Is.EqualTo, userGroupId).Execute();
+                .Where(nameof(UserGroup.GroupId), Is.EqualTo, userGroupId).Execute();
 
             var userIds = memberships.Select(membership => membership.UserId);
 
@@ -34,7 +34,7 @@ namespace Peppermint.Core.Services
             var memberships = await _query.GetMany<UserGroup>()
                 .Where(nameof(UserGroup.UserId), Is.EqualTo, userId).Execute();
 
-            var groupIds = memberships.Select(membership => membership.UserGroupId);
+            var groupIds = memberships.Select(membership => membership.GroupId);
 
             var groups = await _query.GetMany<Group>()
                 .Where(nameof(User.Id), Is.In, groupIds).Execute();
