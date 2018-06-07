@@ -13,10 +13,13 @@ namespace Peppermint.App.Controllers.Account
     public class AccountController : Controller
     {
         private readonly EntityFactory _entityFactory;
+        private readonly Peppermint.Core.Services.AuthenticationService _authentication;
 
-        public AccountController(EntityFactory entityFactory)
+        public AccountController(EntityFactory entityFactory, 
+            Peppermint.Core.Services.AuthenticationService authentication)
         {
             _entityFactory = entityFactory;
+            _authentication = authentication;
         }
 
         [HttpGet("login")]
@@ -32,7 +35,7 @@ namespace Peppermint.App.Controllers.Account
             var temp = await Task.FromResult<dynamic>(new { });
 
             // validate credentials.
-            var user = await AuthenticateUser(credentials.UserName, credentials.Password);
+            var user = await _authentication.AuthenticateUser(credentials.UserName, credentials.Password);
 
             if (user == null)
                 return View();
@@ -60,23 +63,12 @@ namespace Peppermint.App.Controllers.Account
             return Redirect(returnUrl);
         }
 
-        // Move to authentication service
-        private async Task<User> AuthenticateUser(string username, string password)
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
         {
-            // Assume that checking the database takes 500ms
-            await Task.Delay(500);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            if (username.ToLower() == "brandon" && password == "password")
-            {
-                var user = _entityFactory.Make<User>();
-                user.UserName = "Brandon";
-                user.Email = "brandon@email.com";
-                return user;
-            }
-            else
-            {
-                return null;
-            }
+            return View("SignedOut");
         }
     }
 }

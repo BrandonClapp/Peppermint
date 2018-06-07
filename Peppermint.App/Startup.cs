@@ -26,7 +26,10 @@ namespace Peppermint.App
             var connString = Configuration.GetConnectionString("Peppermint");
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(opt =>
+                {
+                    opt.Cookie.Name = "Peppermint";
+                });
 
             // Register core Peppermint dependencies.
             services.AddPeppermint(connString);

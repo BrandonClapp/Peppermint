@@ -11,9 +11,9 @@ namespace Peppermint.App.Controllers.Admin
     [Authorize]
     public class AdminController : Controller
     {
-        public Task<dynamic> Index()
+        public IActionResult Index()
         {
-            return Task.FromResult<dynamic>(new { Admin = true });
+            return View();
         }
     }
 }
