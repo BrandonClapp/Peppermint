@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Peppermint.App.Controllers.Account.Requests;
 using Peppermint.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,6 +34,9 @@ namespace Peppermint.App.Controllers.Account
         public async Task<IActionResult> Login(LoginRequest credentials)
         {
             var temp = await Task.FromResult<dynamic>(new { });
+
+            if (string.IsNullOrEmpty(credentials.UserName) || string.IsNullOrEmpty(credentials.Password))
+                throw new ArgumentNullException();
 
             // validate credentials.
             var user = await _authentication.AuthenticateUser(credentials.UserName, credentials.Password);

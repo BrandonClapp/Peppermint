@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Bella\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -18,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Peppermint.Blog\Peppermint.Blog.csproj" />
+    <ProjectReference Include="..\Peppermint.Commerce\Peppermint.Commerce.csproj" />
     <ProjectReference Include="..\Peppermint.Core\Peppermint.Core.csproj" />
     <ProjectReference Include="..\Peppermint.Forum\Peppermint.Forum.csproj" />
   </ItemGroup>
