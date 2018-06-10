@@ -1,0 +1,345 @@
+/**Theme Color CSS**/
+.spinner > div {
+    background-color: #ec005f;   
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #ec005f;
+}
+a {
+    color: #ec005f;
+}
+.footer a:hover,
+.footer a:active,
+.footer a:focus {
+    color: #ec005f;
+}
+.block-title.alt .fa.color {
+    background-color: #ec005f;
+}
+.text-color {
+    color: #ec005f;
+}
+.drop-cap {    
+    color: #ec005f;
+}
+blockquote {
+    background-color: #ec005f;    
+}
+.btn-theme {   
+    background-color: #ec005f;
+    border-color: #ec005f;   
+}
+.btn-theme-transparent, .btn-theme-transparent:focus, .btn-theme-transparent:active, .btn-title-more{
+    background-color: rgba(0, 0, 0, 0);
+    border-color: #e9e9e9;
+}
+.btn-theme-dark, .btn-theme-dark:focus, .btn-theme-dark:active {
+    background-color: #232323;
+    border-color: #232323;
+}
+.btn-theme-dark:hover {
+    background-color: #ec005f;
+    border-color: #ec005f;    
+}
+.btn-play { 
+    background-color: rgba(236, 0, 95, 0.85);   
+}
+.btn-play:before {    
+    border: solid 10px rgba(236, 0, 95, 0.35);
+}
+a:hover .btn-play,
+.btn-play:hover {   
+    color: #ec005f;
+}
+
+.top-bar ul a:hover .fa {
+    color: #ec005f;
+}
+.top-bar ul a span.colored {
+    color: #ec005f;  
+}
+
+.header {
+    border-bottom: solid 3px #ec005f;
+}
+.coming-soon .header {  
+    border-bottom-color: rgba(236, 0, 95, 0.5) !important;
+}
+.sf-arrows > li > .sf-with-ul:focus:after,
+.sf-arrows > li:hover > .sf-with-ul:after,
+.sf-arrows > .sfHover > .sf-with-ul:after {
+    border-top-color: #ec005f;
+}
+.sf-arrows ul li > .sf-with-ul:focus:after,
+.sf-arrows ul li:hover > .sf-with-ul:after,
+.sf-arrows ul .sfHover > .sf-with-ul:after {
+    border-left-color: #ec005f;
+}
+.sf-menu li.megamenu ul a:hover {
+    color: #ec005f;
+}
+.sf-menu li.sale a {
+    background-color: #ec005f;   
+}
+@media (max-width: 991px) {   
+    .sf-menu > li > a:hover {       
+        color: #ec005f;
+    }    
+}
+.footer {
+    border-top: solid 10px #ec005f;   
+}
+.main-slider .caption-subtitle {    
+    color: #ec005f;   
+}
+.main-slider .btn-theme:hover {
+    border-color: #ec005f;
+    background-color: #ec005f;   
+}
+.main-slider .dark .caption-text .btn-theme:hover {
+    background-color: #ec005f;
+    border-color: #ec005f;
+}
+.coming-soon .main-slider .page .countdown-amount { 
+    color: #ec005f;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    border-color: #ec005f;
+    background-color: #ec005f;  
+}
+.message-box {    
+    background-color: #ec005f;  
+}
+.content-tabs .nav-tabs > li.active > a {   
+    color: #ec005f;
+}
+.post-title a:hover {
+    color: #ec005f;
+}
+.post-meta a:hover {
+    color: #ec005f;
+}
+.about-the-author .media-heading a:hover {
+    color: #ec005f;
+}
+.post-wrap blockquote {  
+    border-top: solid 6px #ec005f;  
+}
+.recent-post .media-category { 
+    color: #ec005f;
+}
+.recent-post .media-heading a:hover {
+    color: #ec005f;
+}
+.widget .recent-post .media-meta a:hover {
+    color: #ec005f;
+}
+.comment-author a:hover {
+    color: #ec005f;
+}
+.comment-date .fa {
+    color: #ec005f;  
+}
+.thumbnail.hover,
+.thumbnail:hover {
+    border: solid 1px #ec005f;
+}
+.caption-title a:hover {
+    color: #ec005f;
+}
+.thumbnail.thumbnail-banner .btn-theme:hover {
+    background-color: #ec005f;
+    border-color: #ec005f;
+}
+.recent-post .media-link:after{
+    background-color: rgba(236, 0, 95, 0);
+}
+.recent-post .media-link:hover:after {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.thumbnail-banner .caption {    
+    background-color: rgba(236, 0, 95, 0);
+}
+.thumbnail-banner.hover .caption,
+.thumbnail-banner:hover .caption {
+    background-color: rgba(236, 0, 95, 0.3);
+}
+.thumbnail .price ins {   
+    color: #ec005f;
+}
+.product-single .reviews:hover,
+.product-single .add-review:hover {
+    color: #ec005f;
+}
+.product-single .product-availability strong {
+    color: #ec005f;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #ec005f;
+}
+.products.list .thumbnail .reviews:hover {
+    color: #ec005f;
+}
+.products.list .thumbnail .availability strong {
+    color: #ec005f;
+}
+.thumbnails.portfolio .thumbnail .caption.hovered {    
+    background-color: rgba(236, 0, 95, 0.5);
+}
+.widget.widget-shop-deals .countdown-amount {   
+    color: #ec005f;
+}
+.widget.widget-tabs .nav-justified > li.active > a,
+.widget.widget-tabs .nav-justified > li > a:hover,
+.widget.widget-tabs .nav-justified > li > a:focus {
+    border-color: #ec005f;
+    background-color: #ec005f;   
+}
+@media (min-width: 768px) {    
+    .widget.widget-tabs.alt .nav-justified > li.active > a:before {      
+        border-top: solid 5px #ec005f;
+    }
+}
+.widget.shop-categories ul a:hover {
+    color: #ec005f;
+}
+.widget-flickr-feed ul a:hover {
+    border-color: #ec005f;
+}
+.widget-flickr-feed ul a:hover:before {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.recent-tweets .media .fa {
+    color: #ec005f;
+}
+.product-list .price ins {   
+    color: #ec005f;
+}
+.product-list .media-link:after { 
+    background-color: rgba(236, 0, 95, 0);   
+}
+.product-list .media-link:hover:after {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.shop-sorting .col-sm-4 .btn-theme:hover {
+    background-color: #ec005f;
+}
+.orders td.description h4 a:hover {
+    color: #ec005f;
+}
+.orders td.total a:hover {
+    color: #ec005f;
+}
+.orders .media-link:after {    
+    background-color: rgba(236, 0, 95, 0);  
+}
+.orders .media-link:hover:after {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.wishlist td.description h4 a:hover {
+    color: #ec005f;
+}
+.wishlist td.total a:hover {
+    color: #ec005f;
+}
+.wishlist .media-link:after {   
+    background-color: rgba(236, 0, 95, 0);   
+}
+.wishlist .media-link:hover:after {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.compare-products .product .media-link:after {  
+    background-color: rgba(236, 0, 95, 0);   
+}
+.compare-products .product .media-link:hover:after {
+    background-color: rgba(236, 0, 95, 0.7);
+}
+.compare-products .product h4:hover,
+.compare-products .product h4 a:hover {
+    color: #ec005f;
+}
+#contact-form .alert { 
+    border-color: #ec005f;
+    background-color: #ec005f;   
+}
+.to-top {   
+    background-color: rgba(236, 0, 95, 0.5);
+    border: solid 2px #ec005f;   
+}
+.to-top:hover {   
+    border-color: #ec005f;
+    color: #ec005f;
+}
+.header-nav-1 .sf-arrows > li > .sf-with-ul:focus::after,
+.header-nav-1 .sf-arrows > li:hover > .sf-with-ul::after,
+.header-nav-1 .sf-arrows > li.active > .sf-with-ul::after,
+.header-nav-1 .sf-arrows > .sfHover > .sf-with-ul::after {
+    border-top-color: #ec005f;
+}
+.header-nav-5 .sf-menu > li:hover,
+.header-nav-5 .sf-menu li.active > a,
+.header-nav-5 .sf-menu a:hover,
+.header-nav-5 .sf-menu li.active,
+.header-nav-5 .sf-menu > li.active.sfHover > a,
+.header-nav-5 .sf-menu ul a:hover,
+.sf-menu li:hover,
+.header-nav-5 .sf-menu li.sfHover,
+.header-nav-5 .sf-menu li.sfHover > a {
+    color: #ec005f;
+}
+.header-nav-2 .sf-menu > li:hover,
+.header-nav-2 .sf-menu > li:hover > a,
+.header-nav-2 .sf-menu li.active,
+.header-nav-2 .sf-menu > li.sfHover,
+.header-nav-2 .sf-menu > li.sfHover > a {
+    background-color: #ec005f;
+}
+.header-nav-2 .sf-menu ul a:hover {
+    background-color: #ec005f;
+}
+.header-nav-3 .sf-menu > li:hover,
+.header-nav-3 .sf-menu > li:hover > a,
+.header-nav-3 .sf-menu li.active,
+.header-nav-3 .sf-menu > li.sfHover,
+.header-nav-3 .sf-menu > li.sfHover > a {
+    background-color: #ec005f;
+}
+.header-nav-3 .sf-menu ul a:hover {
+    background-color: #ec005f;
+}
+.information-title {
+    border-bottom: 3px solid #ec005f;   
+}
+.widget.account-details .widget-title {
+    border-bottom: 3px solid #ec005f;    
+}
+.widget.account-details li.active a {
+    color: #ec005f;
+}
+.widget.account-details li a:hover,
+.widget.account-details li a:focus,
+.details-box > ul li a:hover,
+.details-box > ul li a:focus {
+    color: #ec005f;
+}
+.social-icons a:hover {
+    color: #ffffff;
+}
+.header .navigation-wrapper {
+    background-color: #f5f6f7;
+    border-top: 1px solid #d3d5d7;
+}
+.btn-view-more-block {
+    background-color: #a5abb7;
+    border-color: #a5abb7;
+}
