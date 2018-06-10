@@ -33,5 +33,10 @@ namespace Peppermint.Core.Services
 
             return users;
         }
+
+        //public async Task<User> GetCurrentUser()
+        //{
+
+        //}
     }
 }

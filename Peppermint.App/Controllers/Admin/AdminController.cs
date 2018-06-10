@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Peppermint.Core.Services;
 
 namespace Peppermint.App.Controllers.Admin
 {
@@ -11,8 +8,14 @@ namespace Peppermint.App.Controllers.Admin
     [Authorize]
     public class AdminController : Controller
     {
+        public AdminController(UserService userService)
+        {
+
+        }
+
         public IActionResult Index()
         {
+            var identity = this.User.Identity;
             return View();
         }
     }
