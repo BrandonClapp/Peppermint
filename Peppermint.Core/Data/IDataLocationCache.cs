@@ -1,6 +1,4 @@
-﻿using Peppermint.Core.Entities;
-
-namespace Peppermint.Core.Data
+﻿namespace Peppermint.Core.Data
 {
     public interface IDataLocationCache
     {

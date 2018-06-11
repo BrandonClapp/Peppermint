@@ -19,6 +19,16 @@ namespace Peppermint.Blog.Services
             return posts;
         }
 
+        public async Task<IEnumerable<Post>> GetRecentPosts(int pageSize = 15, int page = 1)
+        {
+            var posts = await _query.GetMany<Post>()
+                .Order(nameof(Post.Id), Order.Descending)
+                .Pagination(pageSize, page)
+                .Execute();
+
+            return posts;
+        }
+
         public async Task<Post> GetPost(int postId)
         {
             var post = await _query.GetOne<Post>().Where(nameof(Post.Id), Is.EqualTo, postId).Execute();

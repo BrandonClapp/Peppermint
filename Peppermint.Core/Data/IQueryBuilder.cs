@@ -7,6 +7,12 @@
         In
     }
 
+    public enum Order
+    {
+        Ascending,
+        Descending
+    }
+
     public interface IQueryBuilder
     {
         ISelectManyQuery<T> GetMany<T>();

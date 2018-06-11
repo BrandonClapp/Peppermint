@@ -48,5 +48,29 @@ namespace Peppermint.Core.Data
             FillDataLocation<T>();
             return await GetMany<T>(_query, _parameters);
         }
+
+        public ISelectManyQuery<T> Order(string column, Order order)
+        {
+            if (_query.TrimEnd().EndsWith("ORDER BY"))
+            {
+                _query += " ORDER BY ";
+            }
+            else
+            {
+                _query += ", ";
+            }
+
+            var direction = order == Data.Order.Descending ? "DESC" : "ASC";
+            _query += $@" {column} {direction} ";
+
+            return this;
+        }
+
+        public ISelectManyQuery<T> Pagination(int pageSize, int page)
+        {
+            var skipped = pageSize * (page - 1);
+            _query += $@" OFFSET {skipped} ROWS FETCH NEXT {pageSize} ROWS ONLY ";
+            return this;
+        }
     }
 }

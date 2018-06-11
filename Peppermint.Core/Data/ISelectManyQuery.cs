@@ -11,5 +11,7 @@ namespace Peppermint.Core.Data
         ISelectManyQuery<T> Or();
         ISelectManyQuery<T> StartGroup();
         ISelectManyQuery<T> Where(string column, Is type, object value);
+        ISelectManyQuery<T> Order(string column, Order order);
+        ISelectManyQuery<T> Pagination(int pageSize, int page);
     }
 }

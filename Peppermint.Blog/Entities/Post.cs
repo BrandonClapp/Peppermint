@@ -17,6 +17,7 @@ namespace Peppermint.Blog.Entities
 
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
 
@@ -24,6 +25,8 @@ namespace Peppermint.Blog.Entities
         {
             return await _userService.GetUser(UserId);
         }
+
+        // get category
     }
 }
 
