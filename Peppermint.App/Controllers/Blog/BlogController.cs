@@ -6,9 +6,9 @@ namespace Peppermint.App.Controllers.Blog
     [Route("[controller]")]
     public class BlogController : Controller
     {
-        public Task<dynamic> Index()
+        public IActionResult Index()
         {
-            return Task.FromResult<dynamic>(new { Test = true });
+            return View();
         }
     }
 }
