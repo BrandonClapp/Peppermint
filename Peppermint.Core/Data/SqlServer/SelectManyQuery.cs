@@ -51,7 +51,7 @@ namespace Peppermint.Core.Data
 
         public ISelectManyQuery<T> Order(string column, Order order)
         {
-            if (_query.TrimEnd().EndsWith("ORDER BY"))
+            if (!_query.TrimEnd().EndsWith("ORDER BY"))
             {
                 _query += " ORDER BY ";
             }

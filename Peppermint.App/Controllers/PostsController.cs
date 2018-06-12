@@ -29,6 +29,13 @@ namespace Peppermint.App.Controllers
             return posts;
         }
 
+        [HttpGet("recent")]
+        public async Task<IEnumerable<Post>> GetPosts(int pageSize, int page)
+        {
+            var posts = await _postService.GetRecentPosts(pageSize, page);
+            return posts;
+        }
+
         [HttpGet("{postId}")]
         public async Task<Post> GetPost(int postId)
         {

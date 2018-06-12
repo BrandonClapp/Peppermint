@@ -15,8 +15,8 @@ namespace Peppermint.Forum.Entities
         //    _categoryService = categoryService;
         //}
 
-        //public int Id { get; set; }
-        //public string Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
         //public async Task<IEnumerable<Post>> GetPosts()
         //{
