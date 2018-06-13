@@ -11,14 +11,20 @@ namespace Peppermint.App.Controllers.Blog
     [Route("[controller]")]
     public class BlogController : Controller
     {
-        private readonly PostService _postService;
-        public BlogController(PostService postService)
+        private readonly BlogViewModel _viewModel;
+        public BlogController(BlogViewModel viewModel)
         {
-            _postService = postService;
+            _viewModel = viewModel;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
+        {
+            return await Category(null);
+        }
+
+        [HttpGet("{categorySlug}")]
+        public async Task<IActionResult> Category(string categorySlug)
         {
             Request.Query.TryGetValue("page", out var page);
 
@@ -27,37 +33,10 @@ namespace Peppermint.App.Controllers.Blog
 
             var pg = int.Parse(page);
 
-            var entities = await _postService.GetRecentPosts(5, pg);
+            var pageSize = 5;
+            var vm = await _viewModel.Build(pageSize, pg, categorySlug);
 
-            var posts = await Task.WhenAll(entities.Select(async e =>
-            {
-                var post = new Post()
-                {
-                    Id = e.Id,
-                    Title = e.Title,
-                    CategoryId = e.CategoryId,
-                    Content = e.Content,
-                    UserId = e.UserId,
-                    Created = e.Created,
-                    Updated = e.Updated
-                };
-
-                post.Thumbnail = await e.GetThumbnail();
-                post.Banner = await e.GetBanner();
-                post.Category = await e.GetCategory();
-                post.User = await e.GetUser();
-
-                return post;
-            }));
-
-            
-
-            var vm = new BlogViewModel()
-            {
-                Posts = posts
-            };
-
-            return View(vm);
+            return View("Index", vm);
         }
     }
 }

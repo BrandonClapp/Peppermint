@@ -16,6 +16,7 @@ namespace Peppermint.Blog.Entities
         }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Slug { get; set; }
 
         public async Task<IEnumerable<Post>> GetPosts()
         {

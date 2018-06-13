@@ -1,4 +1,5 @@
-﻿using Peppermint.Blog.Entities;
+﻿using Peppermint.App.Extentions;
+using Peppermint.Blog.Entities;
 using Peppermint.Core.Entities;
 using System;
 
@@ -19,5 +20,10 @@ namespace Peppermint.App.Models
 
         public User User { get; set; }
         public Category Category { get; set; }
+
+        public string GetExcerpt()
+        {
+            return Content.Truncate(400);
+        }
     }
 }

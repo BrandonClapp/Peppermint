@@ -1,8 +1,10 @@
 ﻿using Peppermint.Blog.Entities;
 using Peppermint.Core.Data;
 using Peppermint.Core.Services;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peppermint.Blog.Services
@@ -35,6 +37,28 @@ namespace Peppermint.Blog.Services
                 .Execute();
 
             return posts;
+        }
+
+        public async Task<int> GetTotalPosts(string categorySlug)
+        {
+            if (string.IsNullOrEmpty(categorySlug))
+            {
+                var posts = await _query.GetMany<Post>().Execute();
+                return posts.Count();
+            }
+
+            var category = _query.GetOne<Category>().Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
+            if (category == null)
+                throw new ArgumentException($"Category for category slug {categorySlug} not found.");
+
+            return await GetTotalPosts(category.Id);
+        }
+
+        public async Task<int> GetTotalPosts(int categoryId)
+        {
+            // todo: optimize this by COUNT query in query builder
+            var posts = await _query.GetMany<Post>().Where(nameof(Category.Id), Is.EqualTo, categoryId).Execute();
+            return posts.Count();
         }
     }
 }

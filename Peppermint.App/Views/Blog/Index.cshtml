@@ -475,134 +475,44 @@
                 <!-- CONTENT -->
                 <div class="col-md-9 content" id="content">
                     <!-- Blog posts -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <a href="~/assets/img/preview/blog/blog-post-1.jpg" data-gal="prettyPhoto"><img src="~/assets/img/preview/blog/blog-post-1.jpg" alt=""></a>
-                        </div>
-                        <div class="post-header">
-                            <h2 class="post-title"><a href="#">Sample Post With Featured Image</a></h2>
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-excerpt">
-                                <p>
-                                    @foreach (var post in Model.Posts)
-                                    {<li>@post.Title</li>}
-                                 </p>
+
+                    @foreach (var post in Model.Posts)
+                    {
+                        <article class="post-wrap">
+                            <div class="post-media">
+                                <a href="~/assets/img/preview/blog/blog-post-1.jpg" data-gal="prettyPhoto"><img src="@post.Banner" alt=""></a>
                             </div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
+                            <div class="post-header">
+                                <h2 class="post-title"><a href="#">@post.Title</a></h2>
+                                <div class="post-meta">By <a href="/users/@post.User.UserName.ToLower()">@post.User.UserName</a> / @post.Created.ToString("dddd, MMMM dd yyyy") / in <a href="/blog/@post.Category.Slug">@post.Category.Name</a> / <a href="#">Share This Post</a></div>
+                            </div>
+                            <div class="post-body">
+                                <div class="post-excerpt">
+                                    <p>
+                                        @post.GetExcerpt()
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
+                            </div>
+                        </article>
+                    }
+
                     <!-- / -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <div class="owl-carousel img-carousel">
-                                <div class="item"><a href="~/assets/img/preview/blog/blog-post-2.jpg" data-gal="prettyPhoto"><img class="img-responsive" src="~/assets/img/preview/blog/blog-post-2.jpg" alt="" /></a></div>
-                                <div class="item"><a href="~/assets/img/preview/shop/blog-post-3.jpg" data-gal="prettyPhoto"><img class="img-responsive" src="~/assets/img/preview/blog/blog-post-3.jpg" alt="" /></a></div>
-                                <div class="item"><a href="~/assets/img/preview/shop/blog-post-4.jpg" data-gal="prettyPhoto"><img class="img-responsive" src="~/assets/img/preview/blog/blog-post-4.jpg" alt="" /></a></div>
-                                <div class="item"><a href="~/assets/img/preview/shop/blog-post-1.jpg" data-gal="prettyPhoto"><img class="img-responsive" src="~/assets/img/preview/blog/blog-post-1.jpg" alt="" /></a></div>
-                            </div>
-                        </div>
-                        <div class="post-header">
-                            <h2 class="post-title"><a href="#">Standard Blog Post with Image Slider Header</a></h2>
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-excerpt">
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
-                    <!-- / -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <img src="~/assets/img/preview/blog/audio-post.jpg" alt="">
-                        </div>
-                        <div class="post-header">
-                            <h2 class="post-title"><a href="#">Standard Sound Blog Post Header</a></h2>
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-excerpt">
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
-                    <!-- / -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <a href="http://youtu.be/kg-clmeHBrM" data-gal="prettyPhoto" class="media-link">
-                                <span class="btn btn-play"><i class="fa fa-play"></i></span>
-                                <img src="~/assets/img/preview/blog/blog-post-3.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="post-header">
-                            <h2 class="post-title"><a href="#">Standard Video Blog Post Header</a></h2>
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-excerpt">
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
-                    <!-- / -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <blockquote>
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. </p>
-                                <footer><cite title="Source Title">ISA MERCAN</cite></footer>
-                            </blockquote>
-                        </div>
-                        <div class="post-header">
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
-                    <!-- / -->
-                    <article class="post-wrap">
-                        <div class="post-media">
-                            <!-- 16:9 aspect ratio -->
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="//player.vimeo.com/video/113101251"></iframe>
-                            </div>
-                        </div>
-                        <div class="post-header">
-                            <h2 class="post-title"><a href="#">Standard Vimeo Video Blog Post Header</a></h2>
-                            <div class="post-meta">By <a href="#">author name here</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-excerpt">
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <span class="post-read-more"><a href="#" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
-                        </div>
-                    </article>
-                    <!-- /Blog posts -->
                     <!-- Pagination -->
                     <div class="pagination-wrapper">
                         <ul class="pagination">
-                            <li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i> Previous</a></li>
-                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="?page=2">2</a></li>
-                            <li><a href="?page=3">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">Next <i class="fa fa-angle-double-right"></i></a></li>
+
+                            <li class="@(Model.Pagination.CanGoPrevPage ? "" : "disabled")"><a href="?page=@Model.Pagination.PrevPage"><i class="fa fa-angle-double-left"></i> Previous</a></li>
+
+                            @for (var pageNum = Model.Pagination.MinPage; pageNum <= Model.Pagination.MaxPage; pageNum++)
+                            {
+                                <li class="@(Model.Pagination.CurrentPage == pageNum ? "active" : "")"><a href="?page=@pageNum">@pageNum</a></li>
+                            }
+
+                            <li class="@(Model.Pagination.CanGoNextPage ? "" : "disabled")"><a href="?page=@Model.Pagination.NextPage">Next <i class="fa fa-angle-double-right"></i></a></li>
+
                         </ul>
                     </div>
                     <!-- /Pagination -->

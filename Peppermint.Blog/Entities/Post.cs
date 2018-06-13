@@ -34,12 +34,12 @@ namespace Peppermint.Blog.Entities
         // Change this to attachments?
         public async Task<string> GetThumbnail()
         {
-            return await Task.FromResult("/some/path/this-is-fine.gif");
+            return await Task.FromResult("/assets/img/preview/blog/blog-post-1.jpg");
         }
 
         public async Task<string> GetBanner()
         {
-            return await Task.FromResult("/some/path/this-is-fine.gif");
+            return await Task.FromResult("/assets/img/preview/blog/blog-post-1.jpg");
         }
 
         public async Task<User> GetUser()

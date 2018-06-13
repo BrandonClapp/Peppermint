@@ -19,10 +19,22 @@ namespace Peppermint.Blog.Services
             return posts;
         }
 
-        public async Task<IEnumerable<Post>> GetRecentPosts(int pageSize = 15, int page = 1)
+        public async Task<IEnumerable<Post>> GetRecentPosts(int pageSize = 15, int page = 1, string categorySlug = null)
         {
-            var posts = await _query.GetMany<Post>()
-                .Order(nameof(Post.Id), Order.Descending)
+            var query = _query.GetMany<Post>();
+
+            if (!string.IsNullOrEmpty(categorySlug))
+            {
+                var category = await _query.GetOne<Category>()
+                    .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
+
+                if (category != null)
+                {
+                    query.Where(nameof(Post.CategoryId), Is.EqualTo, category.Id);
+                }
+            }
+
+            var posts = await query.Order(nameof(Post.Id), Order.Descending)
                 .Pagination(pageSize, page)
                 .Execute();
 
