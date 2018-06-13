@@ -72,5 +72,14 @@ namespace Peppermint.Blog.Services
             return id;
         }
 
+        public async Task<IEnumerable<PostTag>> GetPostTags(int postId)
+        {
+            var tags = await _query.GetMany<PostTag>()
+                .Where(nameof(PostTag.PostId), Is.EqualTo, postId).Execute();
+
+            return tags;
+        }
+
+
     }
 }
