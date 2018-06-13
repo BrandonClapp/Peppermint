@@ -31,7 +31,7 @@ namespace Peppermint.Blog.Entities
         public DateTime? Updated { get; set; }
 
         // Image uploads are something that can be baked into core.
-
+        // Change this to attachments?
         public async Task<string> GetThumbnail()
         {
             return await Task.FromResult("/some/path/this-is-fine.gif");

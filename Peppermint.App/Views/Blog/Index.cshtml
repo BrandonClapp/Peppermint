@@ -485,7 +485,10 @@
                         </div>
                         <div class="post-body">
                             <div class="post-excerpt">
-                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
+                                <p>
+                                    @foreach (var post in Model.Posts)
+                                    {<li>@post.Title</li>}
+                                 </p>
                             </div>
                         </div>
                         <div class="post-footer">
