@@ -39,6 +39,7 @@ namespace Peppermint.App.ViewModels
                 {
                     Id = e.Id,
                     Title = e.Title,
+                    Slug = e.Slug,
                     CategoryId = e.CategoryId,
                     Content = e.Content,
                     UserId = e.UserId,

@@ -47,6 +47,13 @@ namespace Peppermint.Blog.Services
             return post;
         }
 
+        public async Task<Post> GetPost(string postSlug)
+        {
+            var post = await _query.GetOne<Post>()
+                .Where(nameof(Post.Slug), Is.EqualTo, postSlug).Execute();
+            return post;
+        }
+
         public async Task<IEnumerable<Post>> GetPosts(string userName)
         {
             var user = await _query.GetOne<User>()

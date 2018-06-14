@@ -1,4 +1,4 @@
-﻿@{
+﻿@{ 
     Layout = "_Layout";
 }
 
@@ -441,8 +441,8 @@
                         </ul>
                     </div>
                     <!-- /widget tag cloud -->
-                    <!-- widget -->
-                    <div class="widget">
+                    <!-- widget tag cloud -->
+                    <div class="widget widget-tag-cloud">
                         <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-twitter"></i>Follow Us</a>
                         <h4 class="widget-title"><span>Twitter</span></h4>
                         <div class="recent-tweets">
@@ -469,53 +469,166 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /widget -->
+                    <!-- /widget tag cloud -->
                 </aside>
                 <!-- /SIDEBAR -->
                 <!-- CONTENT -->
                 <div class="col-md-9 content" id="content">
-                    <!-- Blog posts -->
-
-                    @foreach (var post in Model.Posts)
-                    {
-                        <article class="post-wrap">
-                            <div class="post-media">
-                                <a href="~/assets/img/preview/blog/blog-post-1.jpg" data-gal="prettyPhoto"><img src="@post.Banner" alt=""></a>
+                    <!-- Blog post -->
+                    <article class="post-wrap post-single">
+                        <div class="post-media">
+                            <a href="~/assets/img/preview/blog/blog-post-1.jpg" data-gal="prettyPhoto"><img src="~/assets/img/preview/blog/blog-post-1.jpg" alt=""></a>
+                        </div>
+                        <div class="post-header">
+                            <h2 class="post-title"><a href="#">@Model.Post.Title</a></h2>
+                            <div class="post-meta">By <a href="/users/@Model.Post.User.UserName">@Model.Post.User.UserName</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
+                        </div>
+                        <div class="post-body">
+                            <div class="post-excerpt">
+                                <p class="text-xl">Nulla vitae elit libero, a pharetra augue. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna,...</p>
+                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
+                                <p>Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                <p>Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus. Sed posuere consectetur est at lobortis. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                                <blockquote>
+                                    <h4>Fusce gravida interdum eros a mollis.</h4>
+                                    <p>Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel.</p>
+                                </blockquote>
+                                <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
                             </div>
-                            <div class="post-header">
-                                <h2 class="post-title"><a href="/blog/@post.Slug">@post.Title</a></h2>
-                                <div class="post-meta">By <a href="/users/@post.User.UserName.ToLower()">@post.User.UserName</a> / @post.Created.ToString("dddd, MMMM dd yyyy") / in <a href="/blog/category/@post.Category.Slug">@post.Category.Name</a> / <a href="#">Share This Post</a></div>
+                        </div>
+                    </article>
+                    <!-- /Blog post -->
+                    <!-- About the author -->
+                    <div class="about-the-author clearfix">
+                        <div class="media">
+                            <img class="media-object pull-left" src="~/assets/img/preview/blog/avatar-author.jpg" alt="">
+                            <div class="media-body">
+                                <p class="media-category">Administrator</p>
+                                <h4 class="media-heading"><a href="#">Administrator Name Here</a></h4>
+                                <p>Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla.</p>
                             </div>
-                            <div class="post-body">
-                                <div class="post-excerpt">
-                                    <p>
-                                        @post.GetExcerpt()
-                                    </p>
+                        </div>
+                    </div>
+                    <!-- /About the author -->
+                    <!-- PAGE -->
+                    <section class="page-section">
+                        <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-file-text-o"></i>See All Posts</a>
+                        <h2 class="block-title"><span>Related Posts</span></h2>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="recent-post alt">
+                                    <div class="media">
+                                        <a class="media-link" href="#">
+                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-5.jpg" alt="">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <div class="media-body">
+                                            <p class="media-category"><a href="#">Shoes</a> / <a href="#">Dress</a></p>
+                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
+                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
+                                            <div class="media-meta">
+                                                6th June 2014
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="post-footer">
-                                <span class="post-read-more"><a href="/blog/@post.Slug" class="btn btn-theme btn-theme-transparent btn-icon-left"><i class="fa fa-file-text-o"></i>Read more</a></span>
+                            <div class="col-md-4">
+                                <div class="recent-post alt">
+                                    <div class="media">
+                                        <a class="media-link" href="#">
+                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-6.jpg" alt="">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <div class="media-body">
+                                            <p class="media-category"><a href="#">Wedding</a> / <a href="#">Meeting</a></p>
+                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
+                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
+                                            <div class="media-meta">
+                                                6th June 2014
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </article>
-                    }
-
-                    <!-- / -->
-                    <!-- Pagination -->
-                    <div class="pagination-wrapper">
-                        <ul class="pagination">
-
-                            <li class="@(Model.Pagination.CanGoPrevPage ? "" : "disabled")"><a href="?page=@Model.Pagination.PrevPage"><i class="fa fa-angle-double-left"></i> Previous</a></li>
-
-                            @for (var pageNum = Model.Pagination.MinPage; pageNum <= Model.Pagination.MaxPage; pageNum++)
-                            {
-                                <li class="@(Model.Pagination.CurrentPage == pageNum ? "active" : "")"><a href="?page=@pageNum">@pageNum</a></li>
-                            }
-
-                            <li class="@(Model.Pagination.CanGoNextPage ? "" : "disabled")"><a href="?page=@Model.Pagination.NextPage">Next <i class="fa fa-angle-double-right"></i></a></li>
-
-                        </ul>
-                    </div>
-                    <!-- /Pagination -->
+                            <div class="col-md-4">
+                                <div class="recent-post alt">
+                                    <div class="media">
+                                        <a class="media-link" href="#">
+                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-7.jpg" alt="">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <div class="media-body">
+                                            <p class="media-category"><a href="#">Children</a> / <a href="#">Kids</a></p>
+                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
+                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
+                                            <div class="media-meta">
+                                                6th June 2014
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
+                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- /PAGE -->
+                    <!-- PAGE -->
+                    <section class="page-section no-padding-bottom">
+                        <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-file-text-o"></i>See All</a>
+                        <h4 class="block-title"><span>Comments <span class="thin">(24 Comments)</span></span></h4>
+                        <!-- Comments -->
+                        <div class="comments">
+                            <div class="media comment">
+                                <a href="#" class="pull-left comment-avatar">
+                                    <img alt="" src="~/assets/img/preview/avatars/avatar-1.jpg" class="media-object">
+                                </a>
+                                <div class="media-body">
+                                    <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
+                                    <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
+                                    <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
+                                    <div class="media comment">
+                                        <a href="#" class="pull-left comment-avatar">
+                                            <img alt="" src="~/assets/img/preview/avatars/avatar-2.jpg" class="media-object">
+                                        </a>
+                                        <div class="media-body">
+                                            <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
+                                            <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
+                                            <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="media comment">
+                                <a href="#" class="pull-left comment-avatar">
+                                    <img alt="" src="~/assets/img/preview/avatars/avatar-3.jpg" class="media-object">
+                                </a>
+                                <div class="media-body">
+                                    <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
+                                    <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
+                                    <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Comments -->
+                        <!-- Leave a Comment -->
+                        <div class="comments-form">
+                            <h4 class="block-title">Submit Your Comment</h4>
+                            <form method="post" action="#" name="comments-form" id="comments-form">
+                                <div class="form-group"><input type="text" placeholder="Your name and surname" class="form-control" title="comments-form-name" name="comments-form-name"></div>
+                                <div class="form-group"><input type="text" placeholder="Your email adress" class="form-control" title="comments-form-email" name="comments-formemail"></div>
+                                <div class="form-group"><textarea placeholder="Your message" class="form-control" title="comments-form-comments" name="comments-form-comments" rows="6"></textarea></div>
+                                <div class="form-group"><button type="submit" class="btn btn-theme btn-theme-transparent btn-icon-left" id="submit"><i class="fa fa-comment"></i> Send Comment</button></div>
+                            </form>
+                        </div>
+                        <!-- /Leave a Comment -->
+                    </section>
+                    <!-- /PAGE -->
                 </div>
                 <!-- /CONTENT -->
             </div>
