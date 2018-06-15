@@ -12,7 +12,11 @@ namespace Peppermint.App.Models
         public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
+
+        // Markdown
         public string Content { get; set; }
+        public string Html { get; set; }
+
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
 

@@ -481,10 +481,10 @@
                         </div>
                         <div class="post-header">
                             <h2 class="post-title"><a href="#">@Model.Post.Title</a></h2>
-                            <div class="post-meta">By <a href="/users/@Model.Post.User.UserName">@Model.Post.User.UserName</a> / 6th June 2014 / in <a href="#">Design</a>, <a href="#">Photography</a> / <a href="#">27 Comments</a> / 18 Likes / <a href="#">Share This Post</a></div>
+                            <div class="post-meta">By <a href="/users/@Model.Post.User.UserName">@Model.Post.User.UserName</a> / @Model.Post.Created.ToString("dddd, MMMM dd yyyy") / in <a href="/blog/category/@Model.Post.Category.Slug">@Model.Post.Category.Name</a> / <a href="#">Share This Post</a></div>
                         </div>
                         <div class="post-body">
-                            <div class="post-excerpt">
+                            @*<div class="post-excerpt">
                                 <p class="text-xl">Nulla vitae elit libero, a pharetra augue. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna,...</p>
                                 <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
                                 <p>Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -494,7 +494,8 @@
                                     <p>Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel.</p>
                                 </blockquote>
                                 <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                            </div>
+                            </div>*@
+                            <p>@Html.Raw(Model.Post.Html)</p>
                         </div>
                     </article>
                     <!-- /Blog post -->
@@ -503,9 +504,9 @@
                         <div class="media">
                             <img class="media-object pull-left" src="~/assets/img/preview/blog/avatar-author.jpg" alt="">
                             <div class="media-body">
-                                <p class="media-category">Administrator</p>
-                                <h4 class="media-heading"><a href="#">Administrator Name Here</a></h4>
-                                <p>Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                <p class="media-category">@Model.Post.User.FirstName @Model.Post.User.LastName</p>
+                                <h4 class="media-heading"><a target="_blank" href="http://twitter.com/@Model.Post.User.TwitterHandle">@@@(Model.Post.User.TwitterHandle)</a></h4>
+                                <p>@Model.Post.User.Excerpt</p>
                             </div>
                         </div>
                     </div>

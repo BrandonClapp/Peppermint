@@ -19,7 +19,12 @@ namespace Peppermint.Core.Entities
 
         public int Id { get; set; }
         public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
+
+        public string Excerpt { get; set; }
+        public string TwitterHandle { get; set; }
 
         public async Task<IEnumerable<Group>> GetGroups()
         {

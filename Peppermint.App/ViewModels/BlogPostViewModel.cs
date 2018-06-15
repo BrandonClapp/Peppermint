@@ -42,6 +42,7 @@ namespace Peppermint.App.ViewModels
                 Updated = entity.Updated
             };
 
+            post.Html = await entity.GetHtml();
             post.Thumbnail = await entity.GetThumbnail();
             post.Banner = await entity.GetBanner();
             post.Category = await entity.GetCategory();

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Markdown" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Peppermint.Core\Peppermint.Core.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿using Peppermint.Blog.Services;
+﻿using HeyRed.MarkdownSharp;
+using Peppermint.Blog.Services;
 using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
@@ -30,6 +31,15 @@ namespace Peppermint.Blog.Entities
         public string Content { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
+
+        public async Task<string> GetHtml()
+        {
+            return await Task.Run(() =>
+            {
+                var markdown = new Markdown().Transform(Content);
+                return markdown;
+            });
+        }
 
         // Image uploads are something that can be baked into core.
         // Change this to attachments?
