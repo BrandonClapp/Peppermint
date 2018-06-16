@@ -3,6 +3,7 @@ using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peppermint.Blog.Services
@@ -99,6 +100,16 @@ namespace Peppermint.Blog.Services
             return tags;
         }
 
+        public async Task<IEnumerable<Post>> GetPostsByTag(string tag)
+        {
+            var tags = await _query.GetMany<PostTag>()
+                .Where(nameof(PostTag.Tag), Is.EqualTo, tag).Execute();
 
+            var posts = await _query.GetMany<Post>()
+                .Where(nameof(Post.Id), Is.In, tags.Select(t => t.PostId))
+                .Execute();
+
+            return posts;
+        }
     }
 }

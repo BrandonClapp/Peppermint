@@ -513,69 +513,33 @@
                     <!-- /About the author -->
                     <!-- PAGE -->
                     <section class="page-section">
-                        <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-file-text-o"></i>See All Posts</a>
+                        <a class="btn btn-theme btn-title-more btn-icon-left" href="/blog"><i class="fa fa-file-text-o"></i>See All Posts</a>
                         <h2 class="block-title"><span>Related Posts</span></h2>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="recent-post alt">
-                                    <div class="media">
-                                        <a class="media-link" href="#">
-                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-5.jpg" alt="">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        <div class="media-body">
-                                            <p class="media-category"><a href="#">Shoes</a> / <a href="#">Dress</a></p>
-                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
-                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
-                                            <div class="media-meta">
-                                                6th June 2014
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
+                            @foreach (var post in Model.RelatedPosts)
+                            {
+                                <div class="col-md-4">
+                                    <div class="recent-post alt">
+                                        <div class="media">
+                                            <a class="media-link" href="#">
+                                                <img class="media-object" src="@post.Thumbnail" alt="">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                            <div class="media-body">
+                                                <h4 class="media-heading"><a href="/blog/@post.Slug">@post.Title</a></h4>
+                                                <p class="media-category"><a href="/blog/category/@post.Category.Slug">@post.Category.Name</a></p>
+                                                @post.GetExcerpt(95)
+                                                <div class="media-meta">
+                                                    @post.Created.ToString("MMMM dd yyyy")
+                                                    <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
+                                                    <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="recent-post alt">
-                                    <div class="media">
-                                        <a class="media-link" href="#">
-                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-6.jpg" alt="">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        <div class="media-body">
-                                            <p class="media-category"><a href="#">Wedding</a> / <a href="#">Meeting</a></p>
-                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
-                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
-                                            <div class="media-meta">
-                                                6th June 2014
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="recent-post alt">
-                                    <div class="media">
-                                        <a class="media-link" href="#">
-                                            <img class="media-object" src="~/assets/img/preview/blog/recent-post-7.jpg" alt="">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        <div class="media-body">
-                                            <p class="media-category"><a href="#">Children</a> / <a href="#">Kids</a></p>
-                                            <h4 class="media-heading"><a href="#">Post Header Here</a></h4>
-                                            Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante.
-                                            <div class="media-meta">
-                                                6th June 2014
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
-                                                <span class="divider">/</span><a href="#"><i class="fa fa-heart"></i>18</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            }
+
                         </div>
                     </section>
                     <!-- /PAGE -->

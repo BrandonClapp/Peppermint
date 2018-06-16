@@ -26,9 +26,9 @@ namespace Peppermint.App.Models
         public User User { get; set; }
         public Category Category { get; set; }
 
-        public string GetExcerpt()
+        public string GetExcerpt(int size)
         {
-            return Content.Truncate(400);
+            return Content.Truncate(size);
         }
     }
 }

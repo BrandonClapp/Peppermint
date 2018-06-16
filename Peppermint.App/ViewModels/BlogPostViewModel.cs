@@ -1,6 +1,7 @@
 ﻿using Peppermint.App.Models;
 using Peppermint.Blog.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,20 +17,21 @@ namespace Peppermint.App.ViewModels
         }
 
         public Post Post { get; set; }
+        public IEnumerable<Post> RelatedPosts { get; set; }
 
         public async Task<BlogPostViewModel> Build(string postSlug)
         {
             var post = await BuildPost(postSlug);
+            var relatedPosts = await BuildRelatedPosts(post, 3);
 
             Post = post;
+            RelatedPosts = relatedPosts;
 
             return this;
         }
 
-        private async Task<Post> BuildPost(string postSlug)
+        private async Task<Post> EntityToPost(Blog.Entities.Post entity)
         {
-            var entity = await _postService.GetPost(postSlug);
-
             var post = new Post()
             {
                 Id = entity.Id,
@@ -49,6 +51,53 @@ namespace Peppermint.App.ViewModels
             post.User = await entity.GetUser();
 
             return post;
+        }
+
+        private async Task<IEnumerable<Post>> EntitiesToPosts(IEnumerable<Blog.Entities.Post> entities)
+        {
+            return await Task.WhenAll(entities.Select(async ent => await EntityToPost(ent)));
+        }
+
+        private async Task<Post> BuildPost(string postSlug)
+        {
+            var entity = await _postService.GetPost(postSlug);
+
+            return await EntityToPost(entity);
+        }
+
+        private async Task<IEnumerable<Post>> BuildRelatedPosts(Post post, int count)
+        {
+            var tags = await _postService.GetPostTags(post.Id);
+
+            var relatedPosts = new List<Blog.Entities.Post>();
+            var matched = 0;
+
+            // first priority, match on same tags.
+            foreach (var tag in tags)
+            {
+                var tagPosts = await _postService.GetPostsByTag(tag.Tag);
+                tagPosts = tagPosts.Where(p => post.Id != p.Id);
+                relatedPosts.AddRange(tagPosts);
+                matched += tagPosts.Count();
+
+                if (matched >= count)
+                {
+                    return (await EntitiesToPosts(relatedPosts)).Take(count);
+                }
+            }
+
+            // second priorty, match on like words, prefering longer words first.
+
+            //var titleWords = post.Title.Split(" ");
+            //// order by length, descending.
+            //Array.Sort(titleWords, (x, y) => y.Length.CompareTo(x.Length));
+
+            //foreach (var word in titleWords)
+            //{
+
+            //}
+
+            return (await EntitiesToPosts(relatedPosts)).Take(count);
         }
     }
 }
