@@ -242,33 +242,7 @@
                                                     6th June 2014
                                                     <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
                                                 </div>
-                                                <h4 class="media-heading"><a href="#">Standard Blog Post Header</a></h4>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <a class="pull-left media-link" href="#">
-                                                <img class="media-object" src="~/assets/img/preview/blog/recent-post-1w.jpg" alt="">
-                                                <i class="fa fa-plus"></i>
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="media-meta">
-                                                    6th June 2014
-                                                    <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
-                                                </div>
-                                                <h4 class="media-heading"><a href="#">Standard Blog Post Header</a></h4>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <a class="pull-left media-link" href="#">
-                                                <img class="media-object" src="~/assets/img/preview/blog/recent-post-2w.jpg" alt="">
-                                                <i class="fa fa-plus"></i>
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="media-meta">
-                                                    6th June 2014
-                                                    <span class="divider">/</span><a href="#"><i class="fa fa-comment"></i>27</a>
-                                                </div>
-                                                <h4 class="media-heading"><a href="#">Standard Blog Post Header</a></h4>
+                                                <h4 class="media-heading"><a href="#">Tab One</a></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -545,10 +519,31 @@
                     <!-- /PAGE -->
                     <!-- PAGE -->
                     <section class="page-section no-padding-bottom">
-                        <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-file-text-o"></i>See All</a>
-                        <h4 class="block-title"><span>Comments <span class="thin">(24 Comments)</span></span></h4>
+                        @*<a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-file-text-o"></i>See All</a>*@
+                        <h4 class="block-title"><span>Comments <span class="thin">(<a href="#disqus_thread"></a>)</span></span></h4>
                         <!-- Comments -->
-                        <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://peppermint-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+                        </script>
+                        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+                        @*<div class="comments">
                             <div class="media comment">
                                 <a href="#" class="pull-left comment-avatar">
                                     <img alt="" src="~/assets/img/preview/avatars/avatar-1.jpg" class="media-object">
@@ -579,10 +574,10 @@
                                     <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <!-- /Comments -->
                         <!-- Leave a Comment -->
-                        <div class="comments-form">
+                        @*<div class="comments-form">
                             <h4 class="block-title">Submit Your Comment</h4>
                             <form method="post" action="#" name="comments-form" id="comments-form">
                                 <div class="form-group"><input type="text" placeholder="Your name and surname" class="form-control" title="comments-form-name" name="comments-form-name"></div>
@@ -590,7 +585,7 @@
                                 <div class="form-group"><textarea placeholder="Your message" class="form-control" title="comments-form-comments" name="comments-form-comments" rows="6"></textarea></div>
                                 <div class="form-group"><button type="submit" class="btn btn-theme btn-theme-transparent btn-icon-left" id="submit"><i class="fa fa-comment"></i> Send Comment</button></div>
                             </form>
-                        </div>
+                        </div>*@
                         <!-- /Leave a Comment -->
                     </section>
                     <!-- /PAGE -->
@@ -642,3 +637,6 @@
     </section>
     <!-- /PAGE -->
 </div>
+
+<!-- Disqus Comment Count -->
+<script id="dsq-count-scr" src="//peppermint-1.disqus.com/count.js" async></script>

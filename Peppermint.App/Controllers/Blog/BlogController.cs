@@ -11,10 +11,10 @@ namespace Peppermint.App.Controllers.Blog
     [Route("[controller]")]
     public class BlogController : Controller
     {
-        private readonly BlogViewModel _blogViewModel;
+        private readonly BlogListViewModel _blogViewModel;
         private readonly BlogPostViewModel _blogPostViewModel;
 
-        public BlogController(BlogViewModel blog, BlogPostViewModel blogPost)
+        public BlogController(BlogListViewModel blog, BlogPostViewModel blogPost)
         {
             _blogViewModel = blog;
             _blogPostViewModel = blogPost;

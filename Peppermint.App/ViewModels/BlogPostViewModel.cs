@@ -5,13 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Peppermint.App.Extentions;
 
 namespace Peppermint.App.ViewModels
 {
-    public class BlogPostViewModel : ViewModel
+    public class BlogPostViewModel : BlogViewModel
     {
         private readonly PostService _postService;
-        public BlogPostViewModel(PostService postService)
+
+        public BlogPostViewModel(BlogSidebarViewModel sidebar, PostService postService)
+            : base (sidebar)
         {
             _postService = postService;
         }
@@ -21,6 +24,8 @@ namespace Peppermint.App.ViewModels
 
         public async Task<BlogPostViewModel> Build(string postSlug)
         {
+            await base.Build();
+
             var post = await BuildPost(postSlug);
             var relatedPosts = await BuildRelatedPosts(post, 3);
 
@@ -30,39 +35,11 @@ namespace Peppermint.App.ViewModels
             return this;
         }
 
-        private async Task<Post> EntityToPost(Blog.Entities.Post entity)
-        {
-            var post = new Post()
-            {
-                Id = entity.Id,
-                Title = entity.Title,
-                Slug = entity.Slug,
-                CategoryId = entity.CategoryId,
-                Content = entity.Content,
-                UserId = entity.UserId,
-                Created = entity.Created,
-                Updated = entity.Updated
-            };
-
-            post.Html = await entity.GetHtml();
-            post.Thumbnail = await entity.GetThumbnail();
-            post.Banner = await entity.GetBanner();
-            post.Category = await entity.GetCategory();
-            post.User = await entity.GetUser();
-
-            return post;
-        }
-
-        private async Task<IEnumerable<Post>> EntitiesToPosts(IEnumerable<Blog.Entities.Post> entities)
-        {
-            return await Task.WhenAll(entities.Select(async ent => await EntityToPost(ent)));
-        }
-
         private async Task<Post> BuildPost(string postSlug)
         {
             var entity = await _postService.GetPost(postSlug);
 
-            return await EntityToPost(entity);
+            return await entity.ToPost();
         }
 
         private async Task<IEnumerable<Post>> BuildRelatedPosts(Post post, int count)
@@ -82,7 +59,7 @@ namespace Peppermint.App.ViewModels
 
                 if (matched >= count)
                 {
-                    return (await EntitiesToPosts(relatedPosts)).Take(count);
+                    return (await relatedPosts.ToPosts()).Take(count);
                 }
             }
 
@@ -97,7 +74,9 @@ namespace Peppermint.App.ViewModels
 
             //}
 
-            return (await EntitiesToPosts(relatedPosts)).Take(count);
+            return (await relatedPosts.ToPosts()).Take(count);
         }
+
+        
     }
 }
