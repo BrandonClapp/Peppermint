@@ -1,7 +1,6 @@
 ﻿using Peppermint.App.Extentions;
 using Peppermint.App.Models;
 using Peppermint.Blog.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +17,17 @@ namespace Peppermint.App.ViewModels
 
         public IEnumerable<Post> RecentPosts { get; set; }
         public IEnumerable<Post> PopularPosts { get; set; }
-
-        // todo: implement tags for sidebar.
-        public IEnumerable<string> Tags { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
 
         public async Task<BlogSidebarViewModel> Build()
         {
             var recentPosts = await BuildRecentPosts(3);
             var popularPosts = await BuildPopularPosts(3);
+            var tags = await BuildTags();
 
             RecentPosts = recentPosts;
             PopularPosts = popularPosts;
+            Tags = tags;
 
             return this;
         }
@@ -43,6 +42,14 @@ namespace Peppermint.App.ViewModels
         {
             var posts = await _postService.GetPopularPosts(count, null);
             return await posts.ToPosts();
+        }
+
+        private async Task<IEnumerable<Tag>> BuildTags()
+        {
+            var popular = await _postService.GetPopularTags(15);
+            var tags = popular.Select(tag => new Tag(tag, tag.Slugify()));
+
+            return tags;
         }
     }
 }

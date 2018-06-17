@@ -112,6 +112,7 @@ namespace Peppermint.Blog.Services
             return id;
         }
 
+        // Consider: Need PostTagService?
         public async Task<IEnumerable<PostTag>> GetPostTags(int postId)
         {
             var tags = await _query.GetMany<PostTag>()
@@ -130,6 +131,17 @@ namespace Peppermint.Blog.Services
                 .Execute();
 
             return posts;
+        }
+
+        public async Task<IEnumerable<string>> GetPopularTags(int count)
+        {
+            // todo: optimize this through custom query or enhance query builder.
+            var postTags = await _query.GetMany<PostTag>().Execute();
+
+            var groups = postTags.GroupBy((tag) => tag.Tag).OrderByDescending(group => group.Count());
+
+            var tags = groups.Select(group => group.Key);
+            return tags;
         }
 
         public async Task IncrementViews(int postId)
