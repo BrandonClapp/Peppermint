@@ -29,6 +29,19 @@ namespace Peppermint.App.Controllers.Blog
         [HttpGet("category/{categorySlug}")]
         public async Task<IActionResult> Category(string categorySlug)
         {
+            var vm = await BuildListVm(categorySlug, null);
+            return View("Index", vm);
+        }
+
+        [HttpGet("tag/{tagSlug}")]
+        public async Task<IActionResult> Tag(string tagSlug)
+        {
+            var vm = await BuildListVm(null, tagSlug);
+            return View("Index", vm);
+        }
+
+        private async Task<BlogListViewModel> BuildListVm(string categorySlug, string tagSlug)
+        {
             Request.Query.TryGetValue("page", out var page);
 
             if (string.IsNullOrEmpty(page))
@@ -37,9 +50,9 @@ namespace Peppermint.App.Controllers.Blog
             var pg = int.Parse(page);
 
             var pageSize = 5;
-            var vm = await _blogViewModel.Build(pageSize, pg, categorySlug);
+            var vm = await _blogViewModel.Build(pageSize, pg, categorySlug, tagSlug);
 
-            return View("Index", vm);
+            return vm;
         }
 
         [HttpGet("{postSlug}")]

@@ -1,6 +1,7 @@
 ﻿using Peppermint.App.Extentions;
 using Peppermint.App.Models;
 using Peppermint.Blog.Services;
+using Peppermint.Blog.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ namespace Peppermint.App.ViewModels
         private async Task<IEnumerable<Tag>> BuildTags()
         {
             var popular = await _postService.GetPopularTags(15);
-            var tags = popular.Select(tag => new Tag(tag, tag.Slugify()));
+            var tags = popular.Select(tag => new Tag(tag, Slug.Create(tag)));
 
             return tags;
         }

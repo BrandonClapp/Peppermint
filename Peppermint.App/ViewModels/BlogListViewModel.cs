@@ -1,9 +1,9 @@
 ﻿using Peppermint.App.Extentions;
 using Peppermint.App.Models;
 using Peppermint.Blog.Services;
+using Peppermint.Blog.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peppermint.App.ViewModels
@@ -12,24 +12,31 @@ namespace Peppermint.App.ViewModels
     {
         private readonly PostService _postService;
         private readonly CategoryService _categoryService;
-        public BlogListViewModel(BlogSidebarViewModel sidebar, PostService postService, CategoryService categoryService)
+        private readonly TagService _tagService;
+
+        public BlogListViewModel(BlogSidebarViewModel sidebar, PostService postService,
+            CategoryService categoryService, TagService tagService)
             : base (sidebar)
         {
             _postService = postService;
             _categoryService = categoryService;
+            _tagService = tagService;
         }
 
         public Pagination Pagination { get; set; }
         public IEnumerable<Post> Posts { get; set; }
         public Category Category { get; set; }
+        public Tag Tag { get; set; }
 
-        public async Task<BlogListViewModel> Build(int pageSize, int page, string categorySlug)
+        public async Task<BlogListViewModel> Build(int pageSize, int page, 
+            string categorySlug = null, string tagSlug = null)
         {
             await base.Build();
 
-            Posts = await BuildPosts(pageSize, page, categorySlug);
-            Pagination = await BuildPagination(pageSize, page, categorySlug);
+            Posts = await BuildPosts(pageSize, page, categorySlug, tagSlug);
+            Pagination = await BuildPagination(pageSize, page, categorySlug, tagSlug);
             Category = await BuildCategory(categorySlug);
+            Tag = await BuildTag(tagSlug);
 
             return this;
         }
@@ -43,16 +50,45 @@ namespace Peppermint.App.ViewModels
             return await category.ToCategory();
         }
 
-        private async Task<IEnumerable<Post>> BuildPosts(int pageSize, int page, string categorySlug)
+        private async Task<Tag> BuildTag(string tagSlug)
         {
-            var entities = await _postService.GetRecentPosts(pageSize, page, categorySlug);
+            if (string.IsNullOrEmpty(tagSlug))
+                return null;
 
+            var tag = await Task.Run(() =>
+            {
+                var tagName = Slug.Reverse(tagSlug);
+                var tagInfo = new Tag(tagName, tagSlug);
+                return tagInfo;
+            });
+
+            return tag;
+        }
+
+        private async Task<IEnumerable<Post>> BuildPosts(int pageSize, int page,
+            string categorySlug, string tagSlug)
+        {
+            if (!string.IsNullOrEmpty(categorySlug))
+            {
+                var categoryPosts = await _postService.GetPostsByCategory(categorySlug, pageSize, page);
+                return await categoryPosts.ToPosts();
+            }
+
+            if (!string.IsNullOrEmpty(tagSlug))
+            {
+                var tagPosts = await _postService.GetPostsByTag(tagSlug, pageSize, page);
+                return await tagPosts.ToPosts();
+            }
+
+            var entities = await _postService.GetRecentPosts(pageSize, page);
             var posts = await entities.ToPosts();
 
             return posts;
         }
 
-        private async Task<Pagination> BuildPagination(int pageSize, int page, string categorySlug)
+        // todo: fix to work with tags
+        private async Task<Pagination> BuildPagination(int pageSize, int page,
+            string categorySlug, string tagSlug)
         {
             var pagination = new Pagination()
             {
@@ -69,7 +105,16 @@ namespace Peppermint.App.ViewModels
                 pagination.CanGoPrevPage = false;
             }
 
-            var totalPosts = await _categoryService.GetTotalPosts(categorySlug);
+            var totalPosts = 0;
+            if (!string.IsNullOrEmpty(categorySlug))
+            {
+                totalPosts = await _categoryService.GetTotalPosts(categorySlug);
+            }
+            else if (!string.IsNullOrEmpty(tagSlug))
+            {
+                totalPosts = await _tagService.GetTotalPosts(tagSlug);
+            }
+
             var pages = Math.Ceiling((double)totalPosts / pageSize);
 
             var maxPage = page + 2;

@@ -4,13 +4,21 @@
 
 <div class="content-area">
 
-    @if (Model.Category != null)
+    @if (Model.Category != null || Model.Tag != null)
     {
         <!-- BREADCRUMBS -->
         <section class="page-section breadcrumbs">
             <div class="container">
                 <div class="page-header">
+                    @if (Model.Category != null)
+                    {
                     <h1>@Model.Category.Name</h1>
+                    }
+
+                    @if (Model.Tag != null)
+                    {
+                    <h1>@Model.Tag.Name</h1>
+                    }
                 </div>
                 <ul class="breadcrumb">
                     <li><a href="~/">Home</a></li>
@@ -19,6 +27,11 @@
                     @if (Model.Category != null)
                     {
                         <li><a href="~/blog/category/@Model.Category.Slug">@Model.Category.Name</a></li>
+                    }
+
+                    @if (Model.Tag != null)
+                    {
+                        <li><a href="~/blog/tag/@Model.Tag.Slug">@Model.Tag.Name</a></li>
                     }
 
                     @*<li class="active">@Model.Post.Title</li>*@

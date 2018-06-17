@@ -1,4 +1,5 @@
 ﻿using Peppermint.Blog.Entities;
+using Peppermint.Blog.Utilities;
 using Peppermint.Core.Data;
 using Peppermint.Core.Entities;
 using Peppermint.Core.Services;
@@ -20,26 +21,57 @@ namespace Peppermint.Blog.Services
             return posts;
         }
 
-        public async Task<IEnumerable<Post>> GetRecentPosts(int pageSize = 15, int page = 1, string categorySlug = null)
+        public async Task<IEnumerable<Post>> GetRecentPosts(int pageSize = 15, int page = 1)
         {
-            var query = _query.GetMany<Post>();
-
-            if (!string.IsNullOrEmpty(categorySlug))
-            {
-                var category = await _query.GetOne<Category>()
-                    .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
-
-                if (category != null)
-                {
-                    query.Where(nameof(Post.CategoryId), Is.EqualTo, category.Id);
-                }
-            }
-
-            var posts = await query.Order(nameof(Post.Id), Order.Descending)
+            var posts = await _query.GetMany<Post>()
+                .Order(nameof(Post.Id), Order.Descending)
                 .Pagination(pageSize, page)
                 .Execute();
 
             return posts;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsByTag(string tagSlug, int pageSize = 15, int page = 1)
+        {
+            if (string.IsNullOrEmpty(tagSlug))
+                return null;
+
+            var tagName = Slug.Reverse(tagSlug);
+            var tags = await _query.GetMany<PostTag>()
+                .Where(nameof(PostTag.Tag), Is.EqualTo, tagName).Execute();
+
+            if (tags != null && tags.Any())
+            {
+                var posts = await _query.GetMany<Post>()
+                .Where(nameof(Post.Id), Is.In, tags.Select(t => t.PostId))
+                .Order(nameof(Post.Id), Order.Descending)
+                .Pagination(pageSize, page)
+                .Execute();
+
+                return posts;
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsByCategory(string categorySlug, int pageSize = 15, int page = 1)
+        {
+            if (string.IsNullOrEmpty(categorySlug))
+                return null;
+
+            var category = await _query.GetOne<Category>()
+                    .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
+
+            if (category != null)
+            {
+                return await _query.GetMany<Post>()
+                    .Where(nameof(Post.CategoryId), Is.EqualTo, category.Id)
+                    .Order(nameof(Post.Id), Order.Descending)
+                    .Pagination(pageSize, page)
+                    .Execute();
+            }
+
+            return null;
         }
 
         public async Task<IEnumerable<Post>> GetPopularPosts(int count, string categorySlug)
