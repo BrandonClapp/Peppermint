@@ -27,7 +27,7 @@ namespace Peppermint.App.Extentions
             post.Html = await entity.GetHtml();
             post.Thumbnail = await entity.GetThumbnail();
             post.Banner = await entity.GetBanner();
-            post.Category = await entity.GetCategory();
+            post.Category = await (await entity.GetCategory()).ToCategory();
             post.User = await entity.GetUser();
 
             return post;

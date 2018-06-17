@@ -23,9 +23,10 @@ namespace Peppermint.Blog.Services
             return category;
         }
 
-        public async Task<Category> GetCategory(string name)
+        public async Task<Category> GetCategory(string slug)
         {
-            var category = await _query.GetOne<Category>().Where(nameof(Category.Name), Is.EqualTo, name)
+            var category = await _query.GetOne<Category>()
+                .Where(nameof(Category.Slug), Is.EqualTo, slug)
                 .Execute();
 
             return category;

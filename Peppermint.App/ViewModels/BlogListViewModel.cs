@@ -21,15 +21,26 @@ namespace Peppermint.App.ViewModels
 
         public Pagination Pagination { get; set; }
         public IEnumerable<Post> Posts { get; set; }
+        public Category Category { get; set; }
 
         public async Task<BlogListViewModel> Build(int pageSize, int page, string categorySlug)
         {
             await base.Build();
 
             Posts = await BuildPosts(pageSize, page, categorySlug);
-            this.Pagination = await BuildPagination(pageSize, page, categorySlug);
+            Pagination = await BuildPagination(pageSize, page, categorySlug);
+            Category = await BuildCategory(categorySlug);
 
             return this;
+        }
+
+        private async Task<Category> BuildCategory(string categorySlug)
+        {
+            if (string.IsNullOrEmpty(categorySlug))
+                return null;
+
+            var category = await _categoryService.GetCategory(categorySlug);
+            return await category.ToCategory();
         }
 
         private async Task<IEnumerable<Post>> BuildPosts(int pageSize, int page, string categorySlug)

@@ -10,9 +10,15 @@
                 <h1>Blog Post Page</h1>
             </div>
             <ul class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li class="active">Blog With Left Sidebar</li>
+                <li><a href="~/">Home</a></li>
+                <li><a href="~/blog">Blog</a></li>
+
+                @if (Model.Category != null)
+                {
+                    <li><a href="~/blog/category/@Model.Category.Slug">@Model.Category.Name</a></li>
+                }
+
+                @*<li class="active">@Model.Post.Title</li>*@
             </ul>
         </div>
     </section>

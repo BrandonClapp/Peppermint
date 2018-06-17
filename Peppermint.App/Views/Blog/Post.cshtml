@@ -6,13 +6,14 @@
     <!-- BREADCRUMBS -->
     <section class="page-section breadcrumbs">
         <div class="container">
-            <div class="page-header">
+            @*<div class="page-header">
                 <h1>Blog Post Page</h1>
-            </div>
+            </div>*@
             <ul class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li class="active">Blog With Left Sidebar</li>
+                <li><a href="~/">Home</a></li>
+                <li><a href="~/blog">Blog</a></li>
+                <li><a href="~/blog/category/@Model.Post.Category.Slug">@Model.Post.Category.Name</a></li>
+                <li class="active">@Model.Post.Title</li>
             </ul>
         </div>
     </section>
@@ -36,17 +37,6 @@
                             <div class="post-meta">By <a href="/users/@Model.Post.User.UserName">@Model.Post.User.UserName</a> / @Model.Post.Created.ToString("dddd, MMMM dd yyyy") / in <a href="/blog/category/@Model.Post.Category.Slug">@Model.Post.Category.Name</a> / <a href="#">Share This Post</a></div>
                         </div>
                         <div class="post-body">
-                            @*<div class="post-excerpt">
-                        <p class="text-xl">Nulla vitae elit libero, a pharetra augue. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna,...</p>
-                        <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                        <p>Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p>Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus. Sed posuere consectetur est at lobortis. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                        <blockquote>
-                            <h4>Fusce gravida interdum eros a mollis.</h4>
-                            <p>Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel.</p>
-                        </blockquote>
-                        <p>Fusce gravida interdum eros a mollis. Sed non lorem varius, volutpat nisl in, laoreet ante. Quisque suscipit mauris ipsum, eu mollis arcu laoreet vel. In posuere odio sed libero tincidunt commodo a vel ipsum. Mauris fringilla tellus aliquam, egestas sem in, malesuada nunc. Etiam condimentum felis odio, vel mollis est tempor non...</p>
-                    </div>*@
                             <p>@Html.Raw(Model.Post.Html)</p>
                         </div>
                     </article>
@@ -120,51 +110,6 @@
                             })();
                         </script>
                         <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-                        @*<div class="comments">
-                    <div class="media comment">
-                        <a href="#" class="pull-left comment-avatar">
-                            <img alt="" src="~/assets/img/preview/avatars/avatar-1.jpg" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
-                            <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
-                            <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
-                            <div class="media comment">
-                                <a href="#" class="pull-left comment-avatar">
-                                    <img alt="" src="~/assets/img/preview/avatars/avatar-2.jpg" class="media-object">
-                                </a>
-                                <div class="media-body">
-                                    <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
-                                    <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
-                                    <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media comment">
-                        <a href="#" class="pull-left comment-avatar">
-                            <img alt="" src="~/assets/img/preview/avatars/avatar-3.jpg" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <p class="comment-meta"><span class="comment-author"><a href="#">Post Comment User Name Here</a> <span class="comment-date"> 26 days ago <i class="fa fa-flag"></i></span></span></p>
-                            <p class="comment-text">Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismd. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere.</p>
-                            <p class="comment-reply"><a href="#">Reply this comment</a><i class="fa fa-comment"></i></p>
-                        </div>
-                    </div>
-                </div>*@
-                        <!-- /Comments -->
-                        <!-- Leave a Comment -->
-                        @*<div class="comments-form">
-                    <h4 class="block-title">Submit Your Comment</h4>
-                    <form method="post" action="#" name="comments-form" id="comments-form">
-                        <div class="form-group"><input type="text" placeholder="Your name and surname" class="form-control" title="comments-form-name" name="comments-form-name"></div>
-                        <div class="form-group"><input type="text" placeholder="Your email adress" class="form-control" title="comments-form-email" name="comments-formemail"></div>
-                        <div class="form-group"><textarea placeholder="Your message" class="form-control" title="comments-form-comments" name="comments-form-comments" rows="6"></textarea></div>
-                        <div class="form-group"><button type="submit" class="btn btn-theme btn-theme-transparent btn-icon-left" id="submit"><i class="fa fa-comment"></i> Send Comment</button></div>
-                    </form>
-                </div>*@
-                        <!-- /Leave a Comment -->
                     </section>
                     <!-- /PAGE -->
                 </div>
@@ -173,6 +118,7 @@
         </div>
     </section>
 
+    <!-- Bottom Blocks -->
     <!-- PAGE -->
     <section class="page-section no-padding-top">
         <div class="container">
