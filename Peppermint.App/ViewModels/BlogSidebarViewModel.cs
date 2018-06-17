@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Peppermint.App.ViewModels
 {
-    public class BlogSidebarViewModel
+    public class BlogSidebarViewModel : ViewModel
     {
         private PostService _postService;
         public BlogSidebarViewModel(PostService postService)
