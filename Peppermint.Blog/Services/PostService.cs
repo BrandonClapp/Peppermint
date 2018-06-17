@@ -42,6 +42,26 @@ namespace Peppermint.Blog.Services
             return posts;
         }
 
+        public async Task<IEnumerable<Post>> GetPopularPosts(int count, string categorySlug)
+        {
+            var query = _query.GetMany<Post>(count);
+
+            if (!string.IsNullOrEmpty(categorySlug))
+            {
+                var category = await _query.GetOne<Category>()
+                    .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
+
+                if (category != null)
+                {
+                    query.Where(nameof(Post.CategoryId), Is.EqualTo, category.Id);
+                }
+            }
+
+            var posts = await query.Order(nameof(Post.Views), Order.Descending).Execute();
+
+            return posts;
+        }
+
         public async Task<Post> GetPost(int postId)
         {
             var post = await _query.GetOne<Post>().Where(nameof(Post.Id), Is.EqualTo, postId).Execute();
@@ -110,6 +130,19 @@ namespace Peppermint.Blog.Services
                 .Execute();
 
             return posts;
+        }
+
+        public async Task IncrementViews(int postId)
+        {
+            var post = await GetPost(postId);
+
+            if (post == null)
+                return;
+
+            await _query.Update<Post>()
+                .Set(nameof(Post.Views), ++post.Views)
+                .Where(nameof(Post.Id), Is.EqualTo, postId)
+                .Execute();
         }
     }
 }

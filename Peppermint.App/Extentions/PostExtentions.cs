@@ -19,7 +19,9 @@ namespace Peppermint.App.Extentions
                 Content = entity.Content,
                 UserId = entity.UserId,
                 Created = entity.Created,
-                Updated = entity.Updated
+                Updated = entity.Updated,
+                Likes = entity.Likes,
+                Views = entity.Views
             };
 
             post.Html = await entity.GetHtml();

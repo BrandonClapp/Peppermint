@@ -31,6 +31,8 @@ namespace Peppermint.Blog.Entities
         public string Content { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
+        public int Views { get; set; }
+        public int Likes { get; set; }
 
         public async Task<string> GetHtml()
         {
@@ -66,6 +68,11 @@ namespace Peppermint.Blog.Entities
         public async Task<IEnumerable<PostTag>> GetTags()
         {
             return await _postService.GetPostTags(Id);
+        }
+
+        public async Task IncrementViews()
+        {
+            await _postService.IncrementViews(Id);
         }
     }
 }

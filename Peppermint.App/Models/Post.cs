@@ -12,6 +12,8 @@ namespace Peppermint.App.Models
         public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
+        public int Views { get; set; }
+        public int Likes { get; set; }
 
         // Markdown
         public string Content { get; set; }

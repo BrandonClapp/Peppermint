@@ -38,7 +38,8 @@ namespace Peppermint.App.ViewModels
 
         private async Task<IEnumerable<Post>> BuildPopularPosts(int count)
         {
-            return null;
+            var posts = await _postService.GetPopularPosts(count, null);
+            return await posts.ToPosts();
         }
     }
 }

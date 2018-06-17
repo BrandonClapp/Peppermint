@@ -20,9 +20,9 @@ namespace Peppermint.Core.Data.SqlServer
             return new SelectOneQuery<T>(_connString, _entityFactory, _dataLocationCache);
         }
 
-        public ISelectManyQuery<T> GetMany<T>()
+        public ISelectManyQuery<T> GetMany<T>(int count = 0)
         {
-            return new SelectManyQuery<T>(_connString, _entityFactory, _dataLocationCache);
+            return new SelectManyQuery<T>(count, _connString, _entityFactory, _dataLocationCache);
         }
 
         public IUpdateQuery<T> Update<T>()

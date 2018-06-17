@@ -7,10 +7,11 @@ namespace Peppermint.Core.Data
 {
     public class SelectManyQuery<T> : SqlServerQuery, ISelectManyQuery<T>
     {
-        public SelectManyQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
+        public SelectManyQuery(int count, string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache)
             : base(connString, entityFactory, dataLocationCache)
         {
-            _query = $"SELECT * FROM [DATALOCATION]";
+            var num = count != 0 ? $"TOP {count}" : "";
+            _query = $"SELECT {num} * FROM [DATALOCATION]";
         }
 
         public new ISelectManyQuery<T> Where(string column, Is type, object value)

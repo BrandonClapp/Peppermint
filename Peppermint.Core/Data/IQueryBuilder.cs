@@ -15,7 +15,7 @@
 
     public interface IQueryBuilder
     {
-        ISelectManyQuery<T> GetMany<T>();
+        ISelectManyQuery<T> GetMany<T>(int count = 0);
         ISelectOneQuery<T> GetOne<T>();
         IUpdateQuery<T> Update<T>();
         IInsertQuery<T> Insert<T>();

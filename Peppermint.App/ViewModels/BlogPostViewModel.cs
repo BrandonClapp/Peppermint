@@ -38,7 +38,7 @@ namespace Peppermint.App.ViewModels
         private async Task<Post> BuildPost(string postSlug)
         {
             var entity = await _postService.GetPost(postSlug);
-
+            await entity.IncrementViews();
             return await entity.ToPost();
         }
 

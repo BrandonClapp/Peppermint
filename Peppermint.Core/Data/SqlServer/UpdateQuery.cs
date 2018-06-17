@@ -9,7 +9,7 @@ namespace Peppermint.Core.Data
     public class UpdateQuery<T> : SqlServerQuery, IUpdateQuery<T>
     {
         protected bool _setApplied;
-        protected List<string> _sets;
+        protected List<string> _sets = new List<string>();
 
         public UpdateQuery(string connString, EntityFactory entityFactory, IDataLocationCache dataLocationCache) 
             : base(connString, entityFactory, dataLocationCache)
