@@ -19,6 +19,9 @@ namespace Peppermint.App.ViewModels
         public IEnumerable<Post> RecentPosts { get; set; }
         public IEnumerable<Post> PopularPosts { get; set; }
 
+        // todo: implement tags for sidebar.
+        public IEnumerable<string> Tags { get; set; }
+
         public async Task<BlogSidebarViewModel> Build()
         {
             var recentPosts = await BuildRecentPosts(3);

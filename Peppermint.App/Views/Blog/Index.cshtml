@@ -3,26 +3,32 @@
 }
 
 <div class="content-area">
-    <!-- BREADCRUMBS -->
-    <section class="page-section breadcrumbs">
-        <div class="container">
-            <div class="page-header">
-                <h1>Blog Post Page</h1>
+
+    @if (Model.Category != null)
+    {
+        <!-- BREADCRUMBS -->
+        <section class="page-section breadcrumbs">
+            <div class="container">
+                <div class="page-header">
+                    <h1>@Model.Category.Name</h1>
+                </div>
+                <ul class="breadcrumb">
+                    <li><a href="~/">Home</a></li>
+                    <li><a href="~/blog">Blog</a></li>
+
+                    @if (Model.Category != null)
+                    {
+                        <li><a href="~/blog/category/@Model.Category.Slug">@Model.Category.Name</a></li>
+                    }
+
+                    @*<li class="active">@Model.Post.Title</li>*@
+                </ul>
             </div>
-            <ul class="breadcrumb">
-                <li><a href="~/">Home</a></li>
-                <li><a href="~/blog">Blog</a></li>
+        </section>
+        <!-- /BREADCRUMBS -->
+    }
 
-                @if (Model.Category != null)
-                {
-                    <li><a href="~/blog/category/@Model.Category.Slug">@Model.Category.Name</a></li>
-                }
 
-                @*<li class="active">@Model.Post.Title</li>*@
-            </ul>
-        </div>
-    </section>
-    <!-- /BREADCRUMBS -->
     <!-- PAGE WITH SIDEBAR -->
     <section class="page-section with-sidebar">
         <div class="container">
