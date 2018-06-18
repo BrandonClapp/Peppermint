@@ -3,7 +3,7 @@
     <!-- widget search -->
     <div class="widget">
         <div class="widget-search">
-            <input class="form-control" type="text" placeholder="Search">
+            <input class="form-control" type="text" placeholder="Search Posts">
             <button><i class="fa fa-search"></i></button>
         </div>
     </div>
@@ -254,7 +254,9 @@
     </div>
     <!-- /widget tabs -->
     <!-- widget archives -->
-    @*<div class="widget shop-categories">
+    @if (Model.Sidebar.EnableArchive)
+    {
+        <div class="widget shop-categories">
             <h4 class="widget-title">Archives</h4>
             <div class="widget-content">
                 <ul>
@@ -335,75 +337,58 @@
                     </li>
                 </ul>
             </div>
-        </div>*@
+        </div>
+    }
     <!-- /widget archive -->
     <!-- widget flickr feed -->
-    <div class="widget widget-flickr-feed">
-        <a class="btn btn-theme btn-title-more" href="#">See All</a>
-        <h4 class="widget-title"><span>Flickr Images</span></h4>
-        <ul>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-8.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-9.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-10.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-11.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-12.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-13.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-14.jpg" alt="//"></a></li>
-            <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-15.jpg" alt="//"></a></li>
-        </ul>
-    </div>
+    @*<div class="widget widget-flickr-feed">
+            <a class="btn btn-theme btn-title-more" href="#">See All</a>
+            <h4 class="widget-title"><span>Flickr Images</span></h4>
+            <ul>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-8.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-9.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-10.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-11.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-12.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-13.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-14.jpg" alt="//"></a></li>
+                <li><a href="#"><img src="~/assets/img/preview/flickr/flickr-feed-15.jpg" alt="//"></a></li>
+            </ul>
+        </div>*@
     <!-- /widget flickr feed -->
     <!-- widget tag cloud -->
     <div class="widget widget-tag-cloud">
-        <a class="btn btn-theme btn-title-more" href="#">See All</a>
         <h4 class="widget-title"><span>Tags</span></h4>
         <ul>
             @foreach (var tag in Model.Sidebar.Tags)
             {
                 <li><a href="~/blog/tag/@tag.Slug">@tag.Name</a></li>
             }
-
-            @*<li><a href="#">Jeans</a></li>
-        <li><a href="#">Top Sellers</a></li>
-        <li><a href="#">E commerce</a></li>
-        <li><a href="#">Hot Deals</a></li>
-        <li><a href="#">Supplier</a></li>
-        <li><a href="#">Shop</a></li>
-        <li><a href="#">Theme</a></li>
-        <li><a href="#">Website</a></li>
-        <li><a href="#">Isamercan</a></li>
-        <li><a href="#">Themeforest</a></li>*@
         </ul>
     </div>
     <!-- /widget tag cloud -->
-    <!-- widget tag cloud -->
+    <!-- Advertisement -->
     <div class="widget widget-tag-cloud">
-        <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-twitter"></i>Follow Us</a>
-        <h4 class="widget-title"><span>Twitter</span></h4>
+        <h4 class="widget-title"><span>Specials</span></h4>
         <div class="recent-tweets">
-            <div class="media">
-                <span class="media-object pull-left"><i class="fa fa-twitter"></i></span>
-                <div class="media-body">
-                    <p><a href="#">@@twittername</a> At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    <small>1 minute ago</small>
-                </div>
-            </div>
-            <div class="media">
-                <span class="media-object pull-left"><i class="fa fa-twitter"></i></span>
-                <div class="media-body">
-                    <p><a href="#">@@twittername</a> At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    <small>1 minute ago</small>
-                </div>
-            </div>
-            <div class="media">
-                <span class="media-object pull-left"><i class="fa fa-twitter"></i></span>
-                <div class="media-body">
-                    <p><a href="#">@@twittername</a> At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    <small>1 minute ago</small>
-                </div>
-            </div>
+            Advertisement Special 1
         </div>
     </div>
-    <!-- /widget tag cloud -->
+    <!-- /Advertisement -->
+    <!-- widget twitter feed -->
+    @*<div class="widget widget-tag-cloud">
+            <a class="btn btn-theme btn-title-more btn-icon-left" href="#"><i class="fa fa-twitter"></i>Follow Us</a>
+            <h4 class="widget-title"><span>Twitter</span></h4>
+            <div class="recent-tweets">
+                <div class="media">
+                    <span class="media-object pull-left"><i class="fa fa-twitter"></i></span>
+                    <div class="media-body">
+                        <p><a href="#">@@twittername</a> At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                        <small>1 minute ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!-- /widget twitter feed -->
 </aside>
 <!-- /SIDEBAR -->

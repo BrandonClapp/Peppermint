@@ -19,6 +19,7 @@ namespace Peppermint.App.ViewModels
         public IEnumerable<Post> RecentPosts { get; set; }
         public IEnumerable<Post> PopularPosts { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
+        public bool EnableArchive { get; set; } = false;
 
         public async Task<BlogSidebarViewModel> Build()
         {
