@@ -86,15 +86,15 @@ namespace Peppermint.Core.Data
         {
             if (type == Is.EqualTo)
             {
-                _query += $"{column} = @{column}";
+                _query += $"[{column}] = @{column}";
             }
             else if (type == Is.Like)
             {
-                _query += $"{column} LIKE %@{column}%";
+                _query += $"[{column}] LIKE %@{column}%";
             }
             else if (type == Is.In)
             {
-                _query += $"{column} IN @{column}";
+                _query += $"[{column}] IN @{column}";
             }
 
             _parameters.Add(column, value);

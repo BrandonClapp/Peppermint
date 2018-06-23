@@ -13,8 +13,8 @@ namespace Peppermint.App.ViewModels.Blog
     {
         private readonly PostService _postService;
 
-        public BlogPostViewModel(UserFactory userFactory, BlogSidebarViewModel sidebar,
-            PostService postService): base (userFactory, sidebar)
+        public BlogPostViewModel(UserFactory userFactory, HeaderViewModel header, BlogSidebarViewModel sidebar,
+            PostService postService): base (userFactory, header, sidebar)
         {
             _postService = postService;
         }

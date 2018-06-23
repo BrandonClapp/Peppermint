@@ -16,9 +16,9 @@ namespace Peppermint.App.ViewModels.Blog
         private readonly CategoryService _categoryService;
         private readonly TagService _tagService;
 
-        public BlogListViewModel(UserFactory userFactory, BlogSidebarViewModel sidebar, 
+        public BlogListViewModel(UserFactory userFactory, HeaderViewModel header, BlogSidebarViewModel sidebar, 
             PostService postService, CategoryService categoryService, TagService tagService)
-            : base (userFactory, sidebar)
+            : base (userFactory, header, sidebar)
         {
             _postService = postService;
             _categoryService = categoryService;
