@@ -54,6 +54,32 @@ namespace Peppermint.Blog.Services
             return null;
         }
 
+        public async Task<IEnumerable<Post>> GetPostsByTagInCategory(string categorySlug, string tagSlug, int pageSize = 15, int page = 1)
+        {
+            // todo: standardize return null vs throwing exceptions
+            if (string.IsNullOrEmpty(categorySlug) || string.IsNullOrEmpty(tagSlug))
+                return null;
+
+            var category = await _query.GetOne<Category>()
+                    .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
+
+            var tagName = Slug.Reverse(tagSlug);
+
+            if (category == null)
+                return null;
+
+            var postsInCategory = await GetPostsByCategory(categorySlug, 1000, 1);
+            var postIds = postsInCategory.Select(post => post.Id);
+            
+            return await _query.GetMany<Post>()
+                    .InnerJoin<PostTag>(nameof(Post.Id), nameof(PostTag.PostId))
+                    .Where(nameof(PostTag.PostId), Is.In, postIds)
+                    .Where(nameof(PostTag.Tag), Is.EqualTo, tagName)
+                    .Order(nameof(Post.Id), Order.Descending)
+                    .Pagination(pageSize, page)
+                    .Execute();
+        }
+
         public async Task<IEnumerable<Post>> GetPostsByCategory(string categorySlug, int pageSize = 15, int page = 1)
         {
             if (string.IsNullOrEmpty(categorySlug))
@@ -62,16 +88,14 @@ namespace Peppermint.Blog.Services
             var category = await _query.GetOne<Category>()
                     .Where(nameof(Category.Slug), Is.EqualTo, categorySlug).Execute();
 
-            if (category != null)
-            {
-                return await _query.GetMany<Post>()
+            if (category == null)
+                return null;
+
+            return await _query.GetMany<Post>()
                     .Where(nameof(Post.CategoryId), Is.EqualTo, category.Id)
                     .Order(nameof(Post.Id), Order.Descending)
                     .Pagination(pageSize, page)
                     .Execute();
-            }
-
-            return null;
         }
 
         public async Task<IEnumerable<Post>> GetPopularPosts(int count, string categorySlug)

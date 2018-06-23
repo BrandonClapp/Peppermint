@@ -14,18 +14,24 @@
         <h4 class="widget-title">Categories</h4>
         <div class="widget-content">
             <ul>
-                <li>
-                    <span class="arrow"><i class="fa fa-angle-down"></i></span>
-                    <a href="#">Category</a>
-                    <ul class="children">
-                        <li>
-                            <a href="#">
-                                Tag
-                                <span class="count">00</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @foreach (var category in Model.Sidebar.Categories)
+                {
+                    <li>
+                        <span class="arrow"><i class="fa fa-angle-down"></i></span>
+                        <a href="#">@category.Name</a>
+                        <ul class="children">
+                            @foreach (var tag in category.Tags)
+                            {
+                                <li>
+                                    <a href="~/blog/category/@category.Slug/@tag.Slug">
+                                        @tag.Name
+                                        @*<span class="count">00</span>*@
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
                 <li><a href="#">Sale Off</a></li>
             </ul>
         </div>

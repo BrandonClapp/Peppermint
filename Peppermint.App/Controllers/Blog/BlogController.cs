@@ -23,13 +23,20 @@ namespace Peppermint.App.Controllers.Blog
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return await Category(null);
+            return await Category(null, null);
         }
 
-        [HttpGet("category/{categorySlug}")]
-        public async Task<IActionResult> Category(string categorySlug)
+        //[HttpGet("category/{categorySlug}")]
+        //public async Task<IActionResult> Category(string categorySlug)
+        //{
+        //    var vm = await BuildListVm(categorySlug, null);
+        //    return View("Index", vm);
+        //}
+
+        [HttpGet("category/{categorySlug}/{tagSlug?}")]
+        public async Task<IActionResult> Category(string categorySlug, string tagSlug)
         {
-            var vm = await BuildListVm(categorySlug, null);
+            var vm = await BuildListVm(categorySlug, tagSlug);
             return View("Index", vm);
         }
 

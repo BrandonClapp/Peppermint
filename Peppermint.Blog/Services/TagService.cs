@@ -35,15 +35,5 @@ namespace Peppermint.Blog.Services
 
             return tags;
         }
-
-        public async Task<IEnumerable<PostTag>> GetCategoryPostTags(IEnumerable<int> categoryIds)
-        {
-            var tags = await _query.GetMany<PostTag>()
-                .InnerJoin<Post>(nameof(Post.Id), Is.EqualTo, nameof(PostTag.PostId))
-                .InnerJoin<Category>(nameof(Category.Id), Is.In, categoryIds)
-                .Execute();
-
-            return tags;
-        }
     }
 }

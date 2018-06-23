@@ -68,6 +68,12 @@ namespace Peppermint.App.ViewModels
         private async Task<IEnumerable<Post>> BuildPosts(int pageSize, int page,
             string categorySlug, string tagSlug)
         {
+            if (!string.IsNullOrEmpty(categorySlug) && !string.IsNullOrEmpty(tagSlug))
+            {
+                var categoryTagPosts = await _postService.GetPostsByTagInCategory(categorySlug, tagSlug, pageSize, page);
+                return await categoryTagPosts.ToPosts();
+            }
+
             if (!string.IsNullOrEmpty(categorySlug))
             {
                 var categoryPosts = await _postService.GetPostsByCategory(categorySlug, pageSize, page);
