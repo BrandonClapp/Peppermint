@@ -10,5 +10,9 @@ namespace Peppermint.Core.Exceptions
         public ResourceNotFoundException() : base()
         {
         }
+
+        public ResourceNotFoundException(string message) : base(message)
+        {
+        }
     }
 }

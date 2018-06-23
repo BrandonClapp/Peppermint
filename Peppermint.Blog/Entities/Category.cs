@@ -22,5 +22,10 @@ namespace Peppermint.Blog.Entities
         {
             return await _categoryService.GetPosts(Id);
         }
+
+        public async Task<IEnumerable<string>> GetTags()
+        {
+            return await _categoryService.GetTags(Id);
+        }
     }
 }

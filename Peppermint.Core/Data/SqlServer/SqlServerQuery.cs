@@ -12,7 +12,8 @@ namespace Peppermint.Core.Data
     {
         private readonly string _connString;
         private readonly EntityFactory _entityFactory;
-        private readonly IDataLocationCache _dataLocationCache;
+
+        protected readonly IDataLocationCache _dataLocationCache;
 
         protected string _query;
         protected bool _whereApplied;
@@ -78,6 +79,11 @@ namespace Peppermint.Core.Data
                 _query += " AND ";
             }
 
+            AddCondition(column, type, value);
+        }
+
+        protected void AddCondition(string column, Is type, object value)
+        {
             if (type == Is.EqualTo)
             {
                 _query += $"{column} = @{column}";
@@ -234,6 +240,7 @@ namespace Peppermint.Core.Data
                     catch (Exception ex)
                     {
                         // todo: logging
+                        trans.Rollback();
                         throw ex;
                     }
                 }

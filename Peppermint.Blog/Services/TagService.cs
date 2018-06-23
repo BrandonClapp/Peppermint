@@ -2,6 +2,8 @@
 using Peppermint.Blog.Utilities;
 using Peppermint.Core.Data;
 using Peppermint.Core.Services;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +22,28 @@ namespace Peppermint.Blog.Services
                 .Where(nameof(PostTag.Tag), Is.EqualTo, tagName).Execute();
 
             return tag.Count();
+        }
+
+        public async Task<IEnumerable<PostTag>> GetCategoryPostTags(int categoryId)
+        {
+            var categoryPosts = await _query.GetMany<Post>()
+                .Where(nameof(Post.CategoryId), Is.EqualTo, categoryId).Execute();
+
+            var tags = await _query.GetMany<PostTag>()
+                .Where(nameof(PostTag.PostId), Is.In, categoryPosts.Select(post => post.Id))
+                .Execute();
+
+            return tags;
+        }
+
+        public async Task<IEnumerable<PostTag>> GetCategoryPostTags(IEnumerable<int> categoryIds)
+        {
+            var tags = await _query.GetMany<PostTag>()
+                .InnerJoin<Post>(nameof(Post.Id), Is.EqualTo, nameof(PostTag.PostId))
+                .InnerJoin<Category>(nameof(Category.Id), Is.In, categoryIds)
+                .Execute();
+
+            return tags;
         }
     }
 }

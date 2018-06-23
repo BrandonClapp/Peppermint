@@ -44,6 +44,16 @@ namespace Peppermint.Core.Data
             return this;
         }
 
+        public ISelectManyQuery<T> InnerJoin<To>(string column, Is condition, object value)
+        {
+            // Future: Add feature for aliasing.
+            var target = _dataLocationCache.GetLocation<To>();
+
+            _query += $" INNER JOIN {target} ON ";
+            AddCondition(column, condition, value);
+            return this;
+        }
+
         public async Task<IEnumerable<T>> Execute()
         {
             FillDataLocation<T>();

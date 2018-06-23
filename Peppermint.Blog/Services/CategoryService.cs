@@ -1,5 +1,7 @@
 ﻿using Peppermint.Blog.Entities;
 using Peppermint.Core.Data;
+using Peppermint.Core.Exceptions;
+using Peppermint.Core.Extentions;
 using Peppermint.Core.Services;
 using System;
 using System.Collections;
@@ -11,8 +13,10 @@ namespace Peppermint.Blog.Services
 {
     public class CategoryService : EntityService
     {
-        public CategoryService(IQueryBuilder query) : base(query)
+        private readonly TagService _tagService;
+        public CategoryService(TagService tagService, IQueryBuilder query) : base(query)
         {
+            _tagService = tagService;
         }
 
         public async Task<Category> GetCategory(int id)
@@ -30,6 +34,26 @@ namespace Peppermint.Blog.Services
                 .Execute();
 
             return category;
+        }
+
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            var categories = await _query.GetMany<Category>().Execute();
+            return categories;
+        }
+
+        public async Task<IEnumerable<string>> GetTags(int id)
+        {
+            var category = await GetCategory(id);
+
+            if (category == null)
+                throw new ResourceNotFoundException($"Cannot get tags for category. " +
+                    $"Category {id} not found.");
+
+            var tags = await _tagService.GetCategoryPostTags(id);
+
+            var unique = tags.GroupBy(tag => tag.Tag).Select(group => group.Key);
+            return unique;
         }
 
         public async Task<IEnumerable<Post>> GetPosts(int id)
@@ -58,7 +82,8 @@ namespace Peppermint.Blog.Services
         public async Task<int> GetTotalPosts(int categoryId)
         {
             // todo: optimize this by COUNT query in query builder
-            var posts = await _query.GetMany<Post>().Where(nameof(Category.Id), Is.EqualTo, categoryId).Execute();
+            var posts = await _query.GetMany<Post>()
+                .Where(nameof(Category.Id), Is.EqualTo, categoryId).Execute();
             return posts.Count();
         }
     }
