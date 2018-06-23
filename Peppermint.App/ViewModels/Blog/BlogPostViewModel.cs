@@ -1,20 +1,20 @@
-﻿using Peppermint.App.Models;
+﻿using Peppermint.App.Extentions;
+using Peppermint.App.Models;
 using Peppermint.Blog.Services;
-using System;
-using System.Collections;
+using Peppermint.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Peppermint.App.Extentions;
 
-namespace Peppermint.App.ViewModels
+namespace Peppermint.App.ViewModels.Blog
 {
     public class BlogPostViewModel : BlogViewModel
     {
         private readonly PostService _postService;
 
-        public BlogPostViewModel(BlogSidebarViewModel sidebar, PostService postService)
-            : base (sidebar)
+        public BlogPostViewModel(UserFactory userFactory, BlogSidebarViewModel sidebar,
+            PostService postService): base (userFactory, sidebar)
         {
             _postService = postService;
         }
@@ -46,7 +46,7 @@ namespace Peppermint.App.ViewModels
         {
             var tags = await _postService.GetPostTags(post.Id);
 
-            var relatedPosts = new List<Blog.Entities.Post>();
+            var relatedPosts = new List<Peppermint.Blog.Entities.Post>();
             var matched = 0;
 
             // first priority, match on same tags.

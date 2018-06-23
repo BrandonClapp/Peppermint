@@ -26,6 +26,15 @@ namespace Peppermint.Core.Services
             return user;
         }
 
+        public async Task<User> GetUser(string username, string email)
+        {
+            var user = await _query.GetOne<User>()
+                .Where(nameof(User.Email), Is.EqualTo, email)
+                .Where(nameof(User.UserName), Is.EqualTo, username)
+                .Execute();
+            return user;
+        }
+
         public async Task<IEnumerable<User>> GetUsers(IEnumerable<int> userIds)
         {
             var users = await _query.GetMany<User>()

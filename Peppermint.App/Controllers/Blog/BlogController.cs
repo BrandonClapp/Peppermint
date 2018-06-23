@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Peppermint.App.Models;
-using Peppermint.App.ViewModels;
-using Peppermint.Blog.Services;
-using System.Linq;
+using Peppermint.App.ViewModels.Blog;
 using System.Threading.Tasks;
 
 namespace Peppermint.App.Controllers.Blog

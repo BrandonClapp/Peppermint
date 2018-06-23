@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Peppermint.App.ViewModels;
 
 namespace Peppermint.App.Controllers
 {
     [Route("")]
     public class HomeController : Controller
     {
+        HomeViewModel _homeView;
+        public HomeController(HomeViewModel homeView)
+        {
+            _homeView = homeView;
+        }
+
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View();
+            var vm = _homeView.Build();
+            return View(vm);
         }
     }
 }

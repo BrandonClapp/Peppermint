@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Peppermint.App.Controllers.Account.Requests;
+using Peppermint.App.ViewModels.Account;
 using Peppermint.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,22 @@ namespace Peppermint.App.Controllers.Account
     {
         private readonly EntityFactory _entityFactory;
         private readonly Peppermint.Core.Services.AuthenticationService _authentication;
+        private LoginViewModel _loginView;
 
-        public AccountController(EntityFactory entityFactory, 
+        public AccountController(LoginViewModel loginView, EntityFactory entityFactory, 
             Peppermint.Core.Services.AuthenticationService authentication)
         {
             _entityFactory = entityFactory;
             _authentication = authentication;
+            _loginView = loginView;
         }
 
         [HttpGet("login")]
         public async Task<IActionResult> Login()
         {
             //return Task.FromResult<dynamic>(new { Login = true });
-            return await Task.FromResult<IActionResult>(View());
+            var vm = _loginView.Build();
+            return await Task.FromResult<IActionResult>(View(vm));
         }
 
         [HttpPost("login")]
@@ -71,8 +75,14 @@ namespace Peppermint.App.Controllers.Account
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("loggedout");
+        }
 
-            return View("SignedOut");
+        [HttpGet("loggedout")]
+        public async Task<IActionResult> LoggedOut()
+        {
+            var vm = await Task.Run(() => { return _loginView.Build(); });
+            return View("SignedOut", vm);
         }
     }
 }

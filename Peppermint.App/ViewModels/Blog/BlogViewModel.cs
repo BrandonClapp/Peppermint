@@ -1,15 +1,13 @@
-﻿using Peppermint.App.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Peppermint.Core.Services;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Peppermint.App.ViewModels
+namespace Peppermint.App.ViewModels.Blog
 {
     public class BlogViewModel : ViewModel
     {
         private BlogSidebarViewModel _sidebar;
-        public BlogViewModel(BlogSidebarViewModel sidebar)
+        public BlogViewModel(UserFactory userFactory, BlogSidebarViewModel sidebar) : base(userFactory)
         {
             _sidebar = sidebar;
         }

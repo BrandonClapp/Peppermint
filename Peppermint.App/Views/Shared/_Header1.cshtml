@@ -3,7 +3,24 @@
     <div class="container">
         <div class="top-bar-left">
             <ul class="list-inline">
-                <li class="icon-user"><a href="login.html"><img src="~/assets/img/icon-1.png" alt="" /> <span>Login</span></a></li>
+                @if (!await Model.IsAuthenticated())
+                {
+                    <li class="icon-user"><a href="~/account/login"><img src="~/assets/img/icon-1.png" alt="User Login" /> <span>Login</span></a></li>
+                }
+                else
+                {
+                    var user = await Model.GetUser();
+
+                    <li class="dropdown">
+                        <a href="~/user/@user.UserName" class="dropdown-toggle" data-toggle="dropdown"><img src="~/assets/img/icon-1.png" alt="User" /> @user.FirstName<i class="fa fa-angle-down"></i></a>
+                        <ul role="menu" class="dropdown-menu">
+                            <li><a href="~/user/@user.UserName">Profile</a></li>
+                            <li><a href="~/account/logout">Logout</a></li>
+                            @*<li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>*@
+                        </ul>
+                    </li>
+                }
+
                 <li class="icon-form"><a href="login.html"><img src="~/assets/img/icon-2.png" alt="" /> <span>Not a Member? <span class="colored">Sign Up</span></span></a></li>
                 <li><a href="mailto:heading1@yourdomain.com"><i class="fa fa-envelope"></i> <span>support@yourdomain.com</span></a></li>
             </ul>

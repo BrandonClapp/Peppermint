@@ -2,11 +2,13 @@
 using Peppermint.App.Models;
 using Peppermint.Blog.Services;
 using Peppermint.Blog.Utilities;
+using Peppermint.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Peppermint.App.ViewModels
+namespace Peppermint.App.ViewModels.Blog
 {
     public class BlogSidebarViewModel : ViewModel
     {
@@ -14,8 +16,8 @@ namespace Peppermint.App.ViewModels
         private CategoryService _categoryService;
         private TagService _tagService;
 
-        public BlogSidebarViewModel(PostService postService, CategoryService categoryService,
-            TagService tagService)
+        public BlogSidebarViewModel(UserFactory userFactory, PostService postService, CategoryService categoryService,
+            TagService tagService) : base(userFactory)
         {
             _postService = postService;
             _categoryService = categoryService;

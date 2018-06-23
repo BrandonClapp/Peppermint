@@ -29,8 +29,11 @@ namespace Peppermint.Core.Services
             return users;
         }
 
-        public async Task<IEnumerable<Group>> GetGroupsForUser(int userId)
+        public async Task<IEnumerable<Group>> GetGroupsForUser(int? userId)
         {
+            if (!userId.HasValue)
+                return new List<Group>();
+
             var memberships = await _query.GetMany<UserGroup>()
                 .Where(nameof(UserGroup.UserId), Is.EqualTo, userId).Execute();
 
@@ -42,8 +45,14 @@ namespace Peppermint.Core.Services
             return groups;
         }
 
-        public async Task<IEnumerable<Role>> GetRolesForUser(int userId)
+        public async Task<IEnumerable<Role>> GetRolesForUser(int? userId)
         {
+            if (!userId.HasValue)
+                return new List<Role>()
+                {
+                    new Role() { Id = 0, Name = "Anonymous" }
+                };
+
             var memberships = await _query.GetMany<UserRole>()
                 .Where(nameof(UserRole.UserId), Is.EqualTo, userId).Execute();
 

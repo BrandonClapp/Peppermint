@@ -16,7 +16,7 @@ namespace Peppermint.Core.Services
             _userMembershipService = userMembershipService;
         }
 
-        public async Task<bool> CanPerformAction(int userId, PermissionType permission, string groupEntityId = null)
+        public async Task<bool> CanPerformAction(int? userId, PermissionType permission, string groupEntityId = null)
         {
             var perm = await _query.GetOne<Permission>()
                 .Where(nameof(Permission.Group), Is.EqualTo, permission.PermissionGroup)
@@ -42,7 +42,7 @@ namespace Peppermint.Core.Services
             return false;
         }
 
-        private async Task<bool> CanRolePerformAction(int userId, Permission perm, string groupEntityId = null)
+        private async Task<bool> CanRolePerformAction(int? userId, Permission perm, string groupEntityId = null)
         {
             var roles = await _userMembershipService.GetRolesForUser(userId);
 
@@ -72,7 +72,7 @@ namespace Peppermint.Core.Services
             return inRoleWithPermissions;
         }
 
-        private async Task<bool> CanGroupPerformAction(int userId, Entities.Permission perm, string groupEntityId = null)
+        private async Task<bool> CanGroupPerformAction(int? userId, Entities.Permission perm, string groupEntityId = null)
         {
             var groups = await _userMembershipService.GetGroupsForUser(userId);
 
