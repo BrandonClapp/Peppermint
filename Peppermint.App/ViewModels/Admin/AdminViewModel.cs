@@ -1,15 +1,22 @@
 ﻿using Peppermint.Core.Services;
+using System.Threading.Tasks;
 
 namespace Peppermint.App.ViewModels.Admin
 {
     public class AdminViewModel : ViewModel
     {
-        public AdminViewModel(UserFactory userFactory) : base(userFactory)
+        HeaderViewModel _header;
+
+        public AdminViewModel(UserFactory userFactory, HeaderViewModel header) : base(userFactory)
         {
+            _header = header;
         }
 
-        public AdminViewModel Build()
+        public HeaderViewModel Header { get; set; }
+
+        public async Task<AdminViewModel> Build()
         {
+            Header = await _header.Build();
             return this;
         }
     }

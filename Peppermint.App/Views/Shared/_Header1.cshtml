@@ -21,8 +21,12 @@
                     </li>
                 }
 
-                <li class="icon-form"><a href="login.html"><img src="~/assets/img/icon-2.png" alt="" /> <span>Not a Member? <span class="colored">Sign Up</span></span></a></li>
-                <li><a href="mailto:heading1@yourdomain.com"><i class="fa fa-envelope"></i> <span>support@yourdomain.com</span></a></li>
+                @if (Model.Header.CanAccessAdmin)
+                {
+                    <li class="icon-form"><a href="~/admin"><img src="~/assets/img/icon-2.png" alt="" /> <span>Admin</span></a></li>
+                }
+
+                @*<li><a href="mailto:heading1@yourdomain.com"><i class="fa fa-envelope"></i> <span>support@yourdomain.com</span></a></li>*@
             </ul>
         </div>
         <div class="top-bar-right">

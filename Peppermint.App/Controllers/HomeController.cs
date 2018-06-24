@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Peppermint.App.ViewModels;
+using Peppermint.App.ViewModels.Home;
+using System.Threading.Tasks;
 
 namespace Peppermint.App.Controllers
 {
@@ -13,9 +14,9 @@ namespace Peppermint.App.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vm = _homeView.Build();
+            var vm = await _homeView.Build();
             return View(vm);
         }
     }

@@ -1,15 +1,21 @@
 ﻿using Peppermint.Core.Services;
+using System.Threading.Tasks;
 
 namespace Peppermint.App.ViewModels.Account
 {
     public class LoginViewModel : ViewModel
     {
-        public LoginViewModel(UserFactory userFactory) : base(userFactory)
+        HeaderViewModel _header;
+        public LoginViewModel(UserFactory userFactory, HeaderViewModel header) : base(userFactory)
         {
+            _header = header;
         }
 
-        public LoginViewModel Build()
+        public HeaderViewModel Header { get; set; }
+
+        public async Task<LoginViewModel> Build()
         {
+            Header = await _header.Build();
             return this;
         }
     }

@@ -29,9 +29,8 @@ namespace Peppermint.App.Controllers.Account
         [HttpGet("login")]
         public async Task<IActionResult> Login()
         {
-            //return Task.FromResult<dynamic>(new { Login = true });
-            var vm = _loginView.Build();
-            return await Task.FromResult<IActionResult>(View(vm));
+            var vm = await _loginView.Build();
+            return View(vm);
         }
 
         [HttpPost("login")]

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Peppermint.App.ViewModels.Admin;
 using Peppermint.Core.Services;
+using System.Threading.Tasks;
 
 namespace Peppermint.App.Controllers.Admin
 {
@@ -15,9 +16,9 @@ namespace Peppermint.App.Controllers.Admin
             _adminView = adminView;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vm = _adminView.Build();
+            var vm = await _adminView.Build();
             return View(vm);
         }
     }
