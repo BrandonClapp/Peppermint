@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Peppermint.App.Controllers.Authorization;
 using Peppermint.App.ViewModels;
 using Peppermint.Blog;
 using Peppermint.Commerce;
 using Peppermint.Core;
+using Peppermint.Core.Permissions;
 using Peppermint.Forum;
 using System.Linq;
 using System.Reflection;
@@ -38,13 +41,20 @@ namespace Peppermint.App
                     opt.Cookie.Name = "Peppermint";
                 });
 
-
             services.AddTransient(x =>
             {
                 var context = x.GetService<IHttpContextAccessor>();
                 return context.HttpContext.User.Identity as ClaimsIdentity;
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanAccessAdmin", policy =>
+                {
+                    policy.Requirements.Add(new CanPerformAction(AdminPermissions.CanAccessAdmin));
+                });
+            });
+            services.AddTransient<IAuthorizationHandler, CanPerformActionHandler>();
 
             // Register core Peppermint dependencies.
             services.AddPeppermint(connString);

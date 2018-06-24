@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Peppermint.App.ViewModels.Admin;
-using Peppermint.Core.Services;
+using Peppermint.Core.Permissions;
 using System.Threading.Tasks;
 
 namespace Peppermint.App.Controllers.Admin
 {
     [Route("[controller]")]
-    [Authorize]
+    [Authorize(Policy = nameof(AdminPermissions.CanAccessAdmin))]
     public class AdminController : Controller
     {
         AdminViewModel _adminView;
