@@ -14,12 +14,24 @@ namespace Peppermint.App.ViewModels
             _authorization = authorization;
         }
 
+        public bool CanAccessAdmin { get; set; }
+        public IEnumerable<NavLink> MainMenu { get; set; }
+        public IEnumerable<NavLink> TopMenu { get; set; }
+
         public async Task<HeaderViewModel> Build()
         {
             var user = await GetUser();
             CanAccessAdmin = await _authorization.CanPerformAction(user?.Id, AdminPermissions.CanAccessAdmin);
 
-            MainMenu = new List<NavLink>()
+            MainMenu = BuildMainMenu();
+            TopMenu = BuildTopMenu();
+
+            return this;
+        }
+
+        private IEnumerable<NavLink> BuildMainMenu()
+        {
+            return new List<NavLink>()
             {
                 new NavLink()
                 {
@@ -35,11 +47,25 @@ namespace Peppermint.App.ViewModels
                     }
                 }
             };
-
-            return this;
         }
 
-        public bool CanAccessAdmin { get; set; }
-        public IEnumerable<NavLink> MainMenu { get; set; }
+        private IEnumerable<NavLink> BuildTopMenu()
+        {
+            return new List<NavLink>()
+            {
+                new NavLink()
+                {
+                    Label = "Blog", Location = "blog",
+                },
+                new NavLink()
+                {
+                    Label = "Parent", Location = "#",
+                    SubItems = new List<NavLink>()
+                    {
+                        new NavLink() { Label = "Child", Location = "#" }
+                    }
+                }
+            };
+        }
     }
 }

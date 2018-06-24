@@ -31,28 +31,37 @@
         </div>
         <div class="top-bar-right">
             <ul class="list-inline">
-                <li class="hidden-xs"><a href="about.html">About</a></li>
-                <li class="hidden-xs"><a href="~/blog">Blog</a></li>
-                <li class="hidden-xs"><a href="accountinformation.html">My Account</a></li>
-                <li class="hidden-xs"><a href="contact.html">Contact</a></li>
-                <li class="hidden-xs"><a href="faq.html">FAQ</a></li>
-                <li class="hidden-xs"><a href="wishlist.html">My Wishlist</a></li>
-                <li class="dropdown currency">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">€ EURO<i class="fa fa-angle-down"></i></a>
-                    <ul role="menu" class="dropdown-menu">
-                        <li><a href="#">€ EURO</a></li>
-                        <li><a href="#">€ EURO</a></li>
-                        <li><a href="#">€ EURO</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown flags">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/assets/img/flag.gif" alt="" /> Eng<i class="fa fa-angle-down"></i></a>
-                    <ul role="menu" class="dropdown-menu">
-                        <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
-                        <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
-                        <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
-                    </ul>
-                </li>
+                @*<li class="hidden-xs"><a href="~/blog">Blog</a></li>*@
+
+                @foreach (var link in Model.Header.TopMenu)
+                {
+                    if (link.SubItems != null && link.SubItems.Count > 0)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@link.Label<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="dropdown-menu">
+                                @foreach (var subItem in link.SubItems)
+                                {
+                                    <li><a href="@subItem.Location">@subItem.Label</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="hidden-xs"><a href="@link.Location">@link.Label</a></li>
+                    }
+
+                }
+
+                @*<li class="dropdown flags">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/assets/img/flag.gif" alt="" /> Eng<i class="fa fa-angle-down"></i></a>
+            <ul role="menu" class="dropdown-menu">
+                <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
+                <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
+                <li><a href="#"><img src="~/assets/img/flag.gif" alt="" /> Eng</a></li>
+            </ul>
+        </li>*@
             </ul>
         </div>
     </div>

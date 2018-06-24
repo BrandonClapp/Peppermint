@@ -13,7 +13,15 @@ namespace Peppermint.App.ViewModels.Admin
 
         public async Task<AdminHeaderViewModel> Build()
         {
-            MainMenu = new List<NavLink>()
+            MainMenu = BuildMainMenu();
+            TopMenu = BuildTopMenu();
+
+            return this;
+        }
+
+        private IEnumerable<NavLink> BuildMainMenu()
+        {
+            return new List<NavLink>()
             {
                 new NavLink()
                 {
@@ -60,11 +68,21 @@ namespace Peppermint.App.ViewModels.Admin
                     }
                 }
             };
+        }
 
-            return this;
+        private IEnumerable<NavLink> BuildTopMenu()
+        {
+            return new List<NavLink>()
+            {
+                new NavLink()
+                {
+                    Label = "Blog", Location = "blog"
+                },
+            };
         }
 
         public bool CanAccessAdmin { get; set; } = true;
         public IEnumerable<NavLink> MainMenu { get; set; }
+        public IEnumerable<NavLink> TopMenu { get; set; }
     }
 }
