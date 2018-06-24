@@ -1,5 +1,7 @@
-﻿using Peppermint.Core.Permissions;
+﻿using Peppermint.App.Models;
+using Peppermint.Core.Permissions;
 using Peppermint.Core.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Peppermint.App.ViewModels
@@ -16,9 +18,28 @@ namespace Peppermint.App.ViewModels
         {
             var user = await GetUser();
             CanAccessAdmin = await _authorization.CanPerformAction(user?.Id, AdminPermissions.CanAccessAdmin);
+
+            MainMenu = new List<NavLink>()
+            {
+                new NavLink()
+                {
+                    Label = "Home",
+                    Location = "",
+                    SubItems = new List<NavLink>()
+                    {
+                        new NavLink()
+                        {
+                            Label = "Blog",
+                            Location = "blog"
+                        }
+                    }
+                }
+            };
+
             return this;
         }
 
         public bool CanAccessAdmin { get; set; }
+        public IEnumerable<NavLink> MainMenu { get; set; }
     }
 }
