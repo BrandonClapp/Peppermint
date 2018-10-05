@@ -1,3 +1,2 @@
 ### Peppermint
 
-Coming soon
